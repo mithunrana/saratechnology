@@ -3,7 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-
+use App\Models\ProductBrand;
+use App\Models\ProductCategory;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +24,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        view()->composer('*', function ($view){
+            $GetAllProductBrand = ProductBrand::orderBy('id', 'DESC')->get();
+            $GetAllProductCategory = ProductCategory::orderBy('id', 'DESC')->get();
+            $view->with('GetAllProductBrand',$GetAllProductBrand);
+            $view->with('GetAllProductCategory',$GetAllProductCategory);
+        });
     }
 }

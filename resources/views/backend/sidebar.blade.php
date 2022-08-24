@@ -17,51 +17,16 @@
         </div>
       </div>
 
-      <!-- SidebarSearch Form -->
-      <div class="form-inline">
-        <div class="input-group" data-widget="sidebar-search">
-          <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
-          <div class="input-group-append">
-            <button class="btn btn-sidebar">
-              <i class="fas fa-search fa-fw"></i>
-            </button>
-          </div>
-        </div>
-      </div>
-
       <!-- Sidebar Menu -->
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
           <li class="nav-item menu-open">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
             <a href="pages/widgets.html" class="nav-link">
@@ -72,66 +37,122 @@
               </p>
             </a>
           </li>
+
           <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
+            <a href="#" class="nav-link nav-link active">
+              <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               <p>
-                Layout Options
+                &nbsp Ecommerce
                 <i class="fas fa-angle-left right"></i>
                 <span class="badge badge-info right">6</span>
               </p>
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/layout/top-nav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation</p>
+                <a href="" class="nav-link">
+                  <i class="far fa-chart-bar nav-icon"></i>
+                  <p>Report</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Top Navigation + Sidebar</p>
+                <a href="" class="nav-link">
+                  <i class="fa fa-bolt nav-icon"></i>
+                  <p>Flash sales</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/boxed.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Boxed</p>
+                <a href="" class="nav-link">
+                  <i class="fa fa-shopping-bag nav-icon"></i>
+                  <p>Orders</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar</p>
+                <a href="" class="nav-link">
+                  <i class="fas fa-shopping-basket nav-icon"></i>
+                  <p>Incomplete orders</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-sidebar-custom.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Sidebar <small>+ Custom Area</small></p>
+                <a href="{{route('dashboard.product')}}" class="nav-link">
+                  <i class="fa fa-camera nav-icon"></i>
+                  <p>Products</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-topnav.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Navbar</p>
+                <a href="{{route('dashboard.product.category')}}" class="nav-link">
+                  <i class="fa fa-archive nav-icon"></i>
+                  <p>Product categories</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/fixed-footer.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Fixed Footer</p>
+                <a href="{{route('dashboard.product.tags')}}" class="nav-link">
+                  <i class="fa fa-tag nav-icon"></i>
+                  <p>Product tags</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="pages/layout/collapsed-sidebar.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Collapsed Sidebar</p>
+                <a href="" class="nav-link">
+                  <i class="fas fa-glass-martini nav-icon"></i>
+                  <p>Product attributes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.product.brand')}}" class="nav-link">
+                  <i class="fa fa-registered nav-icon"></i>
+                  <p>Brands</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa fa-file-excel nav-icon"></i>
+                  <p>Product collections</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.product.label')}}" class="nav-link">
+                  <i class="fas fa-tags nav-icon"></i>
+                  <p>Product labels</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa fa-comments nav-icon"></i>
+                  <p>Reviews</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fas fa-shipping-fast nav-icon"></i>
+                  <p>Shipping</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa fa-gift nav-icon"></i>
+                  <p>Discounts</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fa fa-users nav-icon"></i>
+                  <p>Customers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.product.taxes')}}" class="nav-link">
+                  <i class="fas fa-money-check-alt nav-icon"></i>
+                  <p>Taxes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="" class="nav-link">
+                  <i class="fas fa-cogs nav-icon"></i>
+                  <p>Settings</p>
                 </a>
               </li>
             </ul>
           </li>
+
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -142,7 +163,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="pages/charts/chartjs.html" class="nav-link">
+                <a href="" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>ChartJS</p>
                 </a>

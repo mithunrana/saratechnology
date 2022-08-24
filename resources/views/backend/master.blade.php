@@ -26,6 +26,9 @@
   <link rel="stylesheet" href="{{ asset('') }}backend/plugins/summernote/summernote-bs4.min.css">
   <link rel="stylesheet" href="{{ asset('') }}backend/plugins/codemirror/codemirror.css">
   <link rel="stylesheet" href="{{ asset('') }}backend/plugins/codemirror/theme/monokai.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <style>
 
@@ -93,6 +96,17 @@
       box-sizing: border-box;
       position:relative;
       text-align:center;
+    }
+
+
+    .product-multiple-tag-select .select2-container--default .select2-dropdown .select2-search__field:focus, .select2-container--default .select2-search--inline .select2-search__field:focus {
+      outline: 0;
+      border: none;
+      color:black;
+    }
+
+    .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+      color: black;
     }
 
   </style>
@@ -248,26 +262,7 @@
 
 
   <div class="content-wrapper">
-    <div class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-12">
-            <ol class="breadcrumb float-sm-left">
-              <li class="breadcrumb-item"><a href="#"><i class="fa fa-home"></i> Home</a></li>
-              <li class="breadcrumb-item active">Dashboard v1</li>
-            </ol>
-          </div>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Main content -->
-    <section id="vueapp" class="content">
-      @yield('maincontent')
-    </section>
-    
-    <!-- /.content -->
+    @yield('maincontent')
   </div>
 
   <!-- /.content-wrapper -->
@@ -282,21 +277,21 @@
 <!-- ./wrapper -->
 
 
+
 <!-- jQuery -->
 <script src="{{ asset('') }}backend/plugins/jquery/jquery.min.js"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('') }}backend/plugins/jquery-ui/jquery-ui.min.js"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-<script>
-  $.widget.bridge('uibutton', $.ui.button)
-</script>
+
+
 <!-- Bootstrap 4 -->
 <script src="{{ asset('') }}backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
 <!-- ChartJS -->
 <script src="{{ asset('') }}backend/plugins/chart.js/Chart.min.js"></script>
 
-<!-- Sparkline -->
 
+<!-- Sparkline -->
 <!--<script src="{{ asset('') }}backend/plugins/sparklines/sparkline.js"></script>-->
 <!-- JQVMap -->
 <script src="{{ asset('') }}backend/plugins/jqvmap/jquery.vmap.min.js"></script>
@@ -309,6 +304,7 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="{{ asset('') }}backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
 
+
 <!-- Summernote -->
 <script src="{{ asset('') }}backend/plugins/summernote/summernote-bs4.min.js"></script>
 <script src="{{ asset('') }}backend/plugins/codemirror/codemirror.js"></script>
@@ -318,20 +314,19 @@
 
 <!-- overlayScrollbars -->
 <script src="{{ asset('') }}backend/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+
 <!-- AdminLTE App -->
 <script src="{{ asset('') }}backend/dist/js/adminlte.js"></script>
-
-<script>
-  $(document).ready(function(){
-    $('.summernote-editor').summernote()
-  })
-</script>
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 
 <!-- AdminLTE for demo purposes -->
 <!--<script src="{{ asset('') }}backend/dist/js/demo.js"></script>-->
 
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <!--<script src="{{ asset('') }}backend/dist/js/pages/dashboard.js"></script>-->
+@yield('customjs')
 <script src="{{asset('js/app.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

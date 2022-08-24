@@ -17,6 +17,9 @@ class CreateProductTagsTable extends Migration
             $table->id();
             $table->string('name',120);
             $table->string('description',400)->nullable()->default(null);
+            $table->string('slug',400)->default(null);
+            $table->string('seotitle')->nullable()->default(null);
+            $table->string('seodescription')->nullable()->default(null);
             $table->string('status', 60)->default('published');
             $table->timestamp('created_at')->nullable()->default(null);
             $table->timestamp('updated_at')->nullable()->default(null);
