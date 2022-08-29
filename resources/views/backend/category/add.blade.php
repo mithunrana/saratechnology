@@ -104,6 +104,7 @@
               <div class="card-body">
                 <div class="form-group">
                     <select class="form-control {{$errors->has('parent_id') ? ' is-invalid' : ''}}" name="parent_id" id="parent_id">
+                      <option value="">No Category</option>
                       @foreach($GetAllProductCategory as $Category)
                         <option value="{{$Category->id}}" @if (old('parent_id') == $Category->id) {{ 'selected' }} @endif >{{$Category->name}}</option>
                       @endforeach

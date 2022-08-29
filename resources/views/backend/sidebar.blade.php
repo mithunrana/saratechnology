@@ -91,7 +91,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('dashboard.product.attribute')}}" class="nav-link">
                   <i class="fas fa-glass-martini nav-icon"></i>
                   <p>Product attributes</p>
                 </a>
@@ -103,7 +103,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('dashboard.product.collection')}}" class="nav-link">
                   <i class="fa fa-file-excel nav-icon"></i>
                   <p>Product collections</p>
                 </a>

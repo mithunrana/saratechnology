@@ -45,7 +45,7 @@
                   <label for="name">Slug</label>
                   <input type="text" oninput="this.value=this.value.toLowerCase()" class="form-control {{$errors->has('slug') ? ' is-invalid' : ''}}" id="slug" name="slug" value="{{old('slug')}}" placeholder="slug">
                   @if ($errors->has('slug'))
-                      <span class="text-danger">{{ $errors->first('slug') }}</span>
+                    <span class="text-danger">{{ $errors->first('slug') }}</span>
                   @endif
                 </div>
               </div>
@@ -62,12 +62,12 @@
                   <table class="table table-border">
                     <thead>
                       <tr>
-                        <th style="background-color:#3985d1cc;color:black;" scope="col">#</th>
-                        <th style="background-color:#3985d1cc;color:black;" scope="col">Is default?</th>
-                        <th style="background-color:#3985d1cc;color:black;" scope="col">Title</th>
-                        <th style="background-color:#3985d1cc;color:black;" scope="col">Slug</th>
-                        <th style="background-color:#3985d1cc;color:black;" scope="col">Color</th>
-                        <th style="background-color:#3985d1cc;color:black;" scope="col">Action</th>
+                        <th style="background-color:#3985d1cc;color:black;font-size: 14px;" scope="col">#</th>
+                        <th style="background-color:#3985d1cc;color:black;font-size: 14px;" scope="col">Is default?</th>
+                        <th style="background-color:#3985d1cc;color:black;font-size: 14px;" scope="col">Title</th>
+                        <th style="background-color:#3985d1cc;color:black;font-size: 14px;" scope="col">Slug</th>
+                        <th style="background-color:#3985d1cc;color:black;font-size: 14px;" scope="col">Color</th>
+                        <th style="background-color:#3985d1cc;color:black;font-size: 14px;" scope="col">Action</th>
                       </tr>
                     </thead>
                     <tbody id="attributesection">
@@ -167,15 +167,19 @@
             </div>
 
             <div class="card card-default">
-                <div class="card-header">
-                    <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Order</h3>
-                </div>
+              <div class="card-header">
+                  <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Order</h3>
+              </div>
 
-                <div class="card-body">
-                    <div class="form-check-inline col-sm-12">
-                      <input type="text" class="form-control {{$errors->has('order') ? ' is-invalid' : ''}}" id="order" name="order" value="{{old('order')}}" placeholder="order">
-                    </div>
-                </div>
+              <div class="card-body">
+                  <div class="form-check-inline col-sm-12">
+                    <input type="hidden" value="" class="inputradiobuttonid" name="is_defaulthidden">
+                    <input type="text" class="form-control {{$errors->has('order') ? ' is-invalid' : ''}}" id="order" name="order" value="{{old('order')}}" placeholder="order">
+                  </div>
+                  @if ($errors->has('order'))
+                    <span class="text-danger">{{ $errors->first('order') }}</span>
+                  @endif
+              </div>
             </div>
           </div>
         </div>
@@ -195,8 +199,8 @@
 <script>
   $(document).ready(function(){
     var i = 0;
-    function colorPickerReload(){
-      $(".input-color-picker").spectrum({
+    function colorPickerReload(dataid){
+      $(".input-color-picker"+dataid).spectrum({
         color: "#f00",
         showInput: true,
         preferredFormat: "hex",
@@ -207,9 +211,16 @@
 
     $('#addmoreattribute').click(function(){
       i++
-      $('#attributesection').append('<tr id="attributerow' + i + '"><th style="background-color: #f0f0f0;text-align: center;font-weight:bold;color:black;font-size:16px;" scope="row">'+i+'</th><td style="text-align: center"><input style="height: 18px;width: 18px;" class="form-check-input" type="radio" name="is_default" id=""></td><td><input type="text"  class="form-control" value="" id="title" name="attributetitle" placeholder="title"></td><td><input type="text"  class="form-control" value="" id="slug" name="attributeslug" placeholder="slug"></td><td><input type="text"  class="form-control input-color-picker" value=""  name="attributecolor" placeholder="color"></td><td><button type="button" class="btn btn-danger removeattributerow" id="'+i+'" data-toggle="tooltip" title="Delete"><i aria-hidden="true" class="fa fa-trash"></i></button></td></tr>');
-      colorPickerReload();
+      $('#attributesection').append('<tr id="attributerow' + i + '"><th style="background-color: #f0f0f0;text-align: center;font-weight:bold;color:black;font-size:16px;" scope="row">'+i+'</th><td style="text-align: center"><input style="height: 18px;width: 18px;" class="form-check-input defaultvalueradio" type="radio" radiobuttonvalue="'+i+'" name="is_default" checked> <input type="hidden" name="fordefaultselect[]" value="'+i+'"> </td><td><input type="text"  class="form-control" value="" id="title" name="attributetitle[]" placeholder="title"></td><td><input type="text"  class="form-control" value="" id="slug" name="attributeslug[]" placeholder="slug"></td><td><input type="text"  class="form-control input-color-picker'+i+'" value="#f00"  name="attributecolor[]" placeholder="color"></td><td><button type="button" class="btn btn-danger removeattributerow" id="'+i+'" data-toggle="tooltip" title="Delete"><i aria-hidden="true" class="fa fa-trash"></i></button></td></tr>');
+      colorPickerReload(i);
+      $('.inputradiobuttonid').val(i);
     });
+
+
+    $(document).on('click','.defaultvalueradio',function(){
+      $('.inputradiobuttonid').val($(this).attr('radiobuttonvalue'));
+    });
+
 
     $(document).on('click','.removeattributerow',function(){
       var button_id = $(this).attr("id");

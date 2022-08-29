@@ -71,7 +71,7 @@
 
                         <div class="card-body">
                             <div class="form-group">
-                                <select style="outline: 0;border:none !important;" class="{{$errors->has('status') ? ' is-invalid' : ''}} product-multiple-tag-select" name="status" id="status">
+                                <select class="form-control {{$errors->has('status') ? ' is-invalid' : ''}}" name="status" id="status">
                                     <option value="Published" @if (old('status') == "Published") {{ 'selected' }} @endif >Published</option>
                                     <option value="Draft" @if (old('status') == "Draft") {{ 'selected' }} @endif >Draft</option>
                                     <option value="Pending" @if (old('status') == "Pending") {{ 'selected' }} @endif >Pending</option>

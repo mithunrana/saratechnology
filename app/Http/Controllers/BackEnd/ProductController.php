@@ -16,63 +16,48 @@ class ProductController extends Controller
 {
 
 
-
     public function productsManage(){
-        //$GetAllProduct = Products::orderBy('id', 'DESC')->get();
+        $GetAllProduct = Products::orderBy('id', 'DESC')->get();
         //return view('product.product',compact('GetAllProduct'));
-        $GetProduct = Products::find(1);
-        return $GetProduct->tag;
+        //$GetProduct = Products::find(1);
+        //return $GetProduct->tag;
+        //return 1;
+        return view('backend.product.products',compact('GetAllProduct'));
     }
 
     public function productsAdd(){
+        $GetAllActiveProduct = Products::get();
         $GetAllTags = ProductTag::get();
-        return view('backend.product.add',compact('GetAllTags'));
+        $Categories = ProductCategory::whereNull('parent_id')->with('childItems')->get();
+        $GetAllProductCollection = ProductCollection::get();
+        $GetAllProductLabel = ProductLabel::get();
+        $Brands  = ProductBrand::get();
+        $GetAllProductTaxes = ProductTax::get();
+        $GetAllProductAttributeSet = ProductAttributeSet::get();
+        return view('backend.product.add',compact('GetAllTags','Categories','GetAllProductCollection','GetAllProductLabel','Brands','GetAllProductTaxes','GetAllActiveProduct','GetAllProductAttributeSet'));
     }
 
 
     public function productStore(Request $request){
         $this->validate($request,[
+            'model' => 'required',
             'name' => 'required',
-            'color' => "required",
-            'tags' => 'required',
+            'permalink' => 'required',
+            'tax_id' => 'required',
         ]);
 
-        $ProductObj = new Products();
-        $ProductObj->name = '55';
-        $ProductObj->content = '55';
-        $ProductObj->status = '55';
-        $ProductObj->order = '55';
-        $ProductObj->allow_checkout_when_out_of_stock = '55';
-        $ProductObj->with_storehouse_management = '55';
-        $ProductObj->is_featured = '55';
-        $ProductObj->options = '55';
-        $ProductObj->category_id = '55';
-        $ProductObj->brand_id = '55';
-        $ProductObj->is_variation = '55';
-        $ProductObj->is_searchable = '55';
-        $ProductObj->is_show_on_list = '55';
-        $ProductObj->sale_type = '55';
-        $ProductObj->price = '55';
-        $ProductObj->sale_price = '55';
-        $ProductObj->start_date = NULL;
-        $ProductObj->length = '55';
-        $ProductObj->wide = '55';
-        $ProductObj->height = '55';
-        $ProductObj->barcode = '55';
-
-        $ProductObj->length_unit = '55';
-        $ProductObj->wide_unit = '55';
-        $ProductObj->height_unit = '55';
-        $ProductObj->weight_unit = '55';
-        $ProductObj->tax_id = '55';
-        $ProductObj->views = '55';
-        $ProductObj->stock_status = '55';
-        $ProductObj ->save();
+        $ProductsObj  = new Products();
+        $ProductsObj->model = $request->model;
+        $ProductsObj->name = $request->name;
+        $ProductsObj->permalink = $request->permalink;
+        $ProductsObj->tax_id = $request->tax_id;
+        $ProductsObj->save();
         
 
 
         //$ProductObj->shift()->detach();
-        $ProductObj->tag()->attach($request->tags);
+        //$ProductObj->tag()->attach($request->tags);
+        return $request->all();
     }
 
     public function productsEdit(){
@@ -167,8 +152,6 @@ class ProductController extends Controller
 
 
     #================================== PRODUCTS CATEGORY ====================================
-
-
 
 
 
@@ -535,17 +518,14 @@ class ProductController extends Controller
 
 
 
-
     #================================== PRODUCTS ATTRIBUTE ====================================
 
-
-    
 
         public function productAttributeManage(){
             $GetAllProductAttribute = ProductAttributeSet::orderBy('id', 'DESC')->get();
             return view('backend.attribute.attribute',compact('GetAllProductAttribute'));
+            //return $GetAllProductAttribute;
         }
-    
 
         public function productsAttributeAdd (){
             return view('backend.attribute.add');
@@ -557,46 +537,140 @@ class ProductController extends Controller
                 'title' => 'required',
                 'slug' => "required",
                 'status' => 'required',
+                'order' => 'required',
                 'display_layout' => 'required',
             ]);
 
-            return $request->all();
-    
-            /*$ProductTaxesObj = new ProductTax();
-            $ProductTaxesObj->title = $request->title;
-            $ProductTaxesObj->percentage = $request->percentage;
-            $ProductTaxesObj->priority = $request->priority;
-            $ProductTaxesObj->status = $request->status;
-            $ProductTaxesObj->save(); */
-    
-            //return redirect('admin/product-attribute')->with('message','Attribute Created Successfully');
+            $Is_comparable = 0;
+            $Is_searchable = 0;
+            $Is_use_in_product_listing = 0;
+
+            if($request->Is_comparable=='on'){
+                $is_comparable = 0;
+            }
+
+            if($request->is_searchable=='on'){
+                $Is_searchable = 1;
+            }
+
+            if($request->is_use_in_product_listing=='on'){
+                $Is_use_in_product_listing = 1;
+            }
+
+            $ProductAttributeSetObj = new ProductAttributeSet();
+
+            $ProductAttributeSetObj->title = $request->title;
+            $ProductAttributeSetObj->slug = $request->slug;
+            $ProductAttributeSetObj->display_layout = $request->display_layout;
+            $ProductAttributeSetObj->is_searchable = $Is_searchable;
+            $ProductAttributeSetObj->is_comparable = $Is_comparable;
+            $ProductAttributeSetObj->status = $request->status;
+            $ProductAttributeSetObj->order = $request->order;
+            $ProductAttributeSetObj->is_use_in_product_listing = $Is_use_in_product_listing;
+            $ProductAttributeSetObj->save();
+
+            $IsDeafultHidden = $request->is_defaulthidden;
+            $AttributeTitleArray = $request->attributetitle;
+            $AttributeSlugArray = $request->attributeslug;
+            $AttributeColorArray = $request->attributecolor;
+            $AttributeIsdefaultArray = $request->fordefaultselect;
+
+            if($request->attributetitle){
+                foreach($AttributeTitleArray as $key => $val){
+                    if($AttributeTitleArray[$key] !='' && $AttributeSlugArray[$key] !='' && $AttributeColorArray[$key] !=''){
+                        $ProductAttributeObj = new ProductAttribute();
+                        $ProductAttributeObj->attribute_set_id = $ProductAttributeSetObj->id;
+                        $ProductAttributeObj->title = $AttributeTitleArray[$key];
+                        $ProductAttributeObj->slug = $AttributeSlugArray[$key];
+                        $ProductAttributeObj->color = $AttributeColorArray[$key];
+                        if($IsDeafultHidden==$AttributeIsdefaultArray[$key]){
+                            $ProductAttributeObj->is_default = 1;
+                        }else{
+                            $ProductAttributeObj->is_default = 0;
+                        }
+                        $ProductAttributeObj->status = $request->status;
+                        $ProductAttributeObj->save();
+                    }
+                }  
+            }
+            return redirect('admin/product-attribute')->with('message','Attribute Created Successfully');
         }
     
     
         public function productsAttributeEdit($id){
-            $GetTaxesData = ProductTax::where('id',$id)->first();
-            return view('backend.attribute.edit',compact('GetTaxesData'));
+            $GetAttributeSetData = ProductAttributeSet::where('id',$id)->first();
+            $GetProductAttribute = ProductAttribute::where('attribute_set_id',$GetAttributeSetData->id)->get();
+            $ProductAttributeCount = count($GetProductAttribute);
+            return view('backend.attribute.edit',compact('GetAttributeSetData','GetProductAttribute','ProductAttributeCount'));
         }
     
     
         public function productAttributeUpdate(Request $request,$id){
-    
+
             $this->validate($request,[
                 'title' => 'required',
-                'percentage' => "required|numeric",
-                'priority' => 'numeric',
+                'slug' => "required",
                 'status' => 'required',
+                'order' => 'required',
+                'display_layout' => 'required',
             ]);
-    
-    
-            $ProductTaxesObj = ProductTax::findOrFail($id);
-            $ProductTaxesObj->title = $request->title;
-            $ProductTaxesObj->percentage = $request->percentage;
-            $ProductTaxesObj->priority = $request->priority;
-            $ProductTaxesObj->status = $request->status;
-            $ProductTaxesObj->save();
-    
-            return redirect('admin/product-attribute')->with('message','Attribute Updated Successfully');
+
+            $Is_comparable = 0;
+            $Is_searchable = 0;
+            $Is_use_in_product_listing = 0;
+
+            if($request->Is_comparable=='on'){
+                $is_comparable = 0;
+            }
+
+            if($request->is_searchable=='on'){
+                $Is_searchable = 1;
+            }
+
+            if($request->is_use_in_product_listing=='on'){
+                $Is_use_in_product_listing = 1;
+            }
+
+            $ProductAttributeSetObj =  ProductAttributeSet::findOrFail($id);
+
+            $ProductAttributeSetObj->title = $request->title;
+            $ProductAttributeSetObj->slug = $request->slug;
+            $ProductAttributeSetObj->display_layout = $request->display_layout;
+            $ProductAttributeSetObj->is_searchable = $Is_searchable;
+            $ProductAttributeSetObj->is_comparable = $Is_comparable;
+            $ProductAttributeSetObj->status = $request->status;
+            $ProductAttributeSetObj->order = $request->order;
+            $ProductAttributeSetObj->is_use_in_product_listing = $Is_use_in_product_listing;
+            $ProductAttributeSetObj->save();
+
+            $IsDeafultHidden = $request->is_defaulthidden;
+            $AttributeTitleArray = $request->attributetitle;
+            $AttributeSlugArray = $request->attributeslug;
+            $AttributeColorArray = $request->attributecolor;
+            $AttributeIsdefaultArray = $request->fordefaultselect;
+            ProductAttribute::where('attribute_set_id', $id)->delete();
+
+            if($request->attributetitle){
+                foreach($AttributeTitleArray as $key => $val){
+                    if($AttributeTitleArray[$key] !='' && $AttributeSlugArray[$key] !='' && $AttributeColorArray[$key] !=''){
+                        $ProductAttributeObj = new ProductAttribute();
+                        $ProductAttributeObj->attribute_set_id = $ProductAttributeSetObj->id;
+                        $ProductAttributeObj->title = $AttributeTitleArray[$key];
+                        $ProductAttributeObj->slug = $AttributeSlugArray[$key];
+                        $ProductAttributeObj->color = $AttributeColorArray[$key];
+                        if($IsDeafultHidden==$AttributeIsdefaultArray[$key]){
+                            $ProductAttributeObj->is_default = 1;
+                        }else{
+                            $ProductAttributeObj->is_default = 0;
+                        }
+                        $ProductAttributeObj->status = $request->status;
+                        $ProductAttributeObj->save();
+                    }
+                }  
+            }
+
+            
+            return redirect('admin/product-attribute')->with('message','Attribute Successfully Updated');
         }
 
 }

@@ -8,21 +8,21 @@
             </div>
 
             <div class="card-body" style="padding: 10px;">
-              <div class="brand-logo-preview">
-                <img :src="BaseUrl+'/'+SingleImageUrl" style="max-width:150px" alt="" id="singleimagepreviewurl">
-                <input type="hidden" name="imageurl" v-model="SingleImageUrl" class="image-data" id="singleimageinputurl">
-              </div>
-              <div class="image-box-actions">
-                <a style="width: 100%;display: block;background-color: #4579c1;text-align: center;color: white;border-radius: 3px;margin-top:5px;" href="#" class="btn_gallery" data-result="logo" data-action="select-image" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
-              </div>
+                <div class="brand-logo-preview">
+                    <img :src="BaseUrl+'/'+SingleImageUrl" style="max-width:150px" alt="" id="singleimagepreviewurl">
+                    <input type="hidden" name="imageurl" v-model="SingleImageUrl" class="image-data" id="singleimageinputurl">
+                </div>
+                <div class="image-box-actions">
+                    <a style="width: 100%;display: block;background-color: #4579c1;text-align: center;color: white;border-radius: 3px;margin-top:5px;" href="#" class="btn_gallery" data-result="logo" data-action="select-image" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                </div>
             </div>
         </div>
         <!-------------- Selected Input Image Showing Area End --------------------->
 
 
+
         <!-------------- MEDIA GALLERY MODAL START --------------------->
         <div class="modal fade" id="SingleImageMedia">
-
             <!-------------- Dowanload Modal ---------------->
             <div class="modal" id="downloadModal">
                 <div class="modal-dialog">

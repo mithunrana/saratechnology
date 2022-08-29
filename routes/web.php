@@ -69,8 +69,8 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/product-attribute','ProductController@productAttributeManage')->name('dashboard.product.attribute');
     Route::get('/admin/product-attribute-add','ProductController@productsAttributeAdd')->name('dashboard.product.attribute.add');
     Route::post('/admin/product/product-attribute-store','ProductController@productAttributestore')->name('dashboard.product.attribute.store');
-    Route::get('/admin/product-attribute-edit/{categoryid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
-    Route::post('/admin/product-attribute-edit/{categoryid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
+    Route::get('/admin/product-attribute-edit/{attributeid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
+    Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
     
 
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');

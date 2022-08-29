@@ -22,7 +22,7 @@ class CreateAttributeSetsTable extends Migration
             $table->tinyInteger('is_comparable')->unsigned()->default(1);
             $table->tinyInteger('is_use_in_product_listing')->unsigned()->default(0);
             $table->string('status', 60)->default('published');
-            $table->tinyInteger('order')->unsigned()->default(0);
+            $table->tinyInteger('order')->nullable()->unsigned()->default(0);
             $table->timestamp('created_at')->nullable()->default(null);
             $table->timestamp('updated_at')->nullable()->default(null);
         });

@@ -50,7 +50,7 @@
                                 
                                 <div class="form-group">
                                     <label for="priority">Priority</label>
-                                    <input type="text" class="form-control {{$errors->has('priority') ? ' is-invalid' : ''}}" id="priority" name="priority" value="{{old('priority')}}" placeholder="priority %">
+                                    <input type="text" class="form-control {{$errors->has('priority') ? ' is-invalid' : ''}}" id="priority" name="priority" value="{{old('priority')}}" placeholder="priority">
                                     @if ($errors->has('priority'))
                                         <span class="text-danger">{{ $errors->first('priority') }}</span>
                                     @endif

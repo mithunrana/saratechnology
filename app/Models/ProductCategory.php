@@ -11,7 +11,18 @@ class ProductCategory extends Model
 
     protected $guarded = [];
 
-    public function category(){
+
+
+    public function parentCategory(){
         return $this->belongsTo(ProductCategory::class,'parent_id');
     }
+
+    public function subCategory(){
+        return $this->hasMany(ProductCategory::class,'parent_id');
+    }
+
+    public function childItems(){
+        return $this->hasMany(ProductCategory::class,'parent_id')->with('subCategory');
+    }
+
 }

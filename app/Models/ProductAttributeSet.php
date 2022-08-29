@@ -11,4 +11,8 @@ class ProductAttributeSet extends Model
 
     protected $guarded = [];
 
+    function attribute(){
+        return $this->hasMany(ProductAttribute::class,'attribute_set_id');
+    }
+
 }

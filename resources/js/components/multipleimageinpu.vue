@@ -14,13 +14,16 @@
                         <span @click="inputImageRemove(GetImage)" style="cursor:pointer; width: 100%;background-color: rgb(219 112 100);color: white;display: block;text-align: center;">Remove</span>
                     </div>
                 </div>
+                <div class="image-box-actions">
+                    <a style="width: 100%;display: block;background-color: #4579c1;text-align: center;color: white;border-radius: 3px;margin-top:5px;" href="#" class="col-lg-4 col-md-4 col-sm-8 col-6 btn_gallery" data-result="logo" data-action="select-image" data-toggle="modal" data-target="#MultipleImageMedia">Choose image</a>
+                </div>
             </div>
         </div>
         <!-------------- Selected Input Image Showing Area End --------------------->
 
 
         <!-------------- MEDIA GALLERY MODAL START --------------------->
-        <div class="modal fade" id="MediaModal">
+        <div class="modal fade" id="MultipleImageMedia">
 
             <!-------------- Dowanload Modal ---------------->
             <div class="modal" id="downloadModal">
@@ -290,7 +293,7 @@
                     miniToastr.error('Please Select Image','Error');
                 }else{
                     this.InputArrayImage.push(this.MediaData);
-                    $('#MediaModal').modal('hide')
+                    $('#MultipleImageMedia').modal('hide')
                 }
             },
             inputImageRemove(imagedata){

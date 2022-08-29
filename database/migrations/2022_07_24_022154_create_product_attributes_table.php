@@ -19,9 +19,8 @@ class CreateProductAttributesTable extends Migration
             $table->string('title', 120);
             $table->string('slug', 120)->nullable()->default(null);
             $table->string('color', 50)->nullable()->default(null);
-            $table->string('image', 191)->nullable()->default(null);
             $table->tinyInteger('is_default')->unsigned()->default(0);
-            $table->tinyInteger('order')->unsigned()->default(0);
+            $table->tinyInteger('order')->nullable()->unsigned()->default(0);
             $table->string('status', 60)->default('published');
             $table->timestamp('created_at')->nullable()->default(null);
             $table->timestamp('updated_at')->nullable()->default(null);

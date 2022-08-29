@@ -64,7 +64,7 @@
                   <td><input type="checkbox" name="id[]"></td>
                   <td>{{$ProductCategory->id }}</td>
                   <td>{{$ProductCategory->name }}</td>
-                  <td>@if($ProductCategory->parent_id !='') {{$ProductCategory->category->name }} @endif </td>
+                  <td>@if($ProductCategory->parent_id !='') {{$ProductCategory->parentCategory->name }} @endif </td>
                   <td>
                     <img src="{{asset('')}}{{$ProductCategory->image }}" width="50" alt="Image">
                   </td>
