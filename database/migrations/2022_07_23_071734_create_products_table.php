@@ -15,7 +15,6 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->string('model', 191)->default(null);
             $table->string('name', 191)->default(null);
             $table->string('permalink', 250)->default(null);
             $table->string('title',250)->nullable()->default(null);
@@ -75,6 +74,9 @@ class CreateProductsTable extends Migration
      */
     public function down()
     {
+        //Schema::dropIfExists('products');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('products');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

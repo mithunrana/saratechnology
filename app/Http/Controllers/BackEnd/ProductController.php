@@ -40,24 +40,75 @@ class ProductController extends Controller
 
     public function productStore(Request $request){
         $this->validate($request,[
-            'model' => 'required',
             'name' => 'required',
             'permalink' => 'required',
             'tax_id' => 'required',
         ]);
 
-        $ProductsObj  = new Products();
-        $ProductsObj->model = $request->model;
-        $ProductsObj->name = $request->name;
-        $ProductsObj->permalink = $request->permalink;
-        $ProductsObj->tax_id = $request->tax_id;
-        $ProductsObj->save();
+        $is_featured = 0;
+        if($request->is_featured=='on'){
+            $is_featured = 1;
+        }
+
+        $allow_checkout_when_out_of_stock = 0;
+        if($request->allow_checkout_when_out_of_stock=='on'){
+            $allow_checkout_when_out_of_stock = 1;
+        }
+
+        $with_storehouse_management = 0;
+        if($request->with_storehouse_management=='on'){
+            $with_storehouse_management = 1;
+        }
+
+        $images = array();
+        if($request->images){
+            $images = '["'.implode('","',$request->images).'"]';
+        }else{
+            $images = '[]';
+        }
+       
+        $ProductObj  = new Products();
+        $ProductObj->name = $request->name;
+        $ProductObj->permalink = $request->permalink;
+        $ProductObj->description = $request->description;
+        $ProductObj->content = $request->content;
+        $ProductObj->status = $request->status;
+        $ProductObj->images = $images;
+        $ProductObj->is_featured = $is_featured;
+        $ProductObj->sku = $request->sku;
+        $ProductObj->quantity = $request->quantity;
         
+        $ProductObj->allow_checkout_when_out_of_stock = $allow_checkout_when_out_of_stock;
+        $ProductObj->with_storehouse_management = $with_storehouse_management;
+        $ProductObj->price = $request->price;
+        $ProductObj->sale_price = $request->sale_price;
+        $ProductObj->length = $request->length;
+        $ProductObj->wide = $request->wide;
+        $ProductObj->height = $request->height;
+        $ProductObj->weight = $request->weight;
+        $ProductObj->discount_start_date = $request->discount_start_date;
+        $ProductObj->discount_end_date = $request->discount_end_date;
 
+        $ProductObj->brand_id = $request->brand_id;
+        $ProductObj->is_variation = 0;
+        $ProductObj->is_searchable = 0;
+        $ProductObj->is_show_on_list = 0;
+        $ProductObj->tax_id = $request->tax_id;
 
+        $ProductObj->stock_status = $request->stock_status;
+        $ProductObj->imagealttext = $request->imagealttext;
+        $ProductObj->imagetitletext = $request->imagetitletext;
+        $ProductObj->title = $request->title;
+        $ProductObj->metakeyword = $request->metakeyword;
+        $ProductObj->metadescription = $request->metadescription;
+
+        $ProductObj->save();
+        
         //$ProductObj->shift()->detach();
-        //$ProductObj->tag()->attach($request->tags);
-        return $request->all();
+        $ProductObj->tag()->attach($request->tags);
+        $ProductObj->categories()->attach($request->categories);
+
+        return redirect('admin/product')->with('message','Product Successfully Added');
     }
 
     public function productsEdit(){
@@ -95,9 +146,8 @@ class ProductController extends Controller
         $IsFeatured = 0;
         if($request->is_featured=='on'){
             $IsFeatured = 1;
-        }else{
-            $IsFeatured = 0;
         }
+
         $ProductBrandObj = new ProductBrand();
         $ProductBrandObj->name = $request->name;
         $ProductBrandObj->permalink = $request->permalink;

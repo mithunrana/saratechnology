@@ -34,14 +34,6 @@
                         <div class="card card-primary">
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label for="model">Model</label>
-                                    <input type="text" class="form-control {{$errors->has('model') ? ' is-invalid' : ''}}" id="model" name="model" value="{{old('model')}}" placeholder="model">
-                                    @if ($errors->has('model'))
-                                        <span class="text-danger">{{ $errors->first('model') }}</span>
-                                    @endif
-                                </div>
-
-                                <div class="form-group">
                                     <label for="name">Name</label>
                                     <input type="text" class="form-control {{$errors->has('name') ? ' is-invalid' : ''}}" id="name" name="name" value="{{old('name')}}" placeholder="Name">
                                     @if ($errors->has('name'))
@@ -59,7 +51,7 @@
 
                                 <div class="form-group">
                                     <label for="name">Short Description</label>
-                                    <textarea class="form-control summernote-editor {{$errors->has('description') ? ' is-invalid' : ''}}" id="description" name="description" rows="4"  placeholder="Enter ...">{{old('description')}}</textarea>
+                                    <textarea class="form-control summernote-editor {{$errors->has('description') ? ' is-invalid' : ''}}" id="" name="description" rows="4"  placeholder="Enter ...">{{old('description')}}</textarea>
                                     @if ($errors->has('description'))
                                         <span class="text-danger">{{ $errors->first('description') }}</span>
                                     @endif
@@ -75,7 +67,6 @@
 
                                 <multiple-image-input></multiple-image-input>
 
-
                                 <div class="card card-default">
                                     <div class="card-header">
                                         <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Overview</h3>
@@ -90,8 +81,8 @@
                                             </div>
 
                                             <div class="form-group col-sm-4">
-                                                <label for="Price">Price</label>
-                                                <input type="text" class="form-control {{$errors->has('Price') ? ' is-invalid' : ''}}" id="Price" name="Price" value="{{old('Price')}}" placeholder="Price">
+                                                <label for="price">Price</label>
+                                                <input type="text" class="form-control {{$errors->has('price') ? ' is-invalid' : ''}}" id="price" name="price" value="{{old('price')}}" placeholder="price">
                                             </div>
 
                                             <div class="form-group col-sm-4">
@@ -116,7 +107,7 @@
                                             <div class="form-group col-sm-6">
                                                 <div class="form-check-inline">
                                                     <label class="form-check-label">
-                                                        <input type="checkbox" name="is_featured" class="form-check-input"> With storehouse management
+                                                        <input type="checkbox" name="with_storehouse_management" class="form-check-input"> With storehouse management
                                                     </label>
                                                 </div>
                                             </div>
@@ -277,6 +268,23 @@
                             </div>
                         </div>
 
+
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Status</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <select class="form-control {{$errors->has('status') ? ' is-invalid' : ''}}" name="status" id="status">
+                                        <option value="Published" @if (old('status') == "Published") {{ 'selected' }} @endif >Published</option>
+                                        <option value="Draft" @if (old('status') == "Draft") {{ 'selected' }} @endif >Draft</option>
+                                        <option value="Pending" @if (old('status') == "Pending") {{ 'selected' }} @endif >Pending</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="card card-default">
                             <div class="card-header">
                                 <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Product Category</h3>
@@ -287,7 +295,7 @@
                                     @foreach($Categories as $Category)
                                         <li style="padding: 2px;border: none;" class="list-group-item">
                                             <label style="margin-bottom: 0px;font-weight: 500;">
-                                                <input type="checkbox" value="1" name="categories[]">&nbsp {{$Category->name}}
+                                                <input type="checkbox" value="{{$Category->id}}" name="categories[]">&nbsp {{$Category->name}}
                                                     <ul style="padding-left: 18px;" class="list-group">
                                                         @if(count($Category->childItems))
                                                             @foreach ($Category->childItems as $childItems)
@@ -316,6 +324,21 @@
                                             <option data-left="{{asset('')}}{{$Brand->logo}}" value="{{$Brand->id}}" @if (old('brand_id') == $Brand->id) {{ 'selected' }} @endif >{{$Brand->name}}</option>
                                         @endforeach
                                     </select>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="card card-default">
+                            <div class="card-header">
+                                <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Is Featured</h3>
+                            </div>
+
+                            <div class="card-body">
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="is_featured">Is Featured
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -420,8 +443,12 @@
         $('#crosssellingproduct').selectator();
         $('#relatedproduct').selectator();
 
-        $('#discount_start_date').datetimepicker();
-        $('#discount_end_date').datetimepicker();
+        $('#discount_start_date').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+        $('#discount_end_date').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
     });
 </script>
 @endsection()

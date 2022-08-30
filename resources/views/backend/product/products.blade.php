@@ -67,7 +67,7 @@
                   <td>{{$Product->id }}</td>
                   <td>{{$Product->model }}</td>
                   <td>
-                    <img src="{{asset('')}}{{$Product->images }}" width="50" alt="Image">
+                    <img src="{{asset('')}}{{$Product->getImage($Product->images) }}" width="50" alt="Image">
                   </td>
                   <td>{{$Product->price }}</td>
                   <td>{{$Product->stock_status }}</td>
