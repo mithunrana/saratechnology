@@ -183,13 +183,13 @@
                                             <div class="row">
                                                 <div class="form-group col-sm-4">
                                                     <label class="">Attribute Name </label>
-                                                    <select class="form-control {{$errors->has('attributename') ? ' is-invalid' : ''}}" name="attributename[]" id="attributename" readonly>
+                                                    <select class="form-control {{$errors->has('attributeset') ? ' is-invalid' : ''}}" name="attributeset[]" id="attributeset" readonly>
                                                         <option value="{{$AttributeSet->id}}">{{$AttributeSet->title}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-sm-4">
                                                     <label class="">Value</label>
-                                                    <select class="form-control {{$errors->has('attributevalue') ? ' is-invalid' : ''}}" name="attributevalue[]" id="attributevalue">
+                                                    <select class="form-control {{$errors->has('attribute') ? ' is-invalid' : ''}}" name="attribute[]" id="attribute">
                                                         <option value="">NO {{$AttributeSet->title}}</option>
                                                         @foreach($AttributeSet->attribute as $Attribute)
                                                             <option value="{{$Attribute->id}}">{{$Attribute->title}}</option>

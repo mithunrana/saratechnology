@@ -17,12 +17,21 @@ class Products extends Model
         return $this->belongsToMany(ProductCategory::class,'product_with_category');
     }
 
-    public static function getImage($GetData){
-        /*$Images = array();
-        $Images = $GetData;
-        foreach($Images as $Image){
-            return 1;
-        } */
-        return 0;
+    public function attribute(){
+        return $this->belongsToMany(ProductAttribute::class,'product_with_attribute');
     }
+
+    public function attributeSet(){
+        return $this->belongsToMany(ProductAttributeSet::class,'product_with_attribute_set');
+    }
+
+    public static function getImage($GetData){
+        $Images = array();
+        $Images = explode('"',$GetData);
+        foreach($Images as $Key => $Val){
+            return $Val;
+        }
+    }
+
+
 }

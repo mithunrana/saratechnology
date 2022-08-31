@@ -12,6 +12,7 @@ use App\Models\ProductTag;
 use App\Models\Products;
 use App\Models\ProductAttributeSet;
 use App\Models\ProductAttribute;
+use App\Models\ProductVariation;
 class ProductController extends Controller
 {
 
@@ -45,7 +46,7 @@ class ProductController extends Controller
             'tax_id' => 'required',
         ]);
 
-        $is_featured = 0;
+       $is_featured = 0;
         if($request->is_featured=='on'){
             $is_featured = 1;
         }
@@ -62,9 +63,10 @@ class ProductController extends Controller
 
         $images = array();
         if($request->images){
-            $images = '["'.implode('","',$request->images).'"]';
+            //$images = '["'.implode('","',$request->images).'"]';
+            $images = implode('"',$request->images);
         }else{
-            $images = '[]';
+            $images = '';
         }
        
         $ProductObj  = new Products();
@@ -101,13 +103,50 @@ class ProductController extends Controller
         $ProductObj->title = $request->title;
         $ProductObj->metakeyword = $request->metakeyword;
         $ProductObj->metadescription = $request->metadescription;
-
+        
         $ProductObj->save();
         
         //$ProductObj->shift()->detach();
         $ProductObj->tag()->attach($request->tags);
         $ProductObj->categories()->attach($request->categories);
+        
 
+        $AttributeSetArray = $request->attributeset;
+        $AttributeArray = $request->attribute;
+        $Variation = 0;
+
+        if($request->attribute){
+            foreach($AttributeArray as $key => $val){
+                if($AttributeArray[$key] !=''){
+                    $ProductObj->attribute()->attach($AttributeArray[$key]);
+                    $ProductObj->attributeSet()->attach($AttributeSetArray[$key]);
+                    $Variation++;
+                }
+            }
+            
+            if($Variation != 0){
+                $ProductVariationObj = new ProductVariation();
+                $ProductVariationObj->products_id  = $ProductObj->id;
+                $ProductVariationObj->sku  = $ProductObj->sku;
+                $ProductVariationObj->quantity  = $ProductObj->quantity;
+                $ProductVariationObj->allow_checkout_when_out_of_stock  = $ProductObj->allow_checkout_when_out_of_stock;
+                $ProductVariationObj->with_storehouse_management  = $ProductObj->with_storehouse_management;
+                $ProductVariationObj->price  = $ProductObj->price;
+                $ProductVariationObj->sale_price  = $ProductObj->sale_price;
+                $ProductVariationObj->length  = $ProductObj->length;
+                $ProductVariationObj->wide  = $ProductObj->wide;
+                $ProductVariationObj->height  = $ProductObj->height;
+                $ProductVariationObj->weight  = $ProductObj->weight;
+                $ProductVariationObj->barcode  = $ProductObj->barcode;
+                $ProductVariationObj->discount_start_date  = $ProductObj->discount_start_date;
+                $ProductVariationObj->discount_end_date  = $ProductObj->discount_end_date;
+                $ProductVariationObj->length_unit  = $ProductObj->length_unit;
+                $ProductVariationObj->wide_unit  = $ProductObj->wide_unit;
+                $ProductVariationObj->height_unit  = $ProductObj->height_unit;
+                $ProductVariationObj->is_default  = 1;
+                $ProductVariationObj->save();
+            }
+        }
         return redirect('admin/product')->with('message','Product Successfully Added');
     }
 
