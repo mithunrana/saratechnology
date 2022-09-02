@@ -178,7 +178,170 @@
 
 
                                 @if(count($Product->productVariation) > 0)
-                                    variation goes to here
+                                    <div class="card card-default">
+                                        <div class="card-header">
+                                            <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Product has variations</h3>
+                                            <span class="float-sm-right" style="color:#1f64a0!important;margin-left: 15px;"> Generate all variations</span>
+                                            <span class="float-sm-right" style="color:#1f64a0!important;">Edit attribute</span>
+                                        </div>
+
+                                        <div class="card-body">
+                                            <table class="table table-striped table-border">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="width: 10px;padding-left: 10px;">#</th>
+                                                        <th style="padding-left: 10px;">IMAGES</th>
+                                                        @foreach($Product->attributeSet as $AttributeSet)
+                                                            <th style="padding-left: 10px;">{{$AttributeSet->title}}</th>
+                                                        @endforeach
+                                                        <th style="padding-left: 10px;">PRICE</th>
+                                                        <th style="padding-left: 10px;">IS DEFAULT</th>
+                                                        <th style="padding-left: 10px;">ACTION</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach($Product->productVariation as $Variation)
+                                                        <!--- Variation Modal Start --->
+                                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg" role="document">
+                                                                <div class="modal-content border-0">
+                                                                    <div class="modal-header bg-info text-light border-none">
+                                                                        <h5 class="modal-title" id="exampleModalLabel">Edit Attribute</h5>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                            <span aria-hidden="true">&times;</span>
+                                                                        </button>
+                                                                    </div>
+                                                                    <form action="">
+                                                                        <div class="modal-body bg-light">
+                                                                            <div class="row">
+                                                                                @foreach($Product->attributeSet as $AttributeSet)
+                                                                                    <div class="col-md-4">
+                                                                                        <div class="form-group">
+                                                                                            <label for="">{{$AttributeSet->title}}</label>
+                                                                                            <select name="{{$AttributeSet->title}}" class="custom-select">
+                                                                                                @foreach($AttributeSet->attribute as $Attribute)
+                                                                                                    <option value="{{$Attribute->id}}">{{$Attribute->title}}</option>
+                                                                                                @endforeach
+                                                                                            </select>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                @endforeach
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="">To Date</label>
+                                                                                        <input class="form-control" type="date" name="" id="" />
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label for="">Form Date</label>
+                                                                                        <input class="form-control" type="date" name="" id="" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <hr />
+                                                                            <div class="row">
+                                                                                <div class="col">
+                                                                                    <div class="custom-control custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="customCheck1" />
+                                                                                        <label class="custom-control-label" for="customCheck1">With Storehouse Management</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <div style="margin-bottom: 5px;" class="form-group">
+                                                                                        <label for="quantity">Quantity</label>
+                                                                                        <input type="text" class="form-control" type="date" name="quantity" id="quantity" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col">
+                                                                                    <div class="custom-control custom-checkbox">
+                                                                                        <input type="checkbox" class="custom-control-input" id="customCheck1" />
+                                                                                        <label class="custom-control-label" for="customCheck1">Allow check out when Out of stock</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <hr />
+                                                                            <div class="row">
+                                                                                <div class="col">
+                                                                                    <div class="form-group">
+                                                                                        <label for="">Stock Status</label>
+                                                                                        <select name="" class="custom-select">
+                                                                                            <option value="">In Stock</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <br>
+
+                                                                            <h6>Shipping</h6>
+
+                                                                            <div class="row">
+                                                                                <div class="form-group col-sm-6">
+                                                                                    <label for="weight">Weight (g)</label>
+                                                                                    <input type="text" id="weight" name="weight" value="" placeholder="weight"
+                                                                                        class="form-control" />
+                                                                                </div>
+                                                                                <div class="form-group col-sm-6">
+                                                                                    <label for="length">Length (cm)</label>
+                                                                                    <input type="text" id="length" name="length" value="" placeholder="length"
+                                                                                        class="form-control" />
+                                                                                </div>
+                                                                                <div class="form-group col-sm-6">
+                                                                                    <label for="wide">Wide (cm)</label>
+                                                                                    <input type="text" id="wide" name="wide" value="" placeholder="wide"
+                                                                                        class="form-control" />
+                                                                                </div>
+                                                                                <div class="form-group col-sm-6">
+                                                                                    <label for="height">Height (cm)</label>
+                                                                                    <input type="text" id="height" name="height" value="" placeholder="height"
+                                                                                        class="form-control" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                                Close
+                                                                            </button>
+                                                                            <button type="submit" class="btn btn-primary">
+                                                                                Save changes
+                                                                            </button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!--- Variation Modal End --->
+
+                                                        <tr id="removevariation{{$Variation->id}}">
+                                                            <td><input type="checkbox" name="id[]"></td>
+                                                            <td>
+                                                                <img src="http://localhost:8085/uploads/bd6124943b176f3e6555d96fb2881f5d.jpg" width="50" alt="Image">
+                                                            </td>
+                                                            @foreach($Product->attribute as $Attribute)
+                                                                <td>{{$Attribute->title}}</td>
+                                                            @endforeach
+                                                            <td>200.00</td>
+                                                            <td style="">
+                                                                <input style="margin-left: 18px;height: 18px;width: 18px;" class="form-check-input defaultvalueradio" type="radio" radiobuttonvalue="1" name="is_default" checked="">
+                                                            </td>
+                                                            <td>
+                                                                <a href="#" class="btn btn-info" data-toggle="modal" data-target="#exampleModal" title="Edit">
+                                                                    <i class="fa fa-edit" style="font-size: 17px;"></i>
+                                                                </a>
+                                                                <a href="" onclick="return ConfirmDelete();" class="btn btn-danger" data-toggle="tooltip" title="Delete"><i aria-hidden="true" class="fa fa-trash"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
                                 @else
                                     <div class="card card-default">
                                         <div class="card-header">
@@ -224,7 +387,7 @@
                                             <label for="relatedproduct">Related Products</label>
                                             <select class="form-control {{$errors->has('relatedproduct') ? ' is-invalid' : ''}}" name="relatedproduct" id="relatedproduct" multiple>
                                                 @foreach($GetAllActiveProduct as $RelatedProduct)
-                                                    <option value="{{$RelatedProduct->id}}" @if($RelatedProduct->id == "in_stock") selected @endif >{{$RelatedProduct->name}}</option>
+                                                    <option value="{{$RelatedProduct->id}}" {{ in_array($RelatedProduct->id, $RelatedProducts) ? 'selected' : '' }} >{{$RelatedProduct->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -233,7 +396,7 @@
                                             <label for="">Cross Selling Products</label>
                                             <select class="form-control {{$errors->has('crosssellingproduct') ? ' is-invalid' : ''}}" name="crosssellingproduct" id="crosssellingproduct" multiple>
                                                 @foreach($GetAllActiveProduct as $CrossSellingProduct)
-                                                    <option value="{{$CrossSellingProduct->id}}" @if($CrossSellingProduct->id == "in_stock") selected @endif >{{$CrossSellingProduct->name}}</option>
+                                                    <option value="{{$CrossSellingProduct->id}}" {{ in_array($CrossSellingProduct->id, $CrossSellingProducts) ? 'selected' : '' }} >{{$CrossSellingProduct->name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -333,7 +496,7 @@
                                     <select class="form-control {{$errors->has('brand_id') ? ' is-invalid' : ''}}" name="brand_id" id="brand_id">
                                     <option value="">No Brand</option>
                                         @foreach($Brands as $Brand)
-                                            <option data-left="{{asset('')}}{{$Brand->logo}}" value="{{$Brand->id}}" @if (old('brand_id') == $Brand->id) {{ 'selected' }} @endif >{{$Brand->name}}</option>
+                                            <option value="{{$Brand->id}}" @if($Brand->id == $Product->brand_id) selected @endif >{{$Brand->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -349,7 +512,7 @@
                             <div class="card-body">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="is_featured">Is Featured
+                                        <input type="checkbox" class="form-check-input" name="is_featured" @if($Product->is_featured == 1) checked @endif>Is Featured
                                     </label>
                                 </div>
                             </div>
@@ -365,7 +528,7 @@
                                 @foreach($GetAllProductCollection as $Collection)
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="collection[]" value="{{$Collection->id }}">{{$Collection->name}}
+                                        <input type="checkbox" class="form-check-input" name="collection[]" value="{{$Collection->id }}" {{ in_array($Collection->id, $ProductCollections) ? 'checked' : '' }}>{{$Collection->name}}
                                     </label>
                                 </div>
                                 @endforeach
@@ -381,7 +544,7 @@
                                 @foreach($GetAllProductLabel as $Label)
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="label[]" value="{{$Label->id }}">{{$Label->name}}
+                                            <input type="checkbox" class="form-check-input" name="label[]" value="{{$Label->id }}" {{ in_array($Label->id, $ProductLabels) ? 'checked' : '' }}>{{$Label->name}}
                                         </label>
                                     </div>
                                 @endforeach
@@ -399,7 +562,7 @@
                                 <div class="form-group">
                                     <select class="form-control {{$errors->has('tax_id') ? ' is-invalid' : ''}}" name="tax_id" id="tax_id">
                                         @foreach($GetAllProductTaxes as $Tax)
-                                            <option value="{{$Tax->id}}" @if (old('tax_id') == $Tax->id) {{ 'selected' }} @endif >{{$Tax->title}}</option>
+                                            <option value="{{$Tax->id}}" @if($Tax->id == $Product->tax_id) selected @endif >{{$Tax->title}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -415,7 +578,7 @@
                                 <div class="form-group">
                                     <select class="form-control {{$errors->has('tags') ? ' is-invalid' : ''}}" name="tags[]" id="tags" multiple>
                                         @foreach($GetAllTags as $Tag)
-                                        <option value="{{$Tag->id}}">{{$Tag->name}}</option>
+                                        <option value="{{$Tag->id}}" {{ in_array($Tag->id, $ProductTags) ? 'selected' : '' }}>{{$Tag->name}}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('tags'))

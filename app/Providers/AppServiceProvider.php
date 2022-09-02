@@ -36,7 +36,6 @@ class AppServiceProvider extends ServiceProvider
             $GetAllProductBrand = ProductBrand::orderBy('id', 'DESC')->get();
             $GetAllProductCategory = ProductCategory::orderBy('id', 'DESC')->get();
             $GetAllActiveProduct = Products::where('status','published')->get();
-            $GetAllProductBrand = Products::where('status','published')->get();
             $GetAllProductCollection = ProductCollection::orderBy('id', 'DESC')->get();
             $GetAllProductLabel = ProductLabel::orderBy('id', 'DESC')->get();
             $GetAllProductTaxes  = ProductTax::orderBy('id', 'DESC')->get();

@@ -10,7 +10,7 @@ class Products extends Model
     use HasFactory;
 
     public function tag(){
-        return $this->belongsToMany(ProductTags::class,'product_with_tags');
+        return $this->belongsToMany(ProductTag::class,'product_with_tags');
     }
 
     public function categories(){
@@ -18,11 +18,19 @@ class Products extends Model
     }
 
     public function attribute(){
-        return $this->belongsToMany(ProductAttribute::class,'product_with_attribute');
+        return $this->belongsToMany(ProductAttribute::class,'product_with_attribute')->orderBy('id', 'ASC');
     }
 
     public function attributeSet(){
-        return $this->belongsToMany(ProductAttributeSet::class,'product_with_attribute_set');
+        return $this->belongsToMany(ProductAttributeSet::class,'product_with_attribute_set')->orderBy('id', 'ASC');
+    }
+
+    public function productLabel(){
+        return $this->belongsToMany(ProductLabel::class,'product_with_label');
+    }
+
+    public function productCollection(){
+        return $this->belongsToMany(ProductCollection::class,'product_with_collection');
     }
 
     public function relatedProduct(){

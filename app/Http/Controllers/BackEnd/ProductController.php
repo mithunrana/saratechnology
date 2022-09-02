@@ -108,7 +108,9 @@ class ProductController extends Controller
         $ProductObj->categories()->attach($request->categories);
         $ProductObj->relatedProduct()->attach($request->relatedproduct);
         $ProductObj->crossSellingProduct()->attach($request->crosssellingproduct);
-
+        $ProductObj->productLabel()->attach($request->label);
+        $ProductObj->productCollection()->attach($request->collection);
+        
         $AttributeSetArray = $request->attributeset;
         $AttributeArray = $request->attribute;
         $Variation = 0;
@@ -150,11 +152,14 @@ class ProductController extends Controller
 
     public function productsEdit($id){
         $Product = Products::where('id',$id)->first();
-        $ProductCategories = $Product->categories->pluck('id')->toArray();
-        $RelatedProduct = $Product->categories->pluck('id')->toArray();
-        $CrossSellingProduct = $Product->categories->pluck('id')->toArray();
-        //return $ProductCategories;
-        return view('backend.product.product-edit',compact('Product','ProductCategories'));
+        $data['Product'] = $Product;
+        $data['ProductCategories'] = $Product->categories->pluck('id')->toArray();
+        $data['ProductLabels'] = $Product->productLabel->pluck('id')->toArray();
+        $data['ProductCollections'] = $Product->productCollection->pluck('id')->toArray();
+        $data['RelatedProducts'] = $Product->relatedProduct->pluck('id')->toArray();
+        $data['CrossSellingProducts'] = $Product->crossSellingProduct->pluck('id')->toArray();
+        $data['ProductTags'] = $Product->tag->pluck('id')->toArray();
+        return view('backend.product.product-edit',$data);
     }
 
     public function productUpdate(){
