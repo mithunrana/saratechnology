@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 // All frontend route here ----------
 Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('/','Homecontroller@index')->name('home');
+    Route::get('/{url}','ProductController@productView')->name('productview');
 });
 
 

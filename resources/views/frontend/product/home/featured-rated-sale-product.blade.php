@@ -533,8 +533,8 @@
                                 <div class="product_wrap">
                                     <div class="product_img">
                                         <a href="shop-product-detail.html">
-                                            <img src="frontend/assets/images/el_img1.jpg" alt="el_img1">
-                                            <img class="product_hover_img" src="frontend/assets/images/el_hover_img1.jpg" alt="el_hover_img1">
+                                            <img src="{{asset('')}}frontend/assets/images/el_img1.jpg" alt="el_img1">
+                                            <img class="product_hover_img" src="{{asset('')}}frontend/assets/images/el_hover_img1.jpg" alt="el_hover_img1">
                                         </a>
                                     </div>
                                     <div class="product_info">

@@ -17,12 +17,9 @@ class ProductController extends Controller
 {
 
 
+
     public function productsManage(){
         $GetAllProduct = Products::orderBy('id', 'DESC')->get();
-        //return view('product.product',compact('GetAllProduct'));
-        //$GetProduct = Products::find(1);
-        //return $GetProduct->tag;
-        //return 1;
         return view('backend.product.products',compact('GetAllProduct'));
     }
 
@@ -109,7 +106,8 @@ class ProductController extends Controller
         //$ProductObj->shift()->detach();
         $ProductObj->tag()->attach($request->tags);
         $ProductObj->categories()->attach($request->categories);
-        
+        $ProductObj->relatedProduct()->attach($request->relatedproduct);
+        $ProductObj->crossSellingProduct()->attach($request->crosssellingproduct);
 
         $AttributeSetArray = $request->attributeset;
         $AttributeArray = $request->attribute;
@@ -150,8 +148,13 @@ class ProductController extends Controller
         return redirect('admin/product')->with('message','Product Successfully Added');
     }
 
-    public function productsEdit(){
-
+    public function productsEdit($id){
+        $Product = Products::where('id',$id)->first();
+        $ProductCategories = $Product->categories->pluck('id')->toArray();
+        $RelatedProduct = $Product->categories->pluck('id')->toArray();
+        $CrossSellingProduct = $Product->categories->pluck('id')->toArray();
+        //return $ProductCategories;
+        return view('backend.product.product-edit',compact('Product','ProductCategories'));
     }
 
     public function productUpdate(){

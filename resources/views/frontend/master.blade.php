@@ -39,19 +39,18 @@
 <!-- Style CSS -->
 <link rel="stylesheet" href="frontend/assets/css/style.css">
 <link rel="stylesheet" href="frontend/assets/css/responsive.css">
-
 </head>
 
 <body>
 
 <!-- LOADER -->
-<div class="preloader">
+<!--<div class="preloader">
     <div class="lds-ellipsis">
         <span></span>
         <span></span>
         <span></span>
     </div>
-</div>
+</div>-->
 <!-- END LOADER -->
 
 
@@ -75,12 +74,15 @@
     @yield('banner-section')
 <!-- END SECTION BANNER -->
 
-
+<!-- START SECTION BANNER -->
+    @yield('bread-crumb')
+<!-- END SECTION BANNER -->
 
 
 <!-- START MAIN CONTENT -->
 <div class="main_content">
 
+    @yield('product-view-details');
 
     <!-- START SECTION SHOP -->
     @yield('exclusive-product')
