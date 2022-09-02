@@ -144,7 +144,12 @@ class ProductController extends Controller
                 $ProductVariationObj->height_unit  = $ProductObj->height_unit;
                 $ProductVariationObj->is_default  = 1;
                 $ProductVariationObj->save();
-                $ProductVariationObj->attribute()->attach($ProductVariationObj->id);
+
+                foreach($AttributeArray as $key => $val){
+                    if($AttributeArray[$key] !=''){
+                        $ProductVariationObj->attribute()->attach($val);
+                    }
+                }
             }
         }
         return redirect('admin/product')->with('message','Product Successfully Added');
