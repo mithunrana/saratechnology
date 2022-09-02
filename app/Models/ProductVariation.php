@@ -13,4 +13,6 @@ class ProductVariation extends Model
         return $this->belongsToMany(ProductAttribute::class,'variation_with_attribute')->orderBy('id', 'ASC');
     }
 
+    
+
 }

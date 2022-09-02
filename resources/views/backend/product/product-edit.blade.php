@@ -220,7 +220,9 @@
                                                                                             <label for="">{{$AttributeSet->title}}</label>
                                                                                             <select name="{{$AttributeSet->title}}" class="custom-select">
                                                                                                 @foreach($AttributeSet->attribute as $Attribute)
-                                                                                                    <option value="{{$Attribute->id}}">{{$Attribute->title}}</option>
+                                                                                                    <option value="{{$Attribute->id}}" @foreach($Variation->attribute as $kwd) {{ $kwd->pivot->product_attribute_id == $Attribute->id ? 'selected' : '' }} @endforeach>
+                                                                                                        {{$Attribute->title}}
+                                                                                                    </option>
                                                                                                 @endforeach
                                                                                             </select>
                                                                                         </div>
@@ -340,6 +342,123 @@
                                                     @endforeach
                                                 </tbody>
                                             </table>
+                                        </div>
+
+                                        <!-- attribute add modal -->
+                                        <div class="modal fade" id="AttributeAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg" role="document">
+                                                <div class="modal-content border-0">
+                                                    <div class="modal-header bg-info text-light border-none">
+                                                        <h5 class="modal-title" id="exampleModalLabel">Edit Attribute</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <form action="">
+                                                        <div class="modal-body bg-light">
+                                                            <div class="row">
+                                                                @foreach($Product->attributeSet as $AttributeSet)
+                                                                    <div class="col-md-4">
+                                                                        <div class="form-group">
+                                                                            <label for="">{{$AttributeSet->title}}</label>
+                                                                            <select name="{{$AttributeSet->title}}" class="custom-select">
+                                                                                @foreach($AttributeSet->attribute as $Attribute)
+                                                                                    <option value="{{$Attribute->id}}">{{$Attribute->title}}</option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="">Discount Start Date</label>
+                                                                        <input class="form-control discount_start_date" type="text" name="" id="" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="form-group">
+                                                                        <label for="">Discount End Date</label>
+                                                                        <input class="form-control discount_end_date" type="text" name="" id="" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="withstorehousemanage" />
+                                                                        <label class="custom-control-label" for="withstorehousemanage">With Storehouse Management</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-md-6">
+                                                                    <div style="margin-bottom: 5px;" class="form-group">
+                                                                        <label for="quantity">Quantity</label>
+                                                                        <input type="text" class="form-control" type="date" name="quantity" id="quantity" />
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="custom-control custom-checkbox">
+                                                                        <input type="checkbox" class="custom-control-input" id="allowcheckoutstockout" />
+                                                                        <label class="custom-control-label" for="allowcheckoutstockout">Allow check out when Out of stock</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <hr />
+                                                            <div class="row">
+                                                                <div class="col">
+                                                                    <div class="form-group">
+                                                                        <label class="form-check-label">Stock Status</label>
+                                                                        <select class="form-control {{$errors->has('stock_status') ? ' is-invalid' : ''}}" name="stock_status" id="stock_status">
+                                                                            <option value="in_stock" @if (old('status') == "in_stock") {{ 'selected' }} @endif >In stock</option>
+                                                                            <option value="out_of_stock" @if (old('status') == "out_of_stock") {{ 'selected' }} @endif >Out of stock</option>
+                                                                            <option value="on_backorder" @if (old('status') == "on_backorder") {{ 'selected' }} @endif >On backorder</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <br>
+
+                                                            <h6>Shipping</h6>
+
+                                                            <div class="row">
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="weight">Weight (g)</label>
+                                                                    <input type="text" id="weight" name="weight" value="" placeholder="weight" class="form-control" />
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="length">Length (cm)</label>
+                                                                    <input type="text" id="length" name="length" value="" placeholder="length"  class="form-control" />
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="wide">Wide (cm)</label>
+                                                                    <input type="text" id="wide" name="wide" value="" placeholder="wide" class="form-control" />
+                                                                </div>
+                                                                <div class="form-group col-sm-6">
+                                                                    <label for="height">Height (cm)</label>
+                                                                    <input type="text" id="height" name="height" value="" placeholder="height" class="form-control" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                            <button type="submit" class="btn btn-primary">
+                                                                Save changes
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="#" class="btn btn-info btn-sm" data-toggle="modal" data-target="#AttributeAddModal" >Add Attribute</a>
                                         </div>
                                     </div>
                                 @else
@@ -622,6 +741,13 @@
             format: 'YYYY-MM-DD HH:mm'
         });
         $('#discount_end_date').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+
+        $('.discount_start_date').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm'
+        });
+        $('.discount_end_date').datetimepicker({
             format: 'YYYY-MM-DD HH:mm'
         });
     });

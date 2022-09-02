@@ -55,5 +55,10 @@ class Products extends Model
         return $this->hasMany(ProductVariation::class,'products_id');                                            
     }
 
+    public static function variationByAttribute($variationid){
+        return ProductVariation::where('id',$variationid)->get();
+        //return $Variation->attribute->pluck('id')->toArray();
+    }
+
 
 }
