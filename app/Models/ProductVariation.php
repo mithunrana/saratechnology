@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class ProductVariation extends Model
 {
     use HasFactory;
+
+    public function attribute(){
+        return $this->belongsToMany(ProductAttribute::class,'variation_with_attribute')->orderBy('id', 'ASC');
+    }
+
 }

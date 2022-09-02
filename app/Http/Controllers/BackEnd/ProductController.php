@@ -118,7 +118,6 @@ class ProductController extends Controller
         if($request->attribute){
             foreach($AttributeArray as $key => $val){
                 if($AttributeArray[$key] !=''){
-                    $ProductObj->attribute()->attach($AttributeArray[$key]);
                     $ProductObj->attributeSet()->attach($AttributeSetArray[$key]);
                     $Variation++;
                 }
@@ -145,6 +144,7 @@ class ProductController extends Controller
                 $ProductVariationObj->height_unit  = $ProductObj->height_unit;
                 $ProductVariationObj->is_default  = 1;
                 $ProductVariationObj->save();
+                $ProductVariationObj->attribute()->attach($ProductVariationObj->id);
             }
         }
         return redirect('admin/product')->with('message','Product Successfully Added');

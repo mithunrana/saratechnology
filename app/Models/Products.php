@@ -17,10 +17,6 @@ class Products extends Model
         return $this->belongsToMany(ProductCategory::class,'product_with_category');
     }
 
-    public function attribute(){
-        return $this->belongsToMany(ProductAttribute::class,'product_with_attribute')->orderBy('id', 'ASC');
-    }
-
     public function attributeSet(){
         return $this->belongsToMany(ProductAttributeSet::class,'product_with_attribute_set')->orderBy('id', 'ASC');
     }
