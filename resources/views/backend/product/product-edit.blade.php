@@ -323,7 +323,7 @@
                                                             <td>
                                                                 <img src="http://localhost:8085/uploads/bd6124943b176f3e6555d96fb2881f5d.jpg" width="50" alt="Image">
                                                             </td>
-                                                            @foreach($Product->attribute as $Attribute)
+                                                            @foreach($Variation->attribute as $Attribute)
                                                                 <td>{{$Attribute->title}}</td>
                                                             @endforeach
                                                             <td>200.00</td>
