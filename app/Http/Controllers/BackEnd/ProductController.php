@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\BackEnd;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductBrand;
@@ -13,17 +14,20 @@ use App\Models\Products;
 use App\Models\ProductAttributeSet;
 use App\Models\ProductAttribute;
 use App\Models\ProductVariation;
+
 class ProductController extends Controller
 {
 
 
 
-    public function productsManage(){
+    public function productsManage()
+    {
         $GetAllProduct = Products::orderBy('id', 'DESC')->get();
-        return view('backend.product.products',compact('GetAllProduct'));
+        return view('backend.product.products', compact('GetAllProduct'));
     }
 
-    public function productsAdd(){
+    public function productsAdd()
+    {
         $GetAllActiveProduct = Products::get();
         $GetAllTags = ProductTag::get();
         $Categories = ProductCategory::whereNull('parent_id')->with('childItems')->get();
@@ -32,40 +36,41 @@ class ProductController extends Controller
         $Brands  = ProductBrand::get();
         $GetAllProductTaxes = ProductTax::get();
         $GetAllProductAttributeSet = ProductAttributeSet::get();
-        return view('backend.product.add',compact('GetAllTags','Categories','GetAllProductCollection','GetAllProductLabel','Brands','GetAllProductTaxes','GetAllActiveProduct','GetAllProductAttributeSet'));
+        return view('backend.product.add', compact('GetAllTags', 'Categories', 'GetAllProductCollection', 'GetAllProductLabel', 'Brands', 'GetAllProductTaxes', 'GetAllActiveProduct', 'GetAllProductAttributeSet'));
     }
 
 
-    public function productStore(Request $request){
-        $this->validate($request,[
+    public function productStore(Request $request)
+    {
+        $this->validate($request, [
             'name' => 'required',
             'permalink' => 'required',
             'tax_id' => 'required',
         ]);
 
-       $is_featured = 0;
-        if($request->is_featured=='on'){
+        $is_featured = 0;
+        if ($request->is_featured == 'on') {
             $is_featured = 1;
         }
 
         $allow_checkout_when_out_of_stock = 0;
-        if($request->allow_checkout_when_out_of_stock=='on'){
+        if ($request->allow_checkout_when_out_of_stock == 'on') {
             $allow_checkout_when_out_of_stock = 1;
         }
 
         $with_storehouse_management = 0;
-        if($request->with_storehouse_management=='on'){
+        if ($request->with_storehouse_management == 'on') {
             $with_storehouse_management = 1;
         }
 
         $images = array();
-        if($request->images){
+        if ($request->images) {
             //$images = '["'.implode('","',$request->images).'"]';
-            $images = implode('"',$request->images);
-        }else{
+            $images = implode('"', $request->images);
+        } else {
             $images = '';
         }
-       
+
         $ProductObj  = new Products();
         $ProductObj->name = $request->name;
         $ProductObj->permalink = $request->permalink;
@@ -76,7 +81,7 @@ class ProductController extends Controller
         $ProductObj->is_featured = $is_featured;
         $ProductObj->sku = $request->sku;
         $ProductObj->quantity = $request->quantity;
-        
+
         $ProductObj->allow_checkout_when_out_of_stock = $allow_checkout_when_out_of_stock;
         $ProductObj->with_storehouse_management = $with_storehouse_management;
         $ProductObj->price = $request->price;
@@ -100,9 +105,9 @@ class ProductController extends Controller
         $ProductObj->title = $request->title;
         $ProductObj->metakeyword = $request->metakeyword;
         $ProductObj->metadescription = $request->metadescription;
-        
+
         $ProductObj->save();
-        
+
         //$ProductObj->shift()->detach();
         $ProductObj->tag()->attach($request->tags);
         $ProductObj->categories()->attach($request->categories);
@@ -110,20 +115,20 @@ class ProductController extends Controller
         $ProductObj->crossSellingProduct()->attach($request->crosssellingproduct);
         $ProductObj->productLabel()->attach($request->label);
         $ProductObj->productCollection()->attach($request->collection);
-        
+
         $AttributeSetArray = $request->attributeset;
         $AttributeArray = $request->attribute;
         $Variation = 0;
 
-        if($request->attribute){
-            foreach($AttributeArray as $key => $val){
-                if($AttributeArray[$key] !=''){
+        if ($request->attribute) {
+            foreach ($AttributeArray as $key => $val) {
+                if ($AttributeArray[$key] != '') {
                     $ProductObj->attributeSet()->attach($AttributeSetArray[$key]);
                     $Variation++;
                 }
             }
-            
-            if($Variation != 0){
+
+            if ($Variation != 0) {
                 $ProductVariationObj = new ProductVariation();
                 $ProductVariationObj->products_id  = $ProductObj->id;
                 $ProductVariationObj->sku  = $ProductObj->sku;
@@ -145,18 +150,19 @@ class ProductController extends Controller
                 $ProductVariationObj->is_default  = 1;
                 $ProductVariationObj->save();
 
-                foreach($AttributeArray as $key => $val){
-                    if($AttributeArray[$key] !=''){
+                foreach ($AttributeArray as $key => $val) {
+                    if ($AttributeArray[$key] != '') {
                         $ProductVariationObj->attribute()->attach($val);
                     }
                 }
             }
         }
-        return redirect('admin/product')->with('message','Product Successfully Added');
+        return redirect('admin/product')->with('message', 'Product Successfully Added');
     }
 
-    public function productsEdit($id){
-        $Product = Products::where('id',$id)->first();
+    public function productsEdit($id)
+    {
+        $Product = Products::where('id', $id)->first();
         $data['Product'] = $Product;
         $data['ProductCategories'] = $Product->categories->pluck('id')->toArray();
         $data['ProductLabels'] = $Product->productLabel->pluck('id')->toArray();
@@ -164,39 +170,42 @@ class ProductController extends Controller
         $data['RelatedProducts'] = $Product->relatedProduct->pluck('id')->toArray();
         $data['CrossSellingProducts'] = $Product->crossSellingProduct->pluck('id')->toArray();
         $data['ProductTags'] = $Product->tag->pluck('id')->toArray();
-        return view('backend.product.product-edit',$data);
+        return view('backend.product.product-edit', $data);
     }
 
-    public function productUpdate(){
-
+    public function productUpdate()
+    {
     }
 
 
 
 
 
-    public function productsBrandManage(){
+    public function productsBrandManage()
+    {
         $GetAllProductBrand = ProductBrand::orderBy('id', 'DESC')->get();
-        return view('backend.brand.product-brand-manage',compact('GetAllProductBrand'));
+        return view('backend.brand.product-brand-manage', compact('GetAllProductBrand'));
     }
 
 
 
-    public function productsBrandAdd(){
+    public function productsBrandAdd()
+    {
         return view('backend.brand.product-brand-add');
     }
 
 
-    public function productBrandStore(Request $request){
+    public function productBrandStore(Request $request)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'permalink' => "required|unique:product_brands,permalink",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
         }
 
@@ -213,25 +222,27 @@ class ProductController extends Controller
         $ProductBrandObj->is_featured = $IsFeatured;
         $ProductBrandObj->save();
 
-        return redirect('admin/product-brand')->with('message','Brand Successfully Added');
+        return redirect('admin/product-brand')->with('message', 'Brand Successfully Added');
     }
 
-    public function productsBrandEdit($id){
-        $GetBrandData = ProductBrand::where('id',$id)->first();
-        return view('backend.brand.product-brand-edit',compact('GetBrandData'));
+    public function productsBrandEdit($id)
+    {
+        $GetBrandData = ProductBrand::where('id', $id)->first();
+        return view('backend.brand.product-brand-edit', compact('GetBrandData'));
     }
 
-    public function productBrandUpdate(Request $request,$id){
-        $this->validate($request,[
+    public function productBrandUpdate(Request $request, $id)
+    {
+        $this->validate($request, [
             'name' => 'required',
             'permalink' => "required|unique:product_brands,permalink,$id",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
 
@@ -247,7 +258,7 @@ class ProductController extends Controller
         $ProductBrandObj->status = $request->status;
         $ProductBrandObj->is_featured = $IsFeatured;
         $ProductBrandObj->save();
-        return redirect('admin/product-brand')->with('message','Brand Successfully Updated.');
+        return redirect('admin/product-brand')->with('message', 'Brand Successfully Updated.');
     }
 
 
@@ -257,28 +268,31 @@ class ProductController extends Controller
 
 
 
-    public function productsCategoryManage(){
+    public function productsCategoryManage()
+    {
         $GetAllProductCategory = ProductCategory::orderBy('id', 'DESC')->get();
-        return view('backend.category.category',compact('GetAllProductCategory'));
+        return view('backend.category.category', compact('GetAllProductCategory'));
     }
 
-    public function productsCategoryAdd (){
+    public function productsCategoryAdd()
+    {
         return view('backend.category.add');
     }
 
 
-    public function productCategoryStore(Request $request){
+    public function productCategoryStore(Request $request)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'permalink' => "required|unique:product_categories,permalink",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
         $ProductBrandObj = new ProductCategory();
@@ -294,28 +308,30 @@ class ProductController extends Controller
         $ProductBrandObj->is_featured = $IsFeatured;
         $ProductBrandObj->save();
 
-        return redirect('admin/product-category')->with('message','Category Successfully Added');
+        return redirect('admin/product-category')->with('message', 'Category Successfully Added');
     }
 
 
-    public function productsCategoryEdit($id){
-        $GetCategoryData = ProductCategory::where('id',$id)->first();
-        return view('backend.category.edit',compact('GetCategoryData'));
+    public function productsCategoryEdit($id)
+    {
+        $GetCategoryData = ProductCategory::where('id', $id)->first();
+        return view('backend.category.edit', compact('GetCategoryData'));
     }
 
 
-    public function productCategoryUpdate(Request $request,$id){
+    public function productCategoryUpdate(Request $request, $id)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'permalink' => "required|unique:product_categories,permalink,$id",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
 
@@ -332,35 +348,38 @@ class ProductController extends Controller
         $ProductBrandObj->is_featured = $IsFeatured;
         $ProductBrandObj->save();
 
-        return redirect('admin/product-category')->with('message','Category Successfully Updated');
+        return redirect('admin/product-category')->with('message', 'Category Successfully Updated');
     }
 
 
     #================================== PRODUCTS Label ====================================
 
 
-    public function productsLabelManage(){
+    public function productsLabelManage()
+    {
         $GetAllProductLabel = ProductLabel::orderBy('id', 'DESC')->get();
-        return view('backend.label.label',compact('GetAllProductLabel'));
+        return view('backend.label.label', compact('GetAllProductLabel'));
     }
 
-    public function productsLabelAdd (){
+    public function productsLabelAdd()
+    {
         return view('backend.label.add');
     }
 
 
-    public function productLabelstore(Request $request){
+    public function productLabelstore(Request $request)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'color' => "required",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
 
@@ -370,28 +389,30 @@ class ProductController extends Controller
         $ProductLableObj->status = $request->status;
         $ProductLableObj->save();
 
-        return redirect('admin/product-label')->with('message','Label Successfully Added');
+        return redirect('admin/product-label')->with('message', 'Label Successfully Added');
     }
 
 
-    public function productsLabelEdit($id){
-        $GetLabelData = ProductLabel::where('id',$id)->first();
-        return view('backend.label.edit',compact('GetLabelData'));
+    public function productsLabelEdit($id)
+    {
+        $GetLabelData = ProductLabel::where('id', $id)->first();
+        return view('backend.label.edit', compact('GetLabelData'));
     }
 
 
-    public function productLabelUpdate(Request $request,$id){
+    public function productLabelUpdate(Request $request, $id)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'color' => "required",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
 
@@ -401,39 +422,42 @@ class ProductController extends Controller
         $ProductLableObj->status = $request->status;
         $ProductLableObj->save();
 
-        return redirect('admin/product-label')->with('message','Label Successfully Updated');
+        return redirect('admin/product-label')->with('message', 'Label Successfully Updated');
     }
 
 
 
-    
+
 
     #================================== PRODUCTS Collection ====================================
 
 
 
-    public function productCollectionManage(){
+    public function productCollectionManage()
+    {
         $GetAllProductCollection = ProductCollection::orderBy('id', 'DESC')->get();
-        return view('backend.collection.collection',compact('GetAllProductCollection'));
+        return view('backend.collection.collection', compact('GetAllProductCollection'));
     }
 
-    public function productsCollectionAdd (){
+    public function productsCollectionAdd()
+    {
         return view('backend.collection.add');
     }
 
 
-    public function productCollectionstore(Request $request){
+    public function productCollectionstore(Request $request)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'slug' => "required",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
 
@@ -445,28 +469,30 @@ class ProductController extends Controller
         $ProductCollectionObj->status = $request->status;
         $ProductCollectionObj->save();
 
-        return redirect('admin/product-collection')->with('message','Collection Successfully Added');
+        return redirect('admin/product-collection')->with('message', 'Collection Successfully Added');
     }
 
 
-    public function productsCollectionEdit($id){
-        $GetCollectionData = ProductCollection::where('id',$id)->first();
-        return view('backend.collection.edit',compact('GetCollectionData'));
+    public function productsCollectionEdit($id)
+    {
+        $GetCollectionData = ProductCollection::where('id', $id)->first();
+        return view('backend.collection.edit', compact('GetCollectionData'));
     }
 
 
-    public function productCollectionUpdate(Request $request,$id){
+    public function productCollectionUpdate(Request $request, $id)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'slug' => "required",
             'status' => 'required',
         ]);
 
         $IsFeatured = 0;
-        if($request->is_featured=='on'){
+        if ($request->is_featured == 'on') {
             $IsFeatured = 1;
-        }else{
+        } else {
             $IsFeatured = 0;
         }
 
@@ -478,7 +504,7 @@ class ProductController extends Controller
         $ProductCollectionObj->status = $request->status;
         $ProductCollectionObj->save();
 
-        return redirect('admin/product-collection')->with('message','Collection Successfully Updated');
+        return redirect('admin/product-collection')->with('message', 'Collection Successfully Updated');
     }
 
 
@@ -490,21 +516,24 @@ class ProductController extends Controller
     #================================== PRODUCTS TAGS ====================================
 
 
-    
-    public function productTagsManage(){
+
+    public function productTagsManage()
+    {
         $GetAllProducTags = ProductTag::orderBy('id', 'DESC')->get();
-        return view('backend.tags.tags',compact('GetAllProducTags'));
+        return view('backend.tags.tags', compact('GetAllProducTags'));
     }
 
 
-    public function productsTagsAdd (){
+    public function productsTagsAdd()
+    {
         return view('backend.tags.add');
     }
 
 
-    public function productTagsstore(Request $request){
+    public function productTagsstore(Request $request)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'slug' => "required|unique:product_tags,slug",
             'status' => 'required',
@@ -519,19 +548,21 @@ class ProductController extends Controller
         $ProductTaxesObj->status = $request->status;
         $ProductTaxesObj->save();
 
-        return redirect('admin/product-tags')->with('message','Tag Created Successfully');
+        return redirect('admin/product-tags')->with('message', 'Tag Created Successfully');
     }
 
 
-    public function productsTagsEdit($id){
-        $GetTagData = ProductTag::where('id',$id)->first();
-        return view('backend.tags.edit',compact('GetTagData'));
+    public function productsTagsEdit($id)
+    {
+        $GetTagData = ProductTag::where('id', $id)->first();
+        return view('backend.tags.edit', compact('GetTagData'));
     }
 
 
-    public function productTagsUpdate(Request $request,$id){
+    public function productTagsUpdate(Request $request, $id)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'name' => 'required',
             'slug' => "required|unique:product_tags,slug,$id",
             'status' => 'required',
@@ -547,7 +578,7 @@ class ProductController extends Controller
         $ProductTaxesObj->status = $request->status;
         $ProductTaxesObj->save();
 
-        return redirect('admin/product-tags')->with('message','Tag Updated Successfully');
+        return redirect('admin/product-tags')->with('message', 'Tag Updated Successfully');
     }
 
 
@@ -559,21 +590,24 @@ class ProductController extends Controller
     #================================== PRODUCTS TAXES ====================================
 
 
-    
 
-    public function productTaxesManage(){
+
+    public function productTaxesManage()
+    {
         $GetAllProductTaxes = ProductTax::orderBy('id', 'DESC')->get();
-        return view('backend.taxes.taxes',compact('GetAllProductTaxes'));
+        return view('backend.taxes.taxes', compact('GetAllProductTaxes'));
     }
 
-    public function productsTaxesAdd (){
+    public function productsTaxesAdd()
+    {
         return view('backend.taxes.add');
     }
 
 
-    public function productTaxesstore(Request $request){
+    public function productTaxesstore(Request $request)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
             'percentage' => "required|numeric",
             'status' => 'required',
@@ -587,19 +621,21 @@ class ProductController extends Controller
         $ProductTaxesObj->status = $request->status;
         $ProductTaxesObj->save();
 
-        return redirect('admin/product-taxes')->with('message','Tax Created Successfully');
+        return redirect('admin/product-taxes')->with('message', 'Tax Created Successfully');
     }
 
 
-    public function productsTaxesEdit($id){
-        $GetTaxesData = ProductTax::where('id',$id)->first();
-        return view('backend.taxes.edit',compact('GetTaxesData'));
+    public function productsTaxesEdit($id)
+    {
+        $GetTaxesData = ProductTax::where('id', $id)->first();
+        return view('backend.taxes.edit', compact('GetTaxesData'));
     }
 
 
-    public function productTaxesUpdate(Request $request,$id){
+    public function productTaxesUpdate(Request $request, $id)
+    {
 
-        $this->validate($request,[
+        $this->validate($request, [
             'title' => 'required',
             'percentage' => "required|numeric",
             'priority' => 'numeric',
@@ -614,7 +650,7 @@ class ProductController extends Controller
         $ProductTaxesObj->status = $request->status;
         $ProductTaxesObj->save();
 
-        return redirect('admin/product-taxes')->with('message','Tax Updated Successfully');
+        return redirect('admin/product-taxes')->with('message', 'Tax Updated Successfully');
     }
 
 
@@ -623,157 +659,195 @@ class ProductController extends Controller
     #================================== PRODUCTS ATTRIBUTE ====================================
 
 
-        public function productAttributeManage(){
-            $GetAllProductAttribute = ProductAttributeSet::orderBy('id', 'DESC')->get();
-            return view('backend.attribute.attribute',compact('GetAllProductAttribute'));
-            //return $GetAllProductAttribute;
+    public function productAttributeManage()
+    {
+        $GetAllProductAttribute = ProductAttributeSet::orderBy('id', 'DESC')->get();
+        return view('backend.attribute.attribute', compact('GetAllProductAttribute'));
+        //return $GetAllProductAttribute;
+    }
+
+    public function productsAttributeAdd()
+    {
+        return view('backend.attribute.add');
+    }
+
+    public function productAttributestore(Request $request)
+    {
+
+        $this->validate($request, [
+            'title' => 'required',
+            'slug' => "required",
+            'status' => 'required',
+            'order' => 'required',
+            'display_layout' => 'required',
+        ]);
+
+        $Is_comparable = 0;
+        $Is_searchable = 0;
+        $Is_use_in_product_listing = 0;
+
+        if ($request->Is_comparable == 'on') {
+            $is_comparable = 0;
         }
 
-        public function productsAttributeAdd (){
-            return view('backend.attribute.add');
+        if ($request->is_searchable == 'on') {
+            $Is_searchable = 1;
         }
-    
-        public function productAttributestore(Request $request){
-    
-            $this->validate($request,[
-                'title' => 'required',
-                'slug' => "required",
-                'status' => 'required',
-                'order' => 'required',
-                'display_layout' => 'required',
-            ]);
 
-            $Is_comparable = 0;
-            $Is_searchable = 0;
-            $Is_use_in_product_listing = 0;
+        if ($request->is_use_in_product_listing == 'on') {
+            $Is_use_in_product_listing = 1;
+        }
 
-            if($request->Is_comparable=='on'){
-                $is_comparable = 0;
-            }
+        $ProductAttributeSetObj = new ProductAttributeSet();
 
-            if($request->is_searchable=='on'){
-                $Is_searchable = 1;
-            }
+        $ProductAttributeSetObj->title = $request->title;
+        $ProductAttributeSetObj->slug = $request->slug;
+        $ProductAttributeSetObj->display_layout = $request->display_layout;
+        $ProductAttributeSetObj->is_searchable = $Is_searchable;
+        $ProductAttributeSetObj->is_comparable = $Is_comparable;
+        $ProductAttributeSetObj->status = $request->status;
+        $ProductAttributeSetObj->order = $request->order;
+        $ProductAttributeSetObj->is_use_in_product_listing = $Is_use_in_product_listing;
+        $ProductAttributeSetObj->save();
 
-            if($request->is_use_in_product_listing=='on'){
-                $Is_use_in_product_listing = 1;
-            }
+        $IsDeafultHidden = $request->is_defaulthidden;
+        $AttributeTitleArray = $request->attributetitle;
+        $AttributeSlugArray = $request->attributeslug;
+        $AttributeColorArray = $request->attributecolor;
+        $AttributeIsdefaultArray = $request->fordefaultselect;
 
-            $ProductAttributeSetObj = new ProductAttributeSet();
-
-            $ProductAttributeSetObj->title = $request->title;
-            $ProductAttributeSetObj->slug = $request->slug;
-            $ProductAttributeSetObj->display_layout = $request->display_layout;
-            $ProductAttributeSetObj->is_searchable = $Is_searchable;
-            $ProductAttributeSetObj->is_comparable = $Is_comparable;
-            $ProductAttributeSetObj->status = $request->status;
-            $ProductAttributeSetObj->order = $request->order;
-            $ProductAttributeSetObj->is_use_in_product_listing = $Is_use_in_product_listing;
-            $ProductAttributeSetObj->save();
-
-            $IsDeafultHidden = $request->is_defaulthidden;
-            $AttributeTitleArray = $request->attributetitle;
-            $AttributeSlugArray = $request->attributeslug;
-            $AttributeColorArray = $request->attributecolor;
-            $AttributeIsdefaultArray = $request->fordefaultselect;
-
-            if($request->attributetitle){
-                foreach($AttributeTitleArray as $key => $val){
-                    if($AttributeTitleArray[$key] !='' && $AttributeSlugArray[$key] !='' && $AttributeColorArray[$key] !=''){
-                        $ProductAttributeObj = new ProductAttribute();
-                        $ProductAttributeObj->attribute_set_id = $ProductAttributeSetObj->id;
-                        $ProductAttributeObj->title = $AttributeTitleArray[$key];
-                        $ProductAttributeObj->slug = $AttributeSlugArray[$key];
-                        $ProductAttributeObj->color = $AttributeColorArray[$key];
-                        if($IsDeafultHidden==$AttributeIsdefaultArray[$key]){
-                            $ProductAttributeObj->is_default = 1;
-                        }else{
-                            $ProductAttributeObj->is_default = 0;
-                        }
-                        $ProductAttributeObj->status = $request->status;
-                        $ProductAttributeObj->save();
+        if ($request->attributetitle) {
+            foreach ($AttributeTitleArray as $key => $val) {
+                if ($AttributeTitleArray[$key] != '' && $AttributeSlugArray[$key] != '' && $AttributeColorArray[$key] != '') {
+                    $ProductAttributeObj = new ProductAttribute();
+                    $ProductAttributeObj->attribute_set_id = $ProductAttributeSetObj->id;
+                    $ProductAttributeObj->title = $AttributeTitleArray[$key];
+                    $ProductAttributeObj->slug = $AttributeSlugArray[$key];
+                    $ProductAttributeObj->color = $AttributeColorArray[$key];
+                    if ($IsDeafultHidden == $AttributeIsdefaultArray[$key]) {
+                        $ProductAttributeObj->is_default = 1;
+                    } else {
+                        $ProductAttributeObj->is_default = 0;
                     }
-                }  
+                    $ProductAttributeObj->status = $request->status;
+                    $ProductAttributeObj->save();
+                }
             }
-            return redirect('admin/product-attribute')->with('message','Attribute Created Successfully');
         }
-    
-    
-        public function productsAttributeEdit($id){
-            $GetAttributeSetData = ProductAttributeSet::where('id',$id)->first();
-            $GetProductAttribute = ProductAttribute::where('attribute_set_id',$GetAttributeSetData->id)->get();
-            $ProductAttributeCount = count($GetProductAttribute);
-            return view('backend.attribute.edit',compact('GetAttributeSetData','GetProductAttribute','ProductAttributeCount'));
+        return redirect('admin/product-attribute')->with('message', 'Attribute Created Successfully');
+    }
+
+
+    public function productsAttributeEdit($id)
+    {
+        $GetAttributeSetData = ProductAttributeSet::where('id', $id)->first();
+        $GetProductAttribute = ProductAttribute::where('attribute_set_id', $GetAttributeSetData->id)->get();
+        $ProductAttributeCount = count($GetProductAttribute);
+        return view('backend.attribute.edit', compact('GetAttributeSetData', 'GetProductAttribute', 'ProductAttributeCount'));
+    }
+
+
+
+
+    public function productAttributeUpdate(Request $request, $id)
+    {
+
+        $this->validate($request, [
+            'title' => 'required',
+            'slug' => "required",
+            'status' => 'required',
+            'order' => 'required',
+            'display_layout' => 'required',
+        ]);
+
+        $Is_comparable = 0;
+        $Is_searchable = 0;
+        $Is_use_in_product_listing = 0;
+
+        if ($request->Is_comparable == 'on') {
+            $is_comparable = 0;
         }
-    
-    
-        public function productAttributeUpdate(Request $request,$id){
 
-            $this->validate($request,[
-                'title' => 'required',
-                'slug' => "required",
-                'status' => 'required',
-                'order' => 'required',
-                'display_layout' => 'required',
-            ]);
+        if ($request->is_searchable == 'on') {
+            $Is_searchable = 1;
+        }
 
-            $Is_comparable = 0;
-            $Is_searchable = 0;
-            $Is_use_in_product_listing = 0;
+        if ($request->is_use_in_product_listing == 'on') {
+            $Is_use_in_product_listing = 1;
+        }
 
-            if($request->Is_comparable=='on'){
-                $is_comparable = 0;
-            }
+        $ProductAttributeSetObj =  ProductAttributeSet::findOrFail($id);
 
-            if($request->is_searchable=='on'){
-                $Is_searchable = 1;
-            }
+        $ProductAttributeSetObj->title = $request->title;
+        $ProductAttributeSetObj->slug = $request->slug;
+        $ProductAttributeSetObj->display_layout = $request->display_layout;
+        $ProductAttributeSetObj->is_searchable = $Is_searchable;
+        $ProductAttributeSetObj->is_comparable = $Is_comparable;
+        $ProductAttributeSetObj->status = $request->status;
+        $ProductAttributeSetObj->order = $request->order;
+        $ProductAttributeSetObj->is_use_in_product_listing = $Is_use_in_product_listing;
+        $ProductAttributeSetObj->save();
 
-            if($request->is_use_in_product_listing=='on'){
-                $Is_use_in_product_listing = 1;
-            }
+        $IsDeafultHidden = $request->is_defaulthidden;
+        $AttributeTitleArray = $request->attributetitle;
+        $AttributeSlugArray = $request->attributeslug;
+        $AttributeColorArray = $request->attributecolor;
+        $AttributeIsdefaultArray = $request->fordefaultselect;
+        ProductAttribute::where('attribute_set_id', $id)->delete();
 
-            $ProductAttributeSetObj =  ProductAttributeSet::findOrFail($id);
-
-            $ProductAttributeSetObj->title = $request->title;
-            $ProductAttributeSetObj->slug = $request->slug;
-            $ProductAttributeSetObj->display_layout = $request->display_layout;
-            $ProductAttributeSetObj->is_searchable = $Is_searchable;
-            $ProductAttributeSetObj->is_comparable = $Is_comparable;
-            $ProductAttributeSetObj->status = $request->status;
-            $ProductAttributeSetObj->order = $request->order;
-            $ProductAttributeSetObj->is_use_in_product_listing = $Is_use_in_product_listing;
-            $ProductAttributeSetObj->save();
-
-            $IsDeafultHidden = $request->is_defaulthidden;
-            $AttributeTitleArray = $request->attributetitle;
-            $AttributeSlugArray = $request->attributeslug;
-            $AttributeColorArray = $request->attributecolor;
-            $AttributeIsdefaultArray = $request->fordefaultselect;
-            ProductAttribute::where('attribute_set_id', $id)->delete();
-
-            if($request->attributetitle){
-                foreach($AttributeTitleArray as $key => $val){
-                    if($AttributeTitleArray[$key] !='' && $AttributeSlugArray[$key] !='' && $AttributeColorArray[$key] !=''){
-                        $ProductAttributeObj = new ProductAttribute();
-                        $ProductAttributeObj->attribute_set_id = $ProductAttributeSetObj->id;
-                        $ProductAttributeObj->title = $AttributeTitleArray[$key];
-                        $ProductAttributeObj->slug = $AttributeSlugArray[$key];
-                        $ProductAttributeObj->color = $AttributeColorArray[$key];
-                        if($IsDeafultHidden==$AttributeIsdefaultArray[$key]){
-                            $ProductAttributeObj->is_default = 1;
-                        }else{
-                            $ProductAttributeObj->is_default = 0;
-                        }
-                        $ProductAttributeObj->status = $request->status;
-                        $ProductAttributeObj->save();
+        if ($request->attributetitle) {
+            foreach ($AttributeTitleArray as $key => $val) {
+                if ($AttributeTitleArray[$key] != '' && $AttributeSlugArray[$key] != '' && $AttributeColorArray[$key] != '') {
+                    $ProductAttributeObj = new ProductAttribute();
+                    $ProductAttributeObj->attribute_set_id = $ProductAttributeSetObj->id;
+                    $ProductAttributeObj->title = $AttributeTitleArray[$key];
+                    $ProductAttributeObj->slug = $AttributeSlugArray[$key];
+                    $ProductAttributeObj->color = $AttributeColorArray[$key];
+                    if ($IsDeafultHidden == $AttributeIsdefaultArray[$key]) {
+                        $ProductAttributeObj->is_default = 1;
+                    } else {
+                        $ProductAttributeObj->is_default = 0;
                     }
-                }  
+                    $ProductAttributeObj->status = $request->status;
+                    $ProductAttributeObj->save();
+                }
             }
-
-            
-            return redirect('admin/product-attribute')->with('message','Attribute Successfully Updated');
         }
 
+
+        return redirect('admin/product-attribute')->with('message', 'Attribute Successfully Updated');
+    }
+
+    public function productVariationStore(Request $request)
+    {
+
+        $validated = $request->validate([
+            'discount_start_date' => 'required',
+            'discount_end_date' => 'required',
+            'discount_start_date' => 'required',
+            'discount_start_date' => 'required',
+        ]);
+
+
+        $ProductVariationObj = new ProductVariation();
+        $ProductVariationObj->products_id = $request->products_id;
+        $ProductVariationObj->sku = $request->sku;
+        $ProductVariationObj->quantity = $request->quantity;
+        $ProductVariationObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
+        $ProductVariationObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
+        $ProductVariationObj->price = $request->price;
+        $ProductVariationObj->sale_price = $request->sale_price;
+        $ProductVariationObj->length = $request->length;
+        $ProductVariationObj->wide = $request->wide;
+        $ProductVariationObj->height = $request->height;
+        $ProductVariationObj->weight = $request->weight;
+        $ProductVariationObj->discount_start_date = $request->discount_start_date;
+        $ProductVariationObj->discount_end_date = $request->discount_end_date;
+
+        $ProductVariationObj->save();
+
+        $ProductVariationObj->attribute()->attach($request->attribute_list);
+
+        return response()->json($ProductVariationObj);
+    }
 }
-

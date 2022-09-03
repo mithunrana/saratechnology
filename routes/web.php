@@ -12,7 +12,7 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
 // All Backend route here -----------
 Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin','AdminController@index')->name('dashboard');
-    
+
 
     Route::get('/admin/product','ProductController@productsManage')->name('dashboard.product');
     Route::get('/admin/product-add','ProductController@productsAdd')->name('dashboard.product.add');
@@ -26,8 +26,8 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product/brand-store','ProductController@productBrandStore')->name('dashboard.product.brand.store');
     Route::get('/admin/product-brand-edit/{brandid}','ProductController@productsBrandEdit')->name('dashboard.product.brand.edit');
     Route::post('/admin/product-brand-edit/{brandid}','ProductController@productBrandUpdate')->name('dashboard.product.brand.update');
-    
-    
+
+
 
     Route::get('/admin/product-category','ProductController@productsCategoryManage')->name('dashboard.product.category');
     Route::get('/admin/product-category-add','ProductController@productsCategoryAdd')->name('dashboard.product.category.add');
@@ -35,7 +35,7 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/product-category-edit/{categoryid}','ProductController@productsCategoryEdit')->name('dashboard.product.category.edit');
     Route::post('/admin/product-category-edit/{categoryid}','ProductController@productCategoryUpdate')->name('dashboard.product.category.update');
 
-    
+
 
     Route::get('/admin/product-label','ProductController@productsLabelManage')->name('dashboard.product.label');
     Route::get('/admin/product-label-add','ProductController@productsLabelAdd')->name('dashboard.product.label.add');
@@ -72,7 +72,9 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product/product-attribute-store','ProductController@productAttributestore')->name('dashboard.product.attribute.store');
     Route::get('/admin/product-attribute-edit/{attributeid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
     Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
-    
+
+    Route::post('/admin/product-variation-store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
+
 
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
     Route::get('/admin/media/{folderid}','MediaController@fetchMedia')->name('media.fetch');

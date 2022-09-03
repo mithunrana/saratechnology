@@ -31,7 +31,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
   <link rel="stylesheet" href="https://opensource.qodio.com/selectator/fm.selectator.jquery.css"/>
   <link rel="stylesheet" type="text/css" href="https://monim67.github.io/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css"  />
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker-standalone.css"> 
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.43/css/bootstrap-datetimepicker-standalone.css">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <style>
     .table th {
@@ -81,7 +81,7 @@
       padding: 5px;
     }
 
-    .media-item-box{ 
+    .media-item-box{
       padding:3px;
       width:12.5%;
       float:left;
@@ -112,6 +112,9 @@
     }
 
   </style>
+
+      <!-- Toastr -->
+      <link href="{{ asset('defaults/toastr/toastr.min.css') }}" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -336,5 +339,28 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://opensource.qodio.com/selectator/fm.selectator.jquery.js"></script>
 <script src="https://monim67.github.io/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" ></script>
+ <!-- Toastr -->
+ <script src="{{ asset('defaults/toastr/toastr.min.js') }}"></script>
+
+<script>
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+
+        switch (type) {
+            case 'info':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+            case 'success':
+                toastr.success("{{ Session::get('message') }}");
+                break;
+            case 'warning':
+                toastr.warning("{{ Session::get('message') }}");
+                break;
+            case 'error':
+                toastr.error("{{ Session::get('message') }}");
+                break;
+        }
+    @endif
+</script>
 </body>
 </html>
