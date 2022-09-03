@@ -264,9 +264,9 @@
                                                 <tbody>
                                                     @foreach ($Product->productVariation as $Variation)
                                                         <!--- Variation Modal Start --->
-                                                        <div class="modal fade" id="exampleModal_{{ $Variation->id }}" tabindex="-1"
-                                                            role="dialog" aria-labelledby="exampleModalLabel"
-                                                            aria-hidden="true">
+                                                        <div class="modal fade" id="exampleModal_{{ $Variation->id }}"
+                                                            tabindex="-1" role="dialog"
+                                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                             <div class="modal-dialog modal-lg" role="document">
                                                                 <div class="modal-content border-0">
                                                                     <div
@@ -278,7 +278,9 @@
                                                                             <span aria-hidden="true">&times;</span>
                                                                         </button>
                                                                     </div>
-                                                                    <form action="">
+                                                                    <form id="editVariation_0"
+                                                                        data-id="{{ $Variation->id }}">
+                                                                        @csrf
                                                                         <div class="modal-body bg-light">
                                                                             <div class="row">
                                                                                 @foreach ($Product->attributeSet as $AttributeSet)
@@ -448,8 +450,10 @@
                                                                     checked="">
                                                             </td>
                                                             <td>
-                                                                <a href="#" class="btn btn-info"
-                                                                    data-toggle="modal" data-target="#exampleModal_{{ $Variation->id }}"
+                                                                <a href="#" data-id="{{ $Variation->id }}"
+                                                                    class="btn btn-info editVariationBtn"
+                                                                    data-toggle="modal"
+                                                                    data-target="#exampleModal_{{ $Variation->id }}"
                                                                     title="Edit">
                                                                     <i class="fa fa-edit" style="font-size: 17px;"></i>
                                                                 </a>
@@ -478,7 +482,8 @@
                                                     </div>
                                                     <form id="addForm">
                                                         @csrf
-                                                        <input type="hidden" name="products_id" value="{{ $Product->id}}">
+                                                        <input type="hidden" name="products_id"
+                                                            value="{{ $Product->id }}">
                                                         <div class="modal-body bg-light">
                                                             <div class="alert alert-danger" id="validation-errors"></div>
                                                             <div class="row">
@@ -620,8 +625,8 @@
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            <a href="#" class="btn btn-info btn-sm" id="addBtn" data-toggle="modal"
-                                                data-target="#AttributeAddModal">Add Attribute</a>
+                                            <a href="#" class="btn btn-info btn-sm" id="addBtn"
+                                                data-toggle="modal" data-target="#AttributeAddModal">Add Attribute</a>
                                         </div>
                                     </div>
                                 @else
@@ -970,11 +975,11 @@
     <script>
         $(document).ready(function() {
 
-                    //Add button
-        $('#addBtn').on('click', function() {
-            $('#validation-errors').html('');
-            $('#validation-errors').fadeOut(100);
-        });
+            //Add button
+            $('#addBtn').on('click', function() {
+                $('#validation-errors').html('');
+                $('#validation-errors').fadeOut(100);
+            });
 
             //ADD DATA
             $("#addForm").on("submit", function(e) {
@@ -1006,7 +1011,8 @@
                             timeOut: 3000
                         });
                         $.each(xhr.responseJSON.errors, function(key, value) {
-                            $('#validation-errors').append('<ul class="pl-2 m-0"><li>' + value[0] +
+                            $('#validation-errors').append('<ul class="pl-2 m-0"><li>' +
+                                value[0] +
                                 '</li></ul>');
 
                         });
@@ -1015,6 +1021,57 @@
                 });
             });
 
+            //EDIT DATA
+
+            var variationId = 0;
+            $(document).on('click', '.editVariationBtn', function(e) {
+                e.preventDefault();
+                variationId = $(this).data('id');
+
+            });
+
+            //UPDATE DATA
+            $("#editVariation_0").on("submit", function(e) {
+                alert(0);
+                e.preventDefault();
+                var id = $(this).attr('data-id');
+
+
+
+                // $.ajax({
+                //     url: url,
+                //     data: new FormData(this),
+                //     type: "POST",
+                //     contentType: false,
+                //     cache: false,
+                //     processData: false,
+                //     dataType: "JSON",
+
+                //     success: function(data) {
+                //         $('#addModal').modal('hide');
+                //         $('#edit-errors').html('');
+                //         $('#edit-errors').hide();
+                //         $('#edit-success').append('<ul><li>Success</li></ul>');
+                //         toastr.success('Successfully data updated !', 'Success', {
+                //             timeOut: 3000
+                //         });
+                //         location.reload();
+                //     },
+                //     error: function(xhr) {
+                //         $('#edit-errors').html('');
+                //         $('#edit-errors').fadeOut(100);
+                //         $('#edit-errors').fadeIn(100);
+                //         toastr.error('Something went wrong. Please try again later.', 'Opps!', {
+                //             timeOut: 3000
+                //         });
+                //         $.each(xhr.responseJSON.errors, function(key, value) {
+                //             $('#edit-errors').append('<ul><li>' + value[0] + '</li></ul>');
+                //         });
+                //     },
+
+                // });
+
+            });
         });
     </script>
 @endsection()
