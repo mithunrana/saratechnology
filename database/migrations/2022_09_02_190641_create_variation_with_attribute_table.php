@@ -17,8 +17,10 @@ class CreateVariationWithAttributeTable extends Migration
             $table->id();
             $table->bigInteger('product_variation_id')->unsigned();
             $table->bigInteger('product_attribute_id')->unsigned();
+            $table->bigInteger('product_attribute_set_id')->unsigned();
             $table->foreign('product_variation_id')->references('id')->on('product_variations')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('product_attribute_id')->references('id')->on('product_attributes')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('product_attribute_set_id')->references('id')->on('product_attribute_sets')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

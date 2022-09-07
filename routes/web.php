@@ -18,7 +18,21 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/product-add','ProductController@productsAdd')->name('dashboard.product.add');
     Route::post('/admin/product-store','ProductController@productStore')->name('dashboard.product.store');
     Route::get('/admin/product-edit/{productid}','ProductController@productsEdit')->name('dashboard.product.edit');
-    Route::post('/admin/product-edit/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
+    Route::post('/admin/product-update/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
+    Route::post('/admin/product-update/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
+    Route::get('/admin/product-delete/{productid}','ProductController@productDelete')->name('dashboard.product.delete');
+
+    Route::post('/admin/product-variation-store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
+    Route::post('/admin/product-variation-update','ProductController@productVariationUpdate')->name('dashboard.product.variation.update');
+    Route::get('/admin/product-variation-delete/{variationid}','ProductController@productVariationDelete')->name('dashboard.product.variation.delete');
+    Route::post('/admin/product-with-attributeset-update','ProductController@productWithAttributeSetUpdate')->name('dashboard.product.with.attributeset.update');
+
+
+    Route::get('/admin/product-attribute','ProductController@productAttributeManage')->name('dashboard.product.attribute');
+    Route::get('/admin/product-attribute-add','ProductController@productsAttributeAdd')->name('dashboard.product.attribute.add');
+    Route::post('/admin/product/product-attribute-store','ProductController@productAttributestore')->name('dashboard.product.attribute.store');
+    Route::get('/admin/product-attribute-edit/{attributeid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
+    Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
 
 
     Route::get('/admin/product-brand','ProductController@productsBrandManage')->name('dashboard.product.brand');
@@ -67,13 +81,6 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product-taxes-edit/{categoryid}','ProductController@productTaxesUpdate')->name('dashboard.product.taxes.update');
 
 
-    Route::get('/admin/product-attribute','ProductController@productAttributeManage')->name('dashboard.product.attribute');
-    Route::get('/admin/product-attribute-add','ProductController@productsAttributeAdd')->name('dashboard.product.attribute.add');
-    Route::post('/admin/product/product-attribute-store','ProductController@productAttributestore')->name('dashboard.product.attribute.store');
-    Route::get('/admin/product-attribute-edit/{attributeid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
-    Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
-
-    Route::post('/admin/product-variation-store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
 
 
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');

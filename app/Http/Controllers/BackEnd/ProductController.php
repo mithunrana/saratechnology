@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\BackEnd;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\ProductBrand;
 use App\Models\ProductCategory;
@@ -17,7 +18,6 @@ use App\Models\ProductVariation;
 
 class ProductController extends Controller
 {
-
 
 
     public function productsManage()
@@ -48,21 +48,6 @@ class ProductController extends Controller
             'tax_id' => 'required',
         ]);
 
-        $is_featured = 0;
-        if ($request->is_featured == 'on') {
-            $is_featured = 1;
-        }
-
-        $allow_checkout_when_out_of_stock = 0;
-        if ($request->allow_checkout_when_out_of_stock == 'on') {
-            $allow_checkout_when_out_of_stock = 1;
-        }
-
-        $with_storehouse_management = 0;
-        if ($request->with_storehouse_management == 'on') {
-            $with_storehouse_management = 1;
-        }
-
         $images = array();
         if ($request->images) {
             //$images = '["'.implode('","',$request->images).'"]';
@@ -78,12 +63,12 @@ class ProductController extends Controller
         $ProductObj->content = $request->content;
         $ProductObj->status = $request->status;
         $ProductObj->images = $images;
-        $ProductObj->is_featured = $is_featured;
+        $ProductObj->is_featured = $request->is_featured ? 1 : 0;
         $ProductObj->sku = $request->sku;
         $ProductObj->quantity = $request->quantity;
 
-        $ProductObj->allow_checkout_when_out_of_stock = $allow_checkout_when_out_of_stock;
-        $ProductObj->with_storehouse_management = $with_storehouse_management;
+        $ProductObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
+        $ProductObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
         $ProductObj->price = $request->price;
         $ProductObj->sale_price = $request->sale_price;
         $ProductObj->length = $request->length;
@@ -108,7 +93,6 @@ class ProductController extends Controller
 
         $ProductObj->save();
 
-        //$ProductObj->shift()->detach();
         $ProductObj->tag()->attach($request->tags);
         $ProductObj->categories()->attach($request->categories);
         $ProductObj->relatedProduct()->attach($request->relatedproduct);
@@ -135,15 +119,17 @@ class ProductController extends Controller
                 $ProductVariationObj->quantity  = $ProductObj->quantity;
                 $ProductVariationObj->allow_checkout_when_out_of_stock  = $ProductObj->allow_checkout_when_out_of_stock;
                 $ProductVariationObj->with_storehouse_management  = $ProductObj->with_storehouse_management;
+                $ProductVariationObj->stock_status = $request->stock_status;
                 $ProductVariationObj->price  = $ProductObj->price;
                 $ProductVariationObj->sale_price  = $ProductObj->sale_price;
                 $ProductVariationObj->length  = $ProductObj->length;
                 $ProductVariationObj->wide  = $ProductObj->wide;
                 $ProductVariationObj->height  = $ProductObj->height;
                 $ProductVariationObj->weight  = $ProductObj->weight;
-                $ProductVariationObj->barcode  = $ProductObj->barcode;
                 $ProductVariationObj->discount_start_date  = $ProductObj->discount_start_date;
                 $ProductVariationObj->discount_end_date  = $ProductObj->discount_end_date;
+
+                $ProductVariationObj->barcode  = $ProductObj->barcode;
                 $ProductVariationObj->length_unit  = $ProductObj->length_unit;
                 $ProductVariationObj->wide_unit  = $ProductObj->wide_unit;
                 $ProductVariationObj->height_unit  = $ProductObj->height_unit;
@@ -152,13 +138,149 @@ class ProductController extends Controller
 
                 foreach ($AttributeArray as $key => $val) {
                     if ($AttributeArray[$key] != '') {
-                        $ProductVariationObj->attribute()->attach($val);
+                        $ProductVariationObj->attribute()->attach($val,['product_attribute_set_id' => $AttributeSetArray[$key]]);
                     }
                 }
             }
         }
         return redirect('admin/product')->with('message', 'Product Successfully Added');
     }
+
+
+
+    
+    public function productVariationStore(Request $request){
+
+        $validated = $request->validate([
+            'discount_start_date' => 'required',
+            'discount_end_date' => 'required',
+            'price' => 'required',
+        ]);
+
+        $ProductVariationObj = new ProductVariation();
+        $ProductVariationObj->products_id = $request->products_id;
+        $ProductVariationObj->quantity = $request->quantity;
+        $ProductVariationObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
+        $ProductVariationObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
+        $ProductVariationObj->sku = $request->sku;
+        $ProductVariationObj->price = $request->price;
+        $ProductVariationObj->sale_price = $request->sale_price;
+        $ProductVariationObj->length = $request->length;
+        $ProductVariationObj->wide = $request->wide;
+        $ProductVariationObj->height = $request->height;
+        $ProductVariationObj->weight = $request->weight;
+        $ProductVariationObj->discount_start_date = $request->discount_start_date;
+        $ProductVariationObj->discount_end_date = $request->discount_end_date;
+        $ProductVariationObj->save();
+
+        $AttributeListArray = $request->attribute_list;
+        $AttributeSetArray = $request->attributeset_list;
+
+        foreach($AttributeListArray as $key => $Val){
+            if($AttributeListArray[$key] != ''){
+                $ProductVariationObj->attribute()->attach($AttributeListArray[$key],['product_attribute_set_id' => $AttributeSetArray[$key]]);
+            }
+        }
+
+        return response()->json($ProductVariationObj);
+    }
+
+
+    
+    public function productVariationUpdate(Request $request)
+    {
+
+        $validated = $request->validate([
+            'discount_start_date' => 'required',
+            'discount_end_date' => 'required',
+            'price' => 'required',
+        ]);
+
+        $ProductVariationObj = ProductVariation::where('id',$request->variationid)->first();
+        $ProductVariationObj->quantity = $request->quantity;
+        $ProductVariationObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
+        $ProductVariationObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
+        $ProductVariationObj->sku = $request->sku;
+        $ProductVariationObj->price = $request->price;
+        $ProductVariationObj->sale_price = $request->sale_price;
+        $ProductVariationObj->length = $request->length;
+        $ProductVariationObj->wide = $request->wide;
+        $ProductVariationObj->height = $request->height;
+        $ProductVariationObj->weight = $request->weight;
+        $ProductVariationObj->discount_start_date = $request->discount_start_date;
+        $ProductVariationObj->discount_end_date = $request->discount_end_date;
+        $ProductVariationObj->save();
+
+        $ProductVariationObj->attribute()->detach();
+
+        $AttributeListArray = $request->attribute_list;
+        $AttributeSetArray = $request->attributeset_list;
+
+        foreach($AttributeListArray as $key => $Val){
+            if($AttributeListArray[$key] != ''){
+                $ProductVariationObj->attribute()->attach($AttributeListArray[$key],['product_attribute_set_id' => $AttributeSetArray[$key]]);
+            }
+        }
+
+        return response()->json($ProductVariationObj);
+    }
+
+
+
+    public function productVariationDelete($id)
+    {
+        //$VariationID = $id;
+        $VariationObj = ProductVariation::where('id',$id)->first();
+        $ProductObj = Products::where('id',$VariationObj->products_id)->first();
+        $VariationCount = ProductVariation::where('products_id',$ProductObj->id)->count();
+        if($VariationCount==1){
+            $ProductObj->quantity = $VariationObj->quantity;
+            $ProductObj->sku = $VariationObj->sku;
+            $ProductObj->allow_checkout_when_out_of_stock = $VariationObj->allow_checkout_when_out_of_stock ? 1 : 0;
+            $ProductObj->with_storehouse_management = $VariationObj->with_storehouse_management ? 1 : 0;
+            $ProductObj->stock_status = $VariationObj->stock_status;
+            $ProductObj->price = $VariationObj->price;
+            $ProductObj->sale_price = $VariationObj->sale_price;
+            $ProductObj->length = $VariationObj->length;
+            $ProductObj->wide = $VariationObj->wide;
+            $ProductObj->height =$VariationObj->height;
+            $ProductObj->weight = $VariationObj->weight;
+            $ProductObj->discount_start_date = $VariationObj->discount_start_date;
+            $ProductObj->discount_end_date = $VariationObj->discount_end_date;
+            $ProductObj->save();
+            $ProductObj->attributeSet()->detach();
+            $VariationObj->attribute()->detach();
+            $VariationObj->delete();
+            return redirect()->back()->with('message','Variation Successfully Deleted');
+        }else{
+            $VariationObj->attribute()->detach();
+            $VariationObj->delete();
+            $SetDefaultObj = ProductVariation::where('products_id',$ProductObj->id)->first();
+            $SetDefaultObj->is_default = 1;
+            $SetDefaultObj->save();
+            return redirect()->back()->with('message','Variation Successfully Deleted');
+        }
+    }
+
+
+    public function productWithAttributeSetUpdate(Request $request){
+        $validated = $request->validate([
+            'products_id' => 'required',
+        ]);
+        
+        $ProductObj = Products::where('id',$request->products_id)->first();
+        $ProductObj->attributeSet()->detach();
+        $ProductObj->attributeSet()->attach($request->attributesetlist);
+
+        $CurrentVariation = $ProductObj->productVariation->pluck('id')->toArray();
+        $CurrentAttributeSet = $ProductObj->attributeset->pluck('id')->toArray();
+        $DeleteableAttributeList = DB::table('product_attributes')->select('id')->whereNotIn('attribute_set_id',$CurrentAttributeSet)->pluck('id')->toArray();
+        DB::table('variation_with_attribute')->whereIn('product_variation_id', $CurrentVariation)->whereIn('product_attribute_id', $DeleteableAttributeList)->delete();
+
+        $response = ['message' => 'Attribute Set Sucessfully Updated'];
+        return response()->json($response,200);
+    }
+
 
     public function productsEdit($id)
     {
@@ -169,15 +291,140 @@ class ProductController extends Controller
         $data['ProductCollections'] = $Product->productCollection->pluck('id')->toArray();
         $data['RelatedProducts'] = $Product->relatedProduct->pluck('id')->toArray();
         $data['CrossSellingProducts'] = $Product->crossSellingProduct->pluck('id')->toArray();
+        $data['CurrentAttributeSet'] = $Product->attributeset->pluck('id')->toArray();
         $data['ProductTags'] = $Product->tag->pluck('id')->toArray();
         return view('backend.product.product-edit', $data);
     }
 
-    public function productUpdate()
+
+    public function productUpdate(Request $request,$id)
     {
+        $ProductObj = Products::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required',
+            'permalink' => "required|unique:products,permalink,$id",
+            'tax_id' => 'required',
+        ]);
+
+        $VariationCount = ProductVariation::where('products_id',$id)->count();
+        $images = array();
+        if ($request->images) {
+            //$images = '["'.implode('","',$request->images).'"]';
+            $images = implode('"', $request->images);
+        } else {
+            $images = '';
+        }
+
+        $ProductObj->name = $request->name;
+        $ProductObj->permalink = $request->permalink;
+        $ProductObj->description = $request->description;
+        $ProductObj->content = $request->content;
+        $ProductObj->status = $request->status;
+        $ProductObj->images = $images;
+        $ProductObj->is_featured = $request->is_featured ? 1 : 0;
+
+        
+        if($VariationCount<1){
+            $ProductObj->quantity = $request->quantity;
+            $ProductObj->sku = $request->sku;
+            $ProductObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
+            $ProductObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
+            $ProductObj->stock_status = $request->stock_status;
+            $ProductObj->price = $request->price;
+            $ProductObj->sale_price = $request->sale_price;
+            $ProductObj->length = $request->length;
+            $ProductObj->wide = $request->wide;
+            $ProductObj->height = $request->height;
+            $ProductObj->weight = $request->weight;
+            $ProductObj->discount_start_date = $request->discount_start_date;
+            $ProductObj->discount_end_date = $request->discount_end_date;
+        }
+
+        
+        $ProductObj->brand_id = $request->brand_id;
+        $ProductObj->is_variation = 0;
+        $ProductObj->is_searchable = 0;
+        $ProductObj->is_show_on_list = 0;
+        $ProductObj->tax_id = $request->tax_id;
+        $ProductObj->imagealttext = $request->imagealttext;
+        $ProductObj->imagetitletext = $request->imagetitletext;
+        $ProductObj->title = $request->title;
+        $ProductObj->metakeyword = $request->metakeyword;
+        $ProductObj->metadescription = $request->metadescription;
+
+        $ProductObj->save();
+
+        $ProductObj->tag()->detach();
+        $ProductObj->categories()->detach();
+        $ProductObj->relatedProduct()->detach();
+        $ProductObj->crossSellingProduct()->detach();
+        $ProductObj->productLabel()->detach();
+        $ProductObj->productCollection()->detach();
+
+        $ProductObj->tag()->attach($request->tags);
+        $ProductObj->categories()->attach($request->categories);
+        $ProductObj->relatedProduct()->attach($request->relatedproduct);
+        $ProductObj->crossSellingProduct()->attach($request->crosssellingproduct);
+        $ProductObj->productLabel()->attach($request->label);
+        $ProductObj->productCollection()->attach($request->collection);
+
+        $AttributeSetArray = $request->attributeset;
+        $AttributeArray = $request->attribute;
+        $Variation = 0;
+
+        if($VariationCount<1){
+            if ($request->attribute) {
+                foreach ($AttributeArray as $key => $val) {
+                    if ($AttributeArray[$key] != '') {
+                        $ProductObj->attributeSet()->attach($AttributeSetArray[$key]);
+                        $Variation++;
+                    }
+                }
+
+                if ($Variation != 0) {
+                    $ProductVariationObj = new ProductVariation();
+                    $ProductVariationObj->products_id  = $ProductObj->id;
+                    $ProductVariationObj->sku  = $ProductObj->sku;
+                    $ProductVariationObj->quantity  = $ProductObj->quantity;
+                    $ProductVariationObj->allow_checkout_when_out_of_stock  = $ProductObj->allow_checkout_when_out_of_stock;
+                    $ProductVariationObj->with_storehouse_management  = $ProductObj->with_storehouse_management;
+                    $ProductVariationObj->stock_status = $request->stock_status;
+                    $ProductVariationObj->price  = $ProductObj->price;
+                    $ProductVariationObj->sale_price  = $ProductObj->sale_price;
+                    $ProductVariationObj->length  = $ProductObj->length;
+                    $ProductVariationObj->wide  = $ProductObj->wide;
+                    $ProductVariationObj->height  = $ProductObj->height;
+                    $ProductVariationObj->weight  = $ProductObj->weight;
+                    $ProductVariationObj->barcode  = $ProductObj->barcode;
+                    $ProductVariationObj->discount_start_date  = $ProductObj->discount_start_date;
+                    $ProductVariationObj->discount_end_date  = $ProductObj->discount_end_date;
+                    $ProductVariationObj->length_unit  = $ProductObj->length_unit;
+                    $ProductVariationObj->wide_unit  = $ProductObj->wide_unit;
+                    $ProductVariationObj->height_unit  = $ProductObj->height_unit;
+                    $ProductVariationObj->is_default  = 1;
+                    $ProductVariationObj->save();
+
+                    foreach ($AttributeArray as $key => $val) {
+                        if ($AttributeArray[$key] != '') {
+                            $ProductVariationObj->attribute()->attach($val,['product_attribute_set_id' => $AttributeSetArray[$key]]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return redirect('admin/product')->with('message', 'Product Successfully Updated');
     }
 
 
+
+
+    public function productDelete($id){
+        $ProductsObj = Products::find($id);
+        $ProductsObj->delete();
+        return redirect()->to('admin/product')->with('message','Products Delete Successfully');
+    }
 
 
 
@@ -818,36 +1065,4 @@ class ProductController extends Controller
         return redirect('admin/product-attribute')->with('message', 'Attribute Successfully Updated');
     }
 
-    public function productVariationStore(Request $request)
-    {
-
-        $validated = $request->validate([
-            'discount_start_date' => 'required',
-            'discount_end_date' => 'required',
-            'discount_start_date' => 'required',
-            'discount_start_date' => 'required',
-        ]);
-
-
-        $ProductVariationObj = new ProductVariation();
-        $ProductVariationObj->products_id = $request->products_id;
-        $ProductVariationObj->sku = $request->sku;
-        $ProductVariationObj->quantity = $request->quantity;
-        $ProductVariationObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
-        $ProductVariationObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
-        $ProductVariationObj->price = $request->price;
-        $ProductVariationObj->sale_price = $request->sale_price;
-        $ProductVariationObj->length = $request->length;
-        $ProductVariationObj->wide = $request->wide;
-        $ProductVariationObj->height = $request->height;
-        $ProductVariationObj->weight = $request->weight;
-        $ProductVariationObj->discount_start_date = $request->discount_start_date;
-        $ProductVariationObj->discount_end_date = $request->discount_end_date;
-
-        $ProductVariationObj->save();
-
-        $ProductVariationObj->attribute()->attach($request->attribute_list);
-
-        return response()->json($ProductVariationObj);
-    }
 }

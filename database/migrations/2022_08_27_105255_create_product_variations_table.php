@@ -34,6 +34,7 @@ class CreateProductVariationsTable extends Migration
             $table->string('height_unit', 20)->nullable()->default(null);
             $table->string('weight_unit', 20)->nullable()->default(null);
             $table->tinyInteger('is_default')->default(0);
+            $table->string('stock_status', 191)->default('in_stock');
             $table->foreign('products_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
@@ -46,6 +47,9 @@ class CreateProductVariationsTable extends Migration
      */
     public function down()
     {
+        //Schema::dropIfExists('product_variations');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('product_variations');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

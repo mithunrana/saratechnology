@@ -2318,6 +2318,7 @@ mini_toastr__WEBPACK_IMPORTED_MODULE_0__["default"].init();
 vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vue_axios__WEBPACK_IMPORTED_MODULE_2___default()), (axios__WEBPACK_IMPORTED_MODULE_1___default()));
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'imagemodal',
+  props: ['multipleimagearray'],
   data: function data() {
     return {
       mediaitempreviewiconshowhide: "block",
@@ -2423,7 +2424,7 @@ vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vue_axios__WEBPACK_IMPORTED_MOD
       if (this.ImageInsertButtonEnableDisable == 'disabled') {
         mini_toastr__WEBPACK_IMPORTED_MODULE_0__["default"].error('Please Select Image', 'Error');
       } else {
-        this.InputArrayImage.push(this.MediaData);
+        this.InputArrayImage.push(this.MediaData.url);
         $('#MultipleImageMedia').modal('hide');
       }
     },
@@ -2437,6 +2438,11 @@ vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vue_axios__WEBPACK_IMPORTED_MOD
   mounted: function mounted() {
     var self = this;
     self.init();
+
+    if (this.multipleimagearray) {
+      self.InputArrayImage = this.multipleimagearray;
+    }
+
     (dropzone__WEBPACK_IMPORTED_MODULE_4___default().autoDiscover) = false;
     var myDropzone = new (dropzone__WEBPACK_IMPORTED_MODULE_4___default())(".dropzone", {
       url: '/admin/media-upload',
@@ -33489,7 +33495,7 @@ var render = function () {
               [
                 _c("input", {
                   attrs: { type: "hidden", name: "images[]" },
-                  domProps: { value: GetImage.url },
+                  domProps: { value: GetImage },
                 }),
                 _vm._v(" "),
                 _c("img", {
@@ -33498,10 +33504,7 @@ var render = function () {
                     height: "150px",
                     border: "1px solid #1f64a0",
                   },
-                  attrs: {
-                    mediaid: "315",
-                    src: _vm.BaseUrl + "/" + GetImage.url,
-                  },
+                  attrs: { mediaid: "315", src: _vm.BaseUrl + "/" + GetImage },
                 }),
                 _vm._v(" "),
                 _c(

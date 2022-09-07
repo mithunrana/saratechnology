@@ -46,7 +46,8 @@ class CreateProductsTable extends Migration
             $table->string('wide_unit', 20)->nullable()->default(null);
             $table->string('height_unit', 20)->nullable()->default(null);
             $table->string('weight_unit', 20)->nullable()->default(null);
-
+            $table->string('stock_status', 191)->default('in_stock');
+            
             //Product Initial Info For Variation Purpose
 
 
@@ -59,7 +60,6 @@ class CreateProductsTable extends Migration
             $table->tinyInteger('sale_type')->default(0);
             $table->integer('tax_id')->default(null);
             $table->bigInteger('views')->nullable()->default(0);
-            $table->string('stock_status', 191)->default('in_stock');
             $table->string('imagealttext', 250)->nullable()->default(null);
             $table->string('imagetitletext', 250)->nullable()->default(null);
             $table->timestamp('created_at')->nullable()->default(null);

@@ -65,7 +65,7 @@
                                     @endif
                                 </div>
 
-                                <multiple-image-input></multiple-image-input>
+                                <multiple-image-input :multipleimagearray='{!! json_encode(old("images")) !!}'></multiple-image-input>
 
                                 <div class="card card-default">
                                     <div class="card-header">

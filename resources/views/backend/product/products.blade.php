@@ -80,7 +80,9 @@
                   </td>
                   <td>
                     <a href="{{ route('dashboard.product.edit',$Product->id) }}" class="btn btn-info" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size: 17px;"></i></a>
-                    <a href="" onclick="return ConfirmDelete();" class="btn btn-danger" data-toggle="tooltip" title="Delete"><i aria-hidden="true" class="fa fa-trash"></i></a>
+                    <button href="{{asset('')}}admin/product-delete/{{$Product->id}}" type="button" value="{{$Product->id}}" class="btn btn-danger delete" data-toggle="tooltip" title="Delete">
+                      <i aria-hidden="true" class="fa fa-trash"></i>
+                    </button>
                   </td>
                 </tr>
               @endforeach
@@ -102,7 +104,27 @@
 <script>
   $(document).ready( function () {
     $('#brandtable').DataTable();
-});
+  });
+
+  $(document).on("click", ".delete", function (e) {
+    e.preventDefault();
+    var link = $(this).attr("href");
+    Swal.fire({
+        title: "Are you sure?",
+        text: "Delete this data!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.value) {
+            window.location.href = link;
+            Swal.fire("Deleted!", "Data has been deleted.", "success");
+        }
+    });
+  });
+
 </script>
 @endsection()
 

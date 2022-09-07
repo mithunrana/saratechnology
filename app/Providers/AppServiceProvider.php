@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
             $GetAllProductLabel = ProductLabel::orderBy('id', 'DESC')->get();
             $GetAllProductTaxes  = ProductTax::orderBy('id', 'DESC')->get();
             $GetAllTags = ProductTag::orderBy('id', 'DESC')->get();
-            $GetAllProductAttributeSet = ProductAttributeSet::orderBy('id', 'DESC')->get();
+            $GetAllProductPublishedAttributeSet = ProductAttributeSet::where('status','Published')->orderBy('id', 'DESC')->get();
 
 
             $view->with('GetAllProductBrand',$GetAllProductBrand);
@@ -52,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('GetAllProductLabel',$GetAllProductLabel);
             $view->with('GetAllProductTaxes',$GetAllProductTaxes);
             $view->with('GetAllTags',$GetAllTags);
-            $view->with('GetAllProductAttributeSet',$GetAllProductAttributeSet);
+            $view->with('PublishedProductAttributeSet',$GetAllProductPublishedAttributeSet);
         });
     }
 }

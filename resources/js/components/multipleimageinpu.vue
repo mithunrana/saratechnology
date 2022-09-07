@@ -9,8 +9,8 @@
             <div class="card-body">
                 <div class="row">
                     <div v-for="GetImage in InputArrayImage"  style="margin-top:5px;" class="col-sm-2">
-                        <input type="hidden" name="images[]" :value="GetImage.url">
-                        <img mediaid="315" :src="BaseUrl+'/'+GetImage.url"  style="width: 100%; height: 150px;border:1px solid #1f64a0;">
+                        <input type="hidden" name="images[]" :value="GetImage">
+                        <img mediaid="315" :src="BaseUrl+'/'+GetImage"  style="width: 100%; height: 150px;border:1px solid #1f64a0;">
                         <span @click="inputImageRemove(GetImage)" style="cursor:pointer; width: 100%;background-color: rgb(219 112 100);color: white;display: block;text-align: center;">Remove</span>
                     </div>
                 </div>
@@ -209,6 +209,7 @@
 
     export default{
         name:'imagemodal',
+        props:['multipleimagearray'],
         data(){
             return{
                 mediaitempreviewiconshowhide:"block",
@@ -292,7 +293,7 @@
                 if(this.ImageInsertButtonEnableDisable=='disabled'){
                     miniToastr.error('Please Select Image','Error');
                 }else{
-                    this.InputArrayImage.push(this.MediaData);
+                    this.InputArrayImage.push(this.MediaData.url);
                     $('#MultipleImageMedia').modal('hide')
                 }
             },
@@ -306,6 +307,9 @@
         mounted(){
             const self = this;
             self.init();
+            if(this.multipleimagearray){
+                self.InputArrayImage = this.multipleimagearray;
+            }
             Dropzone.autoDiscover = false;
             
             const myDropzone = new Dropzone(".dropzone",{
