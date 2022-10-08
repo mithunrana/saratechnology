@@ -20,7 +20,14 @@ class ProductController extends Controller
 {
     public function productView($url){
         $Product = Products::where('permalink',$url)->first();
-        return view('frontend.product.product-view',compact('Product'));
+        $ProductVariation = 0;
+        $ProductVariationObj = NULL;
+        $DefaultProductVariation = ProductVariation::where('products_id',$Product->id)->where('is_default',1)->first();
+        if($DefaultProductVariation){
+            $ProductVariation = 1;
+            $ProductVariationObj = $DefaultProductVariation;
+        }
+        return view('frontend.product.product-view',compact('Product','ProductVariation','ProductVariationObj'));
     }
     
 }

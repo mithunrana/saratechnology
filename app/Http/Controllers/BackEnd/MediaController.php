@@ -7,6 +7,7 @@ use App\Models\MediaSetting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use File;
+use Image;
 class MediaController extends Controller
 {
     public function fetchMedia($folderid){
@@ -29,6 +30,8 @@ class MediaController extends Controller
 
     public function mediaStore(Request $request){
 
+        $ImageSize =  config('ImageSize');
+
         $file = $request->file('file');
         $DataFolderID = $request->DataFolderID;
         $UploadPath = $request->UploadPath;
@@ -38,10 +41,23 @@ class MediaController extends Controller
         $filename = pathinfo($fileInfo, PATHINFO_FILENAME);
         $extension = pathinfo($fileInfo, PATHINFO_EXTENSION);
         $file_name= $filename.'.'.$extension;
-        $file->move(public_path($UploadPath),$file_name);
+        if(!File::isDirectory($UploadPath)){
+            File::makeDirectory($UploadPath, 0777, true, true);
+        }
+
+        //Intervention Image
+        if($extension=='jpg' || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG' || $extension=='png' || $extension=='PNG' || $extension=='gif' || $extension=='GIF'){
+            $img = Image::make($file->getRealPath());
+            $img->save($UploadPath.'/'.$file_name,90);
+            // if i first convert to small then convert lerge quality it will be loss.
+            $img->resize(540, 600)->save($UploadPath.'/'.$filename.$ImageSize[540].".".$extension,90);
+            $img->resize(500, 500)->save($UploadPath.'/'.$filename.$ImageSize[500].".".$extension);
+            $img->resize(100, 100)->save($UploadPath.'/'.$filename.$ImageSize[150].".".$extension);
+        }else{
+            $file->move(public_path($UploadPath),$file_name);
+        }
         
         $mediaUpload = new MediaFile();
-
         if($extension=='jpg' || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG' || $extension=='png' || $extension=='PNG' || $extension=='gif' || $extension=='GIF'){
             $mediaUpload->mime_type = 'image';
         }elseif($extension =='mp4' || $extension=='mkv' || $extension=='avi'){
@@ -57,6 +73,8 @@ class MediaController extends Controller
         $mediaUpload->user_id = 0;
         $mediaUpload->folder_id = $DataFolderID;
         $mediaUpload->name = $file_name;
+        $mediaUpload->extension = $extension;
+        $mediaUpload->urlwithoutextension = $UploadPath.$filename;
         $mediaUpload->url = $UploadPath.$file_name;
         $mediaUpload->save();
         

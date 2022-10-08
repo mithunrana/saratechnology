@@ -1,4 +1,4 @@
-import './bootstrap';
+require('./bootstrap');
 import Vue from "vue";
 
 Vue.component('counter',require('./components/counter.vue').default);
@@ -6,18 +6,22 @@ Vue.component('multiple-image-input',require('./components/multipleimageinpu.vue
 Vue.component('single-image-input',require('./components/singleimageinput.vue').default);
 
 var VueObj = new Vue({
-  data(){
-    return{
+    data(){
+      return{
+        
+      }
+    },
+    created: function () {
       
+    },
+    methods:{
+  
     }
-  },
-  created: function () {
-    
-  },
-  methods:{
+  
+  }).$mount('#vueapp')
 
-  }
+import Alpine from 'alpinejs';
 
-}).$mount('#vueapp')
+window.Alpine = Alpine;
 
-
+Alpine.start();

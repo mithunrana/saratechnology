@@ -31,76 +31,71 @@
 
 
 @section('product-view-details')
-<!-- START MAIN CONTENT -->
-<div class="main_content">
 <!-- START SECTION SHOP -->
 <div class="section">
 	<div class="custom-container">
 		<div class="row">
             <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
-              <div class="product-image">
-                    <div class="product_img_box">
-                        <img id="product_img" src="{{asset('')}}{{$Product->getImage($Product->images) }}" data-zoom-image="{{asset('')}}{{$Product->getImage($Product->images) }}" alt="product_img1" />
+                <div class="product-image">
+                    <div style="text-align: center;border:none;" class="product_img_box">
+                        <img style="max-width: 400px;" id="product_img" src="{{asset('')}}{{$Product->productFirstImageNormalSize()}}"  alt="product_img1" />
                         <a href="#" class="product_img_zoom" title="Zoom">
                             <span class="linearicons-zoom-in"></span>
                         </a>
                     </div>
+
                     <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
-                        @foreach($Product->getImages($Product->images) as $Images)
-                            <div class="item">
-                                <a href="#" class="product_gallery_item" data-image="{{asset('')}}frontend/assets/images/product_img1.jpg" data-zoom-image="{{asset('')}}frontend/assets/images/product_zoom_img1.jpg">
-                                    <img src="{{asset('')}}frontend/assets/images/product_small_img1.jpg" alt="product_small_img1" />
-                                </a>
-                            </div>
-                        @endforeach
+                        @if($Product->productImages->count() > 0)
+                            @foreach($Product->productImages as $Image)
+                                <div class="item">
+                                    <a style="text-align:center;" href="#" class="product_gallery_item" data-image="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[500]}}.{{$Image->extension }}">
+                                        <img style="display: initial!important;"  src="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[150]}}.{{$Image->extension }}" alt="product_small_img1" />
+                                    </a>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="pr_detail">
                     <div class="product_description">
-                        <h4 class="product_title"><a href="#">Blue Dress For Woman</a></h4>
+                        <h1 style="font-weight: 400;font-size:22px;" class="product_title"><a href="#">{{$Product->name}}</a></h1>
                         <div class="product_price">
-                            <span class="price">$45.00</span>
-                            <del>$55.25</del>
+                            <span class="price">@if($ProductVariation==1){{number_format($ProductVariationObj->sale_price,2)}}@else{{number_format($Product->sale_price,2)}}@endif</span>
+                            <del>@if($ProductVariation==1){{number_format($ProductVariationObj->price,2)}}@else{{number_format($Product->price,2)}}@endif</del>
                             <div class="on_sale">
                                 <span>35% Off</span>
                             </div>
                         </div>
                         <div class="rating_wrap">
-                                <div class="rating">
-                                    <div class="product_rate" style="width:80%"></div>
-                                </div>
-                                <span class="rating_num">(21)</span>
+                            <div class="rating">
+                                <div class="product_rate" style="width:80%"></div>
                             </div>
-                        <div class="pr_desc">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim. Nullam id varius nunc id varius nunc.</p>
+                            <span class="rating_num">(21)</span>
                         </div>
-                        <div class="product_sort_info">
-                            <ul>
-                                <li><i class="linearicons-shield-check"></i> 1 Year AL Jazeera Brand Warranty</li>
-                                <li><i class="linearicons-sync"></i> 30 Day Return Policy</li>
-                                <li><i class="linearicons-bag-dollar"></i> Cash on Delivery available</li>
-                            </ul>
+                        <div class="clearfix"></div>
+                        <div style="display: block;line-height: 20px;padding-bottom: 10px;font-size:15px;"  class="product_sort_info">
+                            {!! html_entity_decode($Product->description) !!}
                         </div>
-                        <div class="pr_switch_wrap">
-                            <span class="switch_lable">Color</span>
-                            <div class="product_color_switch">
-                                <span class="active" data-color="#87554B"></span>
-                                <span data-color="#333333"></span>
-                                <span data-color="#DA323F"></span>
+                        @foreach($Product->attributeSet as $AttributeSet)
+                            <div class="pr_switch_wrap">
+                                <span class="switch_lable">{{$AttributeSet->title}}</span>
+                                @if($AttributeSet->display_layout=='text')
+                                    <div class="product_size_switch">
+                                        @foreach($Product->productAttributeSetWithUniqueAttribute($Product->id, $AttributeSet->id) as $Attribute)
+                                            <span>{{$Attribute->title}}</span>
+                                        @endforeach
+                                    </div>
+                                @elseif($AttributeSet->display_layout=='visual')
+                                    <div class="product_color_switch">
+                                        @foreach($Product->productAttributeSetWithUniqueAttribute($Product->id, $AttributeSet->id) as $Attribute)
+                                            <span class="active" data-color="{{$Attribute->color}}"></span>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
-                        </div>
-                        <div class="pr_switch_wrap">
-                            <span class="switch_lable">Size</span>
-                            <div class="product_size_switch">
-                                <span>xs</span>
-                                <span>s</span>
-                                <span>m</span>
-                                <span>l</span>
-                                <span>xl</span>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
                     <hr />
                     <div class="cart_extra">
@@ -112,7 +107,7 @@
                             </div>
                         </div>
                         <div class="cart_btn">
-                            <button class="btn btn-fill-out btn-addtocart" type="button"><i class="icon-basket-loaded"></i> Add to cart</button>
+                            <button class="btn btn-fill-out btn-addtocart" type="button" data-id="{{$Product->id}}" ><i class="icon-basket-loaded"></i> Add to cart</button>
                             <a class="add_compare" href="#"><i class="icon-shuffle"></i></a>
                             <a class="add_wishlist" href="#"><i class="icon-heart"></i></a>
                         </div>
@@ -158,8 +153,7 @@
                     </ul>
                 	<div class="tab-content shop_info_tab">
                       	<div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
-                        	<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Vivamus bibendum magna Lorem ipsum dolor sit amet, consectetur adipiscing elit.Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-                        	<p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio.</p>
+                          {!! html_entity_decode($Product->content) !!}
                       	</div>
                       	<div class="tab-pane fade" id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab">
                         	<table class="table table-bordered">
@@ -492,9 +486,6 @@
     </div>
 </div>
 <!-- END SECTION SHOP -->
-</div>
-<!-- END MAIN CONTENT -->
-
 @endsection()
 
 

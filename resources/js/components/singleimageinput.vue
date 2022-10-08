@@ -1,5 +1,4 @@
 <template>
-
     <div>
         <!-------------- Selected Input Image Showing Area Start--------------------->
         <div class="card card-default">

@@ -133,7 +133,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('dashboard.customer')}}" class="nav-link">
                   <i class="fa fa-users nav-icon"></i>
                   <p>Customers</p>
                 </a>

@@ -57,7 +57,7 @@
 
                                 <div class="form-group">
                                     <label for="name">Short Description</label>
-                                    <textarea class="form-control summernote-editor {{ $errors->has('description') ? ' is-invalid' : '' }}" id=""
+                                    <textarea class="form-control summernote-editor{{ $errors->has('description') ? ' is-invalid' : '' }}" id="description"
                                         name="description" rows="4" placeholder="Enter ...">{{ $Product->description }}</textarea>
                                     @if ($errors->has('description'))
                                         <span class="text-danger">{{ $errors->first('description') }}</span>
@@ -74,7 +74,7 @@
                                 </div>
 
 
-                                <multiple-image-input :multipleimagearray='{!! json_encode($Product->getImages($Product->images)) !!}'></multiple-image-input>
+                                <multiple-image-input :multipleimagearray='{!! json_encode($Product->productImages) !!}'></multiple-image-input>
 
 
                                 @if (count($Product->productVariation) == 0)
@@ -411,7 +411,7 @@
                                                             @endforeach
                                                             <td>{{$Variation->price}}</td>
                                                             <td style="">
-                                                                <input style="margin-left: 18px;height: 18px;width: 18px;" class="form-check-input defaultvalueradio" type="radio" name="is_default" @if ($Variation->is_default == 1) {{ 'checked' }} @endif>
+                                                                <input style="margin-left: 18px;height: 18px;width: 18px;" class="form-check-input defaultvalueradio" type="radio" name="is_default" value="{{$Variation->id}}" @if ($Variation->is_default == 1) {{ 'checked' }} @endif>
                                                             </td>
                                                             <td>
                                                                 <a href="#"  class="btn btn-info" data-toggle="modal" data-target="#EditVariationModal_{{$Variation->id}}" title="Edit">
@@ -473,6 +473,7 @@
                                 @endif
 
 
+                                @if (count($Product->productVariation) > 0)
                                 <!-- attribute add modal Start -->
                                 <div class="modal fade" id="AttributeAddModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-lg" role="document">
@@ -602,9 +603,7 @@
                                                         </div>
                                                         <div class="form-group col-sm-6">
                                                             <label for="height">Height (cm)</label>
-                                                            <input type="text" id="height" name="height"
-                                                                value="" placeholder="height"
-                                                                class="form-control" />
+                                                            <input type="text" id="height" name="height" value="" placeholder="height" class="form-control" />
                                                         </div>
                                                     </div>
                                                 </div>
@@ -617,6 +616,8 @@
                                     </div>
                                 </div>
                                 <!-- attribute add modal End -->
+                                @endif
+
 
                                 <!-- Attribute Set Edit modal Start -->
                                 <div class="modal fade" id="ProductAttributeSetEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -732,7 +733,7 @@
                             </div>
 
                             <div class="card-body">
-                                <button type="submit" value="save" class="btn btn-info"><i class="fa fa-save"></i>Save</button>
+                                <button type="submit" value="save" class="btn btn-info"><i class="fa fa-save"></i> Save</button>
                                 <button type="submit" value="apply" class="btn btn-success"><i class="fa fa-check-circle"></i> Save & Edit</button>
                             </div>
                         </div>
@@ -817,8 +818,7 @@
                             <div class="card-body">
                                 <div class="form-check">
                                     <label class="form-check-label">
-                                        <input type="checkbox" class="form-check-input" name="is_featured"
-                                            @if ($Product->is_featured == 1) checked @endif>Is Featured
+                                        <input type="checkbox" class="form-check-input" name="is_featured" @if ($Product->is_featured == 1) checked @endif>Is Featured
                                     </label>
                                 </div>
                             </div>

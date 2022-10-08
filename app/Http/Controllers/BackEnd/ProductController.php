@@ -99,6 +99,7 @@ class ProductController extends Controller
         $ProductObj->crossSellingProduct()->attach($request->crosssellingproduct);
         $ProductObj->productLabel()->attach($request->label);
         $ProductObj->productCollection()->attach($request->collection);
+        $ProductObj->productImages()->attach($request->imagesID);
 
         $AttributeSetArray = $request->attributeset;
         $AttributeArray = $request->attribute;
@@ -138,7 +139,7 @@ class ProductController extends Controller
 
                 foreach ($AttributeArray as $key => $val) {
                     if ($AttributeArray[$key] != '') {
-                        $ProductVariationObj->attribute()->attach($val,['product_attribute_set_id' => $AttributeSetArray[$key]]);
+                        $ProductVariationObj->attribute()->attach($val,['product_attribute_set_id' => $AttributeSetArray[$key],'products_id'=>$ProductObj->id]);
                     }
                 }
             }
@@ -178,7 +179,7 @@ class ProductController extends Controller
 
         foreach($AttributeListArray as $key => $Val){
             if($AttributeListArray[$key] != ''){
-                $ProductVariationObj->attribute()->attach($AttributeListArray[$key],['product_attribute_set_id' => $AttributeSetArray[$key]]);
+                $ProductVariationObj->attribute()->attach($AttributeListArray[$key],['product_attribute_set_id' => $AttributeSetArray[$key],'products_id'=>$request->products_id]);
             }
         }
 
@@ -218,7 +219,7 @@ class ProductController extends Controller
 
         foreach($AttributeListArray as $key => $Val){
             if($AttributeListArray[$key] != ''){
-                $ProductVariationObj->attribute()->attach($AttributeListArray[$key],['product_attribute_set_id' => $AttributeSetArray[$key]]);
+                $ProductVariationObj->attribute()->attach($AttributeListArray[$key],['product_attribute_set_id' => $AttributeSetArray[$key],'products_id'=>$ProductVariationObj->products_id]);
             }
         }
 
@@ -331,8 +332,8 @@ class ProductController extends Controller
             $ProductObj->allow_checkout_when_out_of_stock = $request->allow_checkout_when_out_of_stock ? 1 : 0;
             $ProductObj->with_storehouse_management = $request->with_storehouse_management ? 1 : 0;
             $ProductObj->stock_status = $request->stock_status;
-            $ProductObj->price = $request->price;
-            $ProductObj->sale_price = $request->sale_price;
+            $ProductObj->price = 60;
+            $ProductObj->sale_price = 50;
             $ProductObj->length = $request->length;
             $ProductObj->wide = $request->wide;
             $ProductObj->height = $request->height;
@@ -361,6 +362,7 @@ class ProductController extends Controller
         $ProductObj->crossSellingProduct()->detach();
         $ProductObj->productLabel()->detach();
         $ProductObj->productCollection()->detach();
+        $ProductObj->productImages()->detach();
 
         $ProductObj->tag()->attach($request->tags);
         $ProductObj->categories()->attach($request->categories);
@@ -368,6 +370,7 @@ class ProductController extends Controller
         $ProductObj->crossSellingProduct()->attach($request->crosssellingproduct);
         $ProductObj->productLabel()->attach($request->label);
         $ProductObj->productCollection()->attach($request->collection);
+        $ProductObj->productImages()->attach($request->imagesID);
 
         $AttributeSetArray = $request->attributeset;
         $AttributeArray = $request->attribute;
@@ -407,13 +410,15 @@ class ProductController extends Controller
 
                     foreach ($AttributeArray as $key => $val) {
                         if ($AttributeArray[$key] != '') {
-                            $ProductVariationObj->attribute()->attach($val,['product_attribute_set_id' => $AttributeSetArray[$key]]);
+                            $ProductVariationObj->attribute()->attach($val,['product_attribute_set_id' => $AttributeSetArray[$key],'products_id'=>$ProductObj->id]);
                         }
                     }
                 }
             }
+        }else{
+            ProductVariation::where('products_id',$ProductObj->id)->update(['is_default'=>0]);
+            ProductVariation::where('id',$request->is_default)->update(['is_default'=>1]);
         }
-
         return redirect('admin/product')->with('message', 'Product Successfully Updated');
     }
 

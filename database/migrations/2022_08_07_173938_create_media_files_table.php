@@ -21,6 +21,8 @@ class CreateMediaFilesTable extends Migration
             $table->integer('folder_id')->default(0)->unsigned();
             $table->string('mime_type', 120)->nullable();
             $table->integer('size')->nullable();
+            $table->string('extension', 255)->nullable();
+            $table->string('urlwithoutextension', 255);
             $table->string('url', 255);
             $table->text('options')->nullable();
             $table->timestamps();

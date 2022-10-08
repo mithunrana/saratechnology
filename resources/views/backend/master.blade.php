@@ -114,8 +114,8 @@
 
   </style>
 
-      <!-- Toastr -->
-      <link href="{{ asset('defaults/toastr/toastr.min.css') }}" rel="stylesheet" />
+  <!-- Toastr -->
+  <link href="{{ asset('defaults/toastr/toastr.min.css') }}" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

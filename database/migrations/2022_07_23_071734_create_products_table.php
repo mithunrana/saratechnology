@@ -33,8 +33,8 @@ class CreateProductsTable extends Migration
             $table->integer('quantity')->default(null)->nullable();
             $table->tinyInteger('allow_checkout_when_out_of_stock')->default(0);
             $table->tinyInteger('with_storehouse_management')->default(0);
-            $table->double('price')->nullable()->unsigned();
-            $table->double('sale_price')->nullable()->unsigned();
+            $table->double('price',12,4)->nullable()->unsigned();
+            $table->double('sale_price',12,4)->nullable()->unsigned();
             $table->double('length',12,4)->nullable()->default(null);
             $table->double('wide',12,4)->nullable()->unsigned()->default(null);
             $table->double('height',12,4)->nullable()->default(null);

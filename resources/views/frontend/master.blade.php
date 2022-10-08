@@ -12,37 +12,37 @@
 <!-- SITE TITLE -->
 <title>Shopwise - eCommerce Bootstrap 4 HTML Template</title>
 <!-- Favicon Icon -->
-<link rel="shortcut icon" type="image/x-icon" href="frontend/assets/images/favicon.png">
+<link rel="shortcut icon" type="image/x-icon" href="{{asset('')}}frontend/assets/images/favicon.png">
 <!-- Animation CSS -->
-<link rel="stylesheet" href="frontend/assets/css/animate.css">	
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/animate.css">	
 <!-- Latest Bootstrap min CSS -->
-<link rel="stylesheet" href="frontend/assets/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/bootstrap/css/bootstrap.min.css">
 <!-- Google Font -->
 <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900&display=swap" rel="stylesheet"> 
 <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap" rel="stylesheet"> 
 <!-- Icon Font CSS -->
-<link rel="stylesheet" href="frontend/assets/css/all.min.css">
-<link rel="stylesheet" href="frontend/assets/css/ionicons.min.css">
-<link rel="stylesheet" href="frontend/assets/css/themify-icons.css">
-<link rel="stylesheet" href="frontend/assets/css/linearicons.css">
-<link rel="stylesheet" href="frontend/assets/css/flaticon.css">
-<link rel="stylesheet" href="frontend/assets/css/simple-line-icons.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/all.min.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/ionicons.min.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/themify-icons.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/linearicons.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/flaticon.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/simple-line-icons.css">
 <!--- owl carousel CSS-->
-<link rel="stylesheet" href="frontend/assets/owlcarousel/css/owl.carousel.min.css">
-<link rel="stylesheet" href="frontend/assets/owlcarousel/css/owl.theme.css">
-<link rel="stylesheet" href="frontend/assets/owlcarousel/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/owlcarousel/css/owl.carousel.min.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/owlcarousel/css/owl.theme.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/owlcarousel/css/owl.theme.default.min.css">
 <!-- Magnific Popup CSS -->
-<link rel="stylesheet" href="frontend/assets/css/magnific-popup.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/magnific-popup.css">
 <!-- Slick CSS -->
-<link rel="stylesheet" href="frontend/assets/css/slick.css">
-<link rel="stylesheet" href="frontend/assets/css/slick-theme.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/slick.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/slick-theme.css">
 <!-- Style CSS -->
-<link rel="stylesheet" href="frontend/assets/css/style.css">
-<link rel="stylesheet" href="frontend/assets/css/responsive.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/style.css">
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/responsive.css">
+<link href="{{ asset('defaults/toastr/toastr.min.css') }}" rel="stylesheet" />
 </head>
 
 <body>
-
 <!-- LOADER -->
 <!--<div class="preloader">
     <div class="lds-ellipsis">
@@ -82,7 +82,9 @@
 <!-- START MAIN CONTENT -->
 <div class="main_content">
 
-    @yield('product-view-details');
+    @yield('main-content')
+
+    @yield('product-view-details')
 
     <!-- START SECTION SHOP -->
     @yield('exclusive-product')
@@ -120,8 +122,6 @@
     <!-- START SECTION SUBSCRIBE NEWSLETTER -->
     @yield('newsletter')
     <!-- START SECTION SUBSCRIBE NEWSLETTER -->
-
-
 </div>
 <!-- END MAIN CONTENT -->
 
@@ -135,32 +135,216 @@
 <a href="#" class="scrollup" style="display: none;"><i class="ion-ios-arrow-up"></i></a> 
 
 <!-- Latest jQuery --> 
-<script src="frontend/assets/js/jquery-1.12.4.min.js"></script> 
+<script src="{{asset('')}}frontend/assets/js/jquery-1.12.4.min.js"></script> 
 <!-- popper min js -->
-<script src="frontend/assets/js/popper.min.js"></script>
+<script src="{{asset('')}}frontend/assets/js/popper.min.js"></script>
 <!-- Latest compiled and minified Bootstrap --> 
-<script src="frontend/assets/bootstrap/js/bootstrap.min.js"></script> 
+<script src="{{asset('')}}frontend/assets/bootstrap/js/bootstrap.min.js"></script> 
 <!-- owl-carousel min js  --> 
-<script src="frontend/assets/owlcarousel/js/owl.carousel.min.js"></script> 
+<script src="{{asset('')}}frontend/assets/owlcarousel/js/owl.carousel.min.js"></script> 
 <!-- magnific-popup min js  --> 
-<script src="frontend/assets/js/magnific-popup.min.js"></script> 
+<script src="{{asset('')}}frontend/assets/js/magnific-popup.min.js"></script> 
 <!-- waypoints min js  --> 
-<script src="frontend/assets/js/waypoints.min.js"></script> 
+<script src="{{asset('')}}frontend/assets/js/waypoints.min.js"></script> 
 <!-- parallax js  --> 
-<script src="frontend/assets/js/parallax.js"></script> 
+<script src="{{asset('')}}frontend/assets/js/parallax.js"></script> 
 <!-- countdown js  --> 
-<script src="frontend/assets/js/jquery.countdown.min.js"></script> 
+<script src="{{asset('')}}frontend/assets/js/jquery.countdown.min.js"></script> 
 <!-- imagesloaded js --> 
-<script src="frontend/assets/js/imagesloaded.pkgd.min.js"></script>
+<script src="{{asset('')}}frontend/assets/js/imagesloaded.pkgd.min.js"></script>
 <!-- isotope min js --> 
-<script src="frontend/assets/js/isotope.min.js"></script>
+<script src="{{asset('')}}frontend/assets/js/isotope.min.js"></script>
 <!-- jquery.dd.min js -->
-<script src="frontend/assets/js/jquery.dd.min.js"></script>
+<script src="{{asset('')}}frontend/assets/js/jquery.dd.min.js"></script>
 <!-- slick js -->
-<script src="frontend/assets/js/slick.min.js"></script>
+<script src="{{asset('')}}frontend/assets/js/slick.min.js"></script>
 <!-- elevatezoom js -->
-<script src="frontend/assets/js/jquery.elevatezoom.js"></script>
+<script src="{{asset('')}}frontend/assets/js/jquery.elevatezoom.js"></script>
 <!-- scripts js --> 
-<script src="frontend/assets/js/scripts.js"></script>
+<script src="{{asset('')}}frontend/assets/js/scripts.js"></script>
+
+<!-- Toastr -->
+<script src="{{ asset('defaults/toastr/toastr.min.js') }}"></script>
+
+<script>
+    @if (Session::has('message'))
+        var type = "{{ Session::get('alert-type', 'info') }}"
+        switch (type) {
+            case 'info':
+                toastr.info("{{ Session::get('message') }}");
+                break;
+            case 'success':
+                toastr.success("{{ Session::get('message') }}");
+                break;
+            case 'warning':
+                toastr.warning("{{ Session::get('message') }}");
+                break;
+            case 'error':
+                toastr.error("{{ Session::get('message') }}");
+                break;
+        }
+    @endif
+</script>
+
+
+<script>
+    /*
+       //Header Cart Item
+        function headerCartItem() {
+            $.ajax({
+                url: "{{ url('/drop/cart') }}",
+                success: function(data) {
+                    $('.dropCart').html(data);
+                }
+            })
+        }*/
+
+    //page Cart
+    function pageCart() {
+        $.ajax({
+            url: "{{ url('/page/cart') }}",
+            success: function(data) {
+                $('.pageCart').html(data);
+            }
+        })
+    }
+    //pageCart();
+
+
+    //Cart Count
+    function cartCount() {
+        $.ajax({
+            url: "{{ url('/cart/count') }}",
+            success: function(data) {
+                $('.cartQty').html(data);
+            }
+        })
+    }
+    //cartCount();
+
+    //Cart total
+    function cartTotal() {
+        $.ajax({
+            url: "{{ url('/cart/total') }}",
+            success: function(data) {
+                $('.cartTotal').html(data);
+            }
+        })
+    }
+</script>
+
+
+
+<!-- Add cart -->
+<script>
+    $(document).on('click', '.btn-addtocart', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('data-id');
+        $.ajax({
+            url: "{{ url('/cart/store') }}/" + id,
+            method: "GET",
+            dataType: "JSON",
+            beforeSend: function() {
+                $(".ajaxloading").fadeIn();
+            },
+            success: function(data) {
+                //cartCount();
+                //cartTotal();
+                if ($.isEmptyObject(data.error)) {
+                    toastr.success(data.success, 'Success', {
+                        timeOut: 3000
+                    });
+                } else {
+                    toastr.error(data.error, {
+                        timeOut: 3000
+                    });
+                }
+            },
+            complete: function() {
+                $(".ajaxloading").fadeOut();
+            },
+        });
+    });
+</script>
+
+
+
+
+<!--Qty Inc-->
+<script>
+    $(document).on('click', '.qtyInc', function(e) {
+        e.preventDefault();
+        var rowId = $(this).attr('id');
+        $.ajax({
+            url: "{{ url('/qty/inc') }}/" + rowId,
+            method: "GET",
+            dataType: "JSON",
+            beforeSend: function() {
+                $(".ajaxloading").fadeIn();
+            },
+            success: function(data) {
+                toastr.success('পণ্যের পরিমাণ আপডেট হয়েছে!', 'Updated', {
+                    timeOut: 3000
+                });
+            },
+            complete: function() {
+                $(".ajaxloading").fadeOut();
+            },
+        });
+    });
+</script>
+
+
+<!--Qty Dec-->
+<script>
+    $(document).on('click', '.qtyDec', function(e) {
+        e.preventDefault();
+        var rowId = $(this).attr('id');
+        var qty = $(this).attr('data-qty');
+        if (qty<=1) {
+            toastr.error('পণ্যের পরিমাণ ১ চেয়ে কম হবে না!', 'Updated', {
+                timeOut: 3000
+            });
+        }else {
+            $.ajax({
+                url: "{{ url('/qty/dec') }}/" + rowId,
+                method: "GET",
+                dataType: "JSON",
+                beforeSend: function() {
+                    $(".ajaxloading").fadeIn();
+                },
+                success: function(data) {
+                    toastr.success('পণ্যের পরিমাণ আপডেট হয়েছে!', 'Updated', {
+                        timeOut: 3000
+                    });
+                },
+                complete: function() {
+                    $(".ajaxloading").fadeOut();
+                },
+            });
+        }
+    });
+</script>
+
+
+<!--Cart Delete-->
+<script>
+    $(document).on('click', '.cartdelete', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('id');
+        $.ajax({
+            url: "{{ url('cart/delete') }}/" + id,
+            method: "GET",
+            dataType: "JSON",
+            type: "DELETE",
+            success: function(data) {
+                toastr.success('পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে !', 'Removed', {
+                    timeOut: 3000
+                });
+            },
+        });
+    });
+</script>
+
 </body>
 </html>

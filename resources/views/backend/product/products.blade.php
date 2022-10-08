@@ -66,9 +66,16 @@
                   <td><input type="checkbox" name="id[]"></td>
                   <td>{{$Product->id }}</td>
                   <td>{{$Product->model }}</td>
-                  <td>
-                    <img src="{{asset('')}}{{$Product->getImage($Product->images) }}" width="50" alt="Image">
-                  </td>
+                  @if($Product->productImages->count() > 0)
+                    @foreach($Product->productImages as $Image)
+                    <td>
+                      <img src="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[150]}}.{{$Image->extension }}" width="50" alt="Image">
+                      @break
+                    </td>
+                    @endforeach
+                  @else
+                  <td>{{$Product->price }}</td>
+                  @endif
                   <td>{{$Product->price }}</td>
                   <td>{{$Product->stock_status }}</td>
                   <td>{{$Product->quantity }}</td>

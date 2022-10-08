@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
+
+        config()->set('ImageSize',$ImageSize);
+
         view()->composer('*', function ($view){
             $GetAllProductBrand = ProductBrand::orderBy('id', 'DESC')->get();
             $GetAllProductCategory = ProductCategory::orderBy('id', 'DESC')->get();
@@ -43,6 +47,8 @@ class AppServiceProvider extends ServiceProvider
             $GetAllProductPublishedAttributeSet = ProductAttributeSet::where('status','Published')->orderBy('id', 'DESC')->get();
 
 
+            $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
+            
             $view->with('GetAllProductBrand',$GetAllProductBrand);
             $view->with('GetAllProductCategory',$GetAllProductCategory);
             $view->with('GetAllActiveProduct',$GetAllActiveProduct);
@@ -53,6 +59,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('GetAllProductTaxes',$GetAllProductTaxes);
             $view->with('GetAllTags',$GetAllTags);
             $view->with('PublishedProductAttributeSet',$GetAllProductPublishedAttributeSet);
+            $view->with('ImageSize',$ImageSize);
         });
     }
 }

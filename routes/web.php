@@ -1,38 +1,46 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontEnd\AuthenticatedSessionController;
+use App\Http\Controllers\FrontEnd\CustomerController;
+
+
 
 // All frontend route here ----------
 Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('/','Homecontroller@index')->name('home');
+
+    Route::get('/cart','CartController@index')->name('cart');
+    Route::get('/checkout','CartController@checkout')->name('checkout');
+
+    Route::get('/cart/store/{id}', 'CartController@store');
+    Route::get('/qty/inc/{rowId}', 'CartController@qtyInc');
+    Route::get('/qty/dec/{rowId}', 'CartController@qtyDec');
+    Route::get('cart/delete/{id}','CartController@cartdelete');
+
+    Route::post('/confirm-order', 'OrderController@order')->name('order.confirm');
+
     Route::get('/{url}','ProductController@productView')->name('productview');
+});
+
+Route::get('/customer/login', [AuthenticatedSessionController::class, 'create'])->name('customer.login')->middleware('guest:customer');
+Route::post('/customer/login/store', [AuthenticatedSessionController::class, 'store'])->name('customer.login.store');
+Route::group(['middleware' => 'customer'], function() {
+    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+    Route::get('/customer/logout', [AuthenticatedSessionController::class, 'destroy'])->name('customer.logout');
 });
 
 
 // All Backend route here -----------
 Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin','AdminController@index')->name('dashboard');
-
+    
 
     Route::get('/admin/product','ProductController@productsManage')->name('dashboard.product');
     Route::get('/admin/product-add','ProductController@productsAdd')->name('dashboard.product.add');
     Route::post('/admin/product-store','ProductController@productStore')->name('dashboard.product.store');
     Route::get('/admin/product-edit/{productid}','ProductController@productsEdit')->name('dashboard.product.edit');
-    Route::post('/admin/product-update/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
-    Route::post('/admin/product-update/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
-    Route::get('/admin/product-delete/{productid}','ProductController@productDelete')->name('dashboard.product.delete');
-
-    Route::post('/admin/product-variation-store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
-    Route::post('/admin/product-variation-update','ProductController@productVariationUpdate')->name('dashboard.product.variation.update');
-    Route::get('/admin/product-variation-delete/{variationid}','ProductController@productVariationDelete')->name('dashboard.product.variation.delete');
-    Route::post('/admin/product-with-attributeset-update','ProductController@productWithAttributeSetUpdate')->name('dashboard.product.with.attributeset.update');
-
-
-    Route::get('/admin/product-attribute','ProductController@productAttributeManage')->name('dashboard.product.attribute');
-    Route::get('/admin/product-attribute-add','ProductController@productsAttributeAdd')->name('dashboard.product.attribute.add');
-    Route::post('/admin/product/product-attribute-store','ProductController@productAttributestore')->name('dashboard.product.attribute.store');
-    Route::get('/admin/product-attribute-edit/{attributeid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
-    Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
+    Route::post('/admin/product-edit/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
 
 
     Route::get('/admin/product-brand','ProductController@productsBrandManage')->name('dashboard.product.brand');
@@ -40,8 +48,8 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product/brand-store','ProductController@productBrandStore')->name('dashboard.product.brand.store');
     Route::get('/admin/product-brand-edit/{brandid}','ProductController@productsBrandEdit')->name('dashboard.product.brand.edit');
     Route::post('/admin/product-brand-edit/{brandid}','ProductController@productBrandUpdate')->name('dashboard.product.brand.update');
-
-
+    
+    
 
     Route::get('/admin/product-category','ProductController@productsCategoryManage')->name('dashboard.product.category');
     Route::get('/admin/product-category-add','ProductController@productsCategoryAdd')->name('dashboard.product.category.add');
@@ -49,7 +57,7 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/product-category-edit/{categoryid}','ProductController@productsCategoryEdit')->name('dashboard.product.category.edit');
     Route::post('/admin/product-category-edit/{categoryid}','ProductController@productCategoryUpdate')->name('dashboard.product.category.update');
 
-
+    
 
     Route::get('/admin/product-label','ProductController@productsLabelManage')->name('dashboard.product.label');
     Route::get('/admin/product-label-add','ProductController@productsLabelAdd')->name('dashboard.product.label.add');
@@ -81,6 +89,18 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product-taxes-edit/{categoryid}','ProductController@productTaxesUpdate')->name('dashboard.product.taxes.update');
 
 
+    Route::get('/admin/product-attribute','ProductController@productAttributeManage')->name('dashboard.product.attribute');
+    Route::get('/admin/product-attribute-add','ProductController@productsAttributeAdd')->name('dashboard.product.attribute.add');
+    Route::post('/admin/product/product-attribute-store','ProductController@productAttributestore')->name('dashboard.product.attribute.store');
+    Route::get('/admin/product-attribute-edit/{attributeid}','ProductController@productsAttributeEdit')->name('dashboard.product.attribute.edit');
+    Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
+
+
+    Route::get('/admin/customer','CustomerController@index')->name('dashboard.customer');
+    Route::get('/admin/customer-add','CustomerController@add')->name('dashboard.customer.add');
+    Route::post('/admin/customer-store','CustomerController@store')->name('dashboard.customer.store');
+    Route::get('/admin/customer-edit/{attributeid}','CustomerController@edit')->name('dashboard.customer.edit');
+    Route::post('/admin/customer-update/{attributeid}','CustomerController@update')->name('dashboard.customer.update');
 
 
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
@@ -95,12 +115,22 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
 /*
 Route::get('/', function () {
     return view('welcome');
-});
+});*/
 
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-*/
+})->middleware(['auth','verified'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+
+
+
+
+/*
+|--------------------------------------------------------------------------
+| Admin Routes
+|--------------------------------------------------------------------------
+*/
+

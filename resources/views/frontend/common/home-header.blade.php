@@ -1,37 +1,19 @@
-<div class="top-header light_skin bg_dark d-none d-md-block">
+<div class="top-header">
     <div class="custom-container">
         <div class="row align-items-center">
-            <div class="col-lg-6 col-md-8">
-                <div class="header_topbar_info">
-                    <div class="header_offer">
-                        <span>Free Ground Shipping Over $250</span>
-                    </div>
-                    <div class="download_wrap">
-                        <span class="mr-3">Download App</span>
-                        <ul class="icon_list text-center text-lg-left">
-                            <li><a href="#"><i class="fab fa-apple"></i></a></li>
-                            <li><a href="#"><i class="fab fa-android"></i></a></li>
-                            <li><a href="#"><i class="fab fa-windows"></i></a></li>
-                        </ul>
-                    </div>
+            <div class="col-md-6 col-6">
+                <div class="d-flex align-items-center justify-content-start justify-content-md-start">
+                    <ul class="contact_detail text-center text-lg-left">
+                        <li><i class="ti-mobile"></i><span>123-456-7890</span></li>
+                    </ul>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-4">
-                <div class="d-flex align-items-center justify-content-center justify-content-md-end">
-                    <div class="lng_dropdown">
-                        <select name="countries" class="custome_select">
-                            <option value='en' data-image="frontend/assets/images/eng.png" data-title="English">English</option>
-                            <option value='fn' data-image="frontend/assets/images/fn.png" data-title="France">France</option>
-                            <option value='us' data-image="frontend/assets/images/us.png" data-title="United States">United States</option>
-                        </select>
-                    </div>
-                    <div class="ml-3">
-                        <select name="countries" class="custome_select">
-                            <option value='USD' data-title="USD">USD</option>
-                            <option value='EUR' data-title="EUR">EUR</option>
-                            <option value='GBR' data-title="GBR">GBR</option>
-                        </select>
-                    </div>
+            <div class="col-md-6 col-6">
+                <div class="text-center text-md-right">
+                    <ul class="header_list">
+                        <li><a href="compare.html"><i class="ti-control-shuffle"></i><span>Compare</span></a></li>
+                        <li><a href="login.html"><i class="ti-user"></i><span>Login</span></a></li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -86,7 +68,7 @@
                         </ul>
                         <div class="cart_footer">
                             <p class="cart_total"><strong>Subtotal:</strong> <span class="cart_price"> <span class="price_symbole">$</span></span>159.00</p>
-                            <p class="cart_buttons"><a href="#" class="btn btn-fill-line view-cart">View Cart</a><a href="#" class="btn btn-fill-out checkout">Checkout</a></p>
+                            <p class="cart_buttons"><a href="{{route('cart')}}" class="btn btn-fill-line view-cart">View Cart</a><a href="{{route('checkout')}}" class="btn btn-fill-out checkout">Checkout</a></p>
                         </div>
                     </div>
                 </li>
