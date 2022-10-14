@@ -13,6 +13,9 @@ use App\Models\ProductTag;
 use App\Models\ProductAttributeSet;
 use App\Models\ProductAttribute;
 use App\Models\ProductVariation;
+use App\Models\Currency;
+use Session;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -32,6 +35,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if(!Session::has('Currency')){
+            $CurrencyObj = Currency::where('is_default',1)->first();
+            Session::put('Currency', $CurrencyObj);
+        }
+
         $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
 
         config()->set('ImageSize',$ImageSize);
@@ -45,6 +53,8 @@ class AppServiceProvider extends ServiceProvider
             $GetAllProductTaxes  = ProductTax::orderBy('id', 'DESC')->get();
             $GetAllTags = ProductTag::orderBy('id', 'DESC')->get();
             $GetAllProductPublishedAttributeSet = ProductAttributeSet::where('status','Published')->orderBy('id', 'DESC')->get();
+            $CurrencyList = Currency::orderBy('id', 'DESC')->get();
+            $CurrencyObj = Currency::where('is_default',1)->first();
 
 
             $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
@@ -60,6 +70,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('GetAllTags',$GetAllTags);
             $view->with('PublishedProductAttributeSet',$GetAllProductPublishedAttributeSet);
             $view->with('ImageSize',$ImageSize);
+            $view->with('CurrencyList',$CurrencyList);
+
+            $view->with('CurrencyObj',$CurrencyObj);
         });
     }
 }

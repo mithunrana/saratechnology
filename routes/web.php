@@ -6,30 +6,6 @@ use App\Http\Controllers\FrontEnd\CustomerController;
 
 
 
-// All frontend route here ----------
-Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
-    Route::get('/','Homecontroller@index')->name('home');
-
-    Route::get('/cart','CartController@index')->name('cart');
-    Route::get('/checkout','CartController@checkout')->name('checkout');
-
-    Route::get('/cart/store/{id}', 'CartController@store');
-    Route::get('/qty/inc/{rowId}', 'CartController@qtyInc');
-    Route::get('/qty/dec/{rowId}', 'CartController@qtyDec');
-    Route::get('cart/delete/{id}','CartController@cartdelete');
-
-    Route::post('/confirm-order', 'OrderController@order')->name('order.confirm');
-
-    Route::get('/{url}','ProductController@productView')->name('productview');
-});
-
-Route::get('/customer/login', [AuthenticatedSessionController::class, 'create'])->name('customer.login')->middleware('guest:customer');
-Route::post('/customer/login/store', [AuthenticatedSessionController::class, 'store'])->name('customer.login.store');
-Route::group(['middleware' => 'customer'], function() {
-    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
-    Route::get('/customer/logout', [AuthenticatedSessionController::class, 'destroy'])->name('customer.logout');
-});
-
 
 // All Backend route here -----------
 Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
@@ -102,12 +78,61 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/customer-edit/{attributeid}','CustomerController@edit')->name('dashboard.customer.edit');
     Route::post('/admin/customer-update/{attributeid}','CustomerController@update')->name('dashboard.customer.update');
 
+    Route::get('/admin/country','SetupMasterController@country')->name('dashboard.country');
+    Route::get('/admin/country-add','SetupMasterController@countryAdd')->name('dashboard.country.add');
+    Route::post('/admin/country-store','SetupMasterController@countryStore')->name('dashboard.country.store');
+    Route::get('/admin/country-edit/{attributeid}','SetupMasterController@countryEdit')->name('dashboard.country.edit');
+    Route::post('/admin/country-update/{attributeid}','SetupMasterController@countryUpdate')->name('dashboard.country.update');
+
+    Route::get('/admin/currency','SetupMasterController@currency')->name('dashboard.currency');
+    Route::get('/admin/currency-add','SetupMasterController@currencyAdd')->name('dashboard.currency.add');
+    Route::post('/admin/currency-store','SetupMasterController@currencyStore')->name('dashboard.currency.store');
+    Route::get('/admin/currency-edit/{id}','SetupMasterController@currencyEdit')->name('dashboard.currency.edit');
+    Route::post('/admin/currency-update/{id}','SetupMasterController@currencyUpdate')->name('dashboard.currency.update');
+
+
+    Route::get('/admin/shipping-method','SetupMasterController@shippingMethod')->name('dashboard.shipping.method');
+    Route::get('/admin/shipping-method-add','SetupMasterController@shippingMethodAdd')->name('dashboard.shipping.method.add');
+    Route::post('/admin/shipping-method-store','SetupMasterController@shippingMethodStore')->name('dashboard.shipping.method.store');
+    Route::get('/admin/shipping-method-edit/{id}','SetupMasterController@shippingMethodEdit')->name('dashboard.shipping.method.edit');
+    Route::post('/admin/shipping-method-update/{id}','SetupMasterController@shippingMethodUpdate')->name('dashboard.shipping.method.update');
+
+
 
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
     Route::get('/admin/media/{folderid}','MediaController@fetchMedia')->name('media.fetch');
     Route::post('/admin/media-upload','MediaController@mediaStore')->name('media.upload');
     Route::post('/admin/media-folder-create','MediaController@mediaFolderCreate')->name('media.folder.create');
 
+});
+
+
+
+
+// All frontend route here ----------
+Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
+    Route::get('/','Homecontroller@index')->name('home');
+
+    Route::get('/cart','CartController@index')->name('cart');
+    Route::get('/checkout','CartController@checkout')->name('checkout');
+
+    Route::get('/cart/store/{id}', 'CartController@store');
+    Route::get('/qty/inc/{rowId}', 'CartController@qtyInc');
+    Route::get('/qty/dec/{rowId}', 'CartController@qtyDec');
+    Route::get('cart/delete/{id}','CartController@cartdelete');
+
+    Route::post('/confirm-order', 'OrderController@order')->name('order.confirm');
+
+    Route::get('/switch-currency/{id}', 'CurrencyController@swithCurrency')->name('currency.switch');
+
+    Route::get('/{url}','ProductController@productView')->name('productview');
+});
+
+Route::get('/customer/login', [AuthenticatedSessionController::class, 'create'])->name('customer.login')->middleware('guest:customer');
+Route::post('/customer/login/store', [AuthenticatedSessionController::class, 'store'])->name('customer.login.store');
+Route::group(['middleware' => 'customer'], function() {
+    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+    Route::get('/customer/logout', [AuthenticatedSessionController::class, 'destroy'])->name('customer.logout');
 });
 
 

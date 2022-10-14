@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Cart;
 use App\Models\Products;
+use Session;
 class CartController extends Controller
 {
 
@@ -16,12 +17,13 @@ class CartController extends Controller
 
     
     public function checkout(){
+        //Session::forget('Currency');
         return view('frontend.cart.checkout');
     }
 
+
     public function store(Request $request, $id)
     {
-
         //Cart::destroy();
 
         $ImageSize =  config('ImageSize');

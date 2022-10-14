@@ -797,6 +797,16 @@ PAGE JS
 		}
 	});
 	
+	$(document).ready(function () {
+		if($("#createaccount").prop('checked') == true){
+			$('.create-account').show();
+		}
+		if($("#differentaddress").prop('checked') == true){
+			$('.different_address').show();
+		}
+	});
+	
+	
 	/*===================================*
 	25. Cart Page Payment option
 	*===================================*/	

@@ -121,7 +121,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('dashboard.shipping.method')}}" class="nav-link">
                   <i class="fas fa-shipping-fast nav-icon"></i>
                   <p>Shipping</p>
                 </a>
@@ -142,6 +142,18 @@
                 <a href="{{route('dashboard.product.taxes')}}" class="nav-link">
                   <i class="fas fa-money-check-alt nav-icon"></i>
                   <p>Taxes</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.currency')}}" class="nav-link">
+                  <i class="fas fa-cogs nav-icon"></i>
+                  <p>Currency</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.country')}}" class="nav-link">
+                  <i class="fas fa-cogs nav-icon"></i>
+                  <p>Country</p>
                 </a>
               </li>
               <li class="nav-item">

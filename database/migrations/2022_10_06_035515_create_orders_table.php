@@ -15,7 +15,7 @@ class CreateOrdersTable extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->unsigned();
+            $table->integer('customer_id')->unsigned();
             $table->string('shipping_option', 60)->nullable();
             $table->string('shipping_method', 60)->default('default');
             $table->string('status', 120)->default('pending');

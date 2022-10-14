@@ -38,9 +38,9 @@
 	<div class="custom-container">
         <div class="row">
             <div class="col-12">
-            	<div class="medium_divider"></div>
+            	<div style="height:30px;" class="medium_divider"></div>
             	<div class="divider center_icon"><i class="linearicons-credit-card"></i></div>
-            	<div class="medium_divider"></div>
+            	<div style="height:30px;" class="medium_divider"></div>
             </div>
         </div>
 
@@ -117,44 +117,70 @@
                             </div>
                         </div>
 
+                        <div style="margin-bottom:10px;" class="row">
+                            <div class="col-sm-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div style="margin-bottom: 10px;" class="heading_s1">
+                                            <h5>Shipping method</h5>
+                                        </div>
+                                        @if ($errors->has('shipping_method'))
+                                            <span class="text-danger">{{ $errors->first('shipping_method') }}</span>
+                                        @endif
+                                        <div class="custome-radio">
+                                            <input class="form-check-input" type="radio" name="shipping_method" id="shiping_option1" value="option1" checked="checked">
+                                            <label class="form-check-label" for="shiping_option1">Home Delivery</label>
+                                        </div>
+                                        <div class="custome-radio">
+                                            <input class="form-check-input" type="radio" name="shipping_method" id="shiping_option2" value="option2" >
+                                            <label class="form-check-label" for="shiping_option2">Store Pickup</label>
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <div class="chek-form">
                                 <div class="custome-checkbox">
-                                    <input class="form-check-input" type="checkbox" name="agree" id="agree">
-                                    <label class="form-check-label label_info" for="agree"><span style="font-weight: 300;font-size: 12px;">I have read and agree to the Terms and Conditions, Privacy Policy, Return Refund Policy</span></label>
+                                    <input class="form-check-input" type="checkbox" name="agree" id="agree" @if (old('agree') == "on") checked @endif>
+                                    <label class="form-check-label label_info" for="agree"><span style="font-weight: 300;font-size: 16px;">I have read and agree to the Terms and Conditions, Privacy Policy, Return Refund Policy</span></label>
                                 </div>
                             </div>
                         </div>
 
                         @guest('customer')
-                        <div class="form-group">
-                            <div class="chek-form">
-                                <div class="custome-checkbox">
-                                    <input class="form-check-input" type="checkbox"  name="createaccount" id="createaccount" @if (old('createaccount') == "1") checked @endif>
-                                    <label class="form-check-label label_info" for="createaccount"><span>Create an account?</span></label>
+                            <div class="form-group">
+                                <div class="chek-form">
+                                    <div class="custome-checkbox">
+                                        <input class="form-check-input" type="checkbox"  name="createaccount" id="createaccount" @if (old('createaccount') == "on") checked @endif>
+                                        <label class="form-check-label label_info" for="createaccount"><span>Create an account?</span></label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         @endguest
 
-                        <div class="form-group create-account" style="display: none;">
-                            @if ($errors->has('password'))
-                                <span class="text-danger">{{ $errors->first('password') }}</span>
+                        <div class="form-group create-account"  style='@if (old('createaccount') == "on")display: block!important; @endif' >
+                            @if ($errors->has('create_password'))
+                                <span class="text-danger">{{ $errors->first('create_password') }}</span>
                             @endif
-                            <input class="form-control" required="" type="password" placeholder="Password" name="password">
+                            <input class="form-control" required="" type="password" placeholder="Password" name="create_password">
                         </div>
 
                         <div class="ship_detail">
                             <div class="form-group">
                             <div class="chek-form">
                                 <div class="custome-checkbox">
-                                    <input class="form-check-input" type="checkbox"  name="differentaddress" id="differentaddress" @if (old('differentaddress') == "1") {{ 'checked' }} @endif>
+                                    <input class="form-check-input" type="checkbox"  name="differentaddress" id="differentaddress" @if (old('differentaddress') == "on") {{ 'checked' }} @endif>
                                     <label class="form-check-label label_info" for="differentaddress"><span>Ship to a different address?</span></label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="different_address" @if (old('differentaddress') == "1") style="display: block;" @endif >
+                        {{ Session::get('Currency')->exchange_rate }}
+                        {{$CurrencyObj->exchange_rate}}
+
+                        <div class="different_address" style="display: block!important;"  >
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     @if ($errors->has('shiping_name'))
@@ -228,7 +254,7 @@
                         <div class="form-group mb-0">
                             <textarea rows="3" class="form-control" placeholder="Order notes"></textarea>
                         </div>
-                </div>
+                    </div>
             
                 <div class="col-md-6">
                     <div class="order_review">
@@ -288,28 +314,37 @@
                                 </tfoot>
                             </table>
                         </div>
-                        <div class="payment_method">
-                            <div class="heading_s1">
-                                <h4>Payment</h4>
-                            </div>
-                            <div class="payment_option">
-                                <div class="custome-radio">
-                                    <input class="form-check-input" required="" type="radio" name="payment_option" id="exampleRadios3" value="option3" checked="">
-                                    <label class="form-check-label" for="exampleRadios3">Direct Bank Transfer</label>
-                                    <p data-method="option3" class="payment-text" style="display: none;">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
-                                </div>
-                                <div class="custome-radio">
-                                    <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios4" value="option4">
-                                    <label class="form-check-label" for="exampleRadios4">Check Payment</label>
-                                    <p data-method="option4" class="payment-text" style="display: none;">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
-                                </div>
-                                <div class="custome-radio">
-                                    <input class="form-check-input" type="radio" name="payment_option" id="exampleRadios5" value="option5">
-                                    <label class="form-check-label" for="exampleRadios5">Paypal</label>
-                                    <p data-method="option5" class="payment-text" style="display: block;">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="payment_method">
+                                    <div style="margin-bottom: 10px;" class="heading_s1">
+                                        <h5>Payment method</h5>
+                                    </div>
+                                    @if ($errors->has('payment_method'))
+                                        <span class="text-danger">{{ $errors->first('payment_method') }}</span>
+                                    @endif
+                                    <div class="payment_option">
+                                        <div class="custome-radio">
+                                            <input class="form-check-input" type="radio" name="payment_method" id="exampleRadios3" value="option3" checked="">
+                                            <label class="form-check-label" for="exampleRadios3">Direct Bank Transfer</label>
+                                            <p data-method="option3" class="payment-text" style="display: none;">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
+                                        </div>
+                                        <div class="custome-radio">
+                                            <input class="form-check-input" type="radio" name="payment_method" id="exampleRadios4" value="option4">
+                                            <label class="form-check-label" for="exampleRadios4">Check Payment</label>
+                                            <p data-method="option4" class="payment-text" style="display: none;">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                        </div>
+                                        <div class="custome-radio">
+                                            <input class="form-check-input" type="radio" name="payment_method" id="exampleRadios5" value="option5">
+                                            <label class="form-check-label" for="exampleRadios5">Paypal</label>
+                                            <p data-method="option5" class="payment-text" style="display: none;">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                         <button type="submit" href="{{route('order.confirm')}}" class="btn btn-fill-out btn-block">Place Order</button>
                     </div>
                 </div>

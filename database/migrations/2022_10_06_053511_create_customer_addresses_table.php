@@ -18,9 +18,9 @@ class CreateCustomerAddressesTable extends Migration
             $table->string('name');
             $table->string('email', 60)->nullable();
             $table->string('phone');
-            $table->string('country', 120)->nullable();
+            $table->integer('country')->unsigned()->nullable();
             $table->string('state', 120)->nullable();
-            $table->string('city', 120)->nullable();
+            $table->integer('city')->unsigned()->nullable();
             $table->string('address');
             $table->integer('customer_id')->unsigned();
             $table->tinyInteger('is_default')->default(0)->unsigned();

@@ -11,6 +11,9 @@
             <div class="col-md-6 col-6">
                 <div class="text-center text-md-right">
                     <ul class="header_list">
+                        @foreach($CurrencyList as $Currency)
+                            <li><a href="{{route('currency.switch',$Currency->id)}}"><span>{{$Currency->title}}</span></a></li>
+                        @endforeach
                         <li><a href="compare.html"><i class="ti-control-shuffle"></i><span>Compare</span></a></li>
                         <li><a href="login.html"><i class="ti-user"></i><span>Login</span></a></li>
                     </ul>

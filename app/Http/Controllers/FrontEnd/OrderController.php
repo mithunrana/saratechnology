@@ -14,7 +14,34 @@ class OrderController extends Controller
             $ShipDifferenceAddress = 1;
         }
 
-        if($ShipDifferenceAddress==1){
+        $CreateAccountStatus = 0;
+        if($request->createaccount=='on'){
+            $CreateAccountStatus = 1;
+        }
+
+
+        if($ShipDifferenceAddress==1 and $CreateAccountStatus==1){
+            $this->validate($request,[
+                'name' => 'required',
+                'mobile' => 'required',
+                'address' => 'required',
+                'zipcode' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+                'email' => 'required',
+                'payment_method' => 'required',
+                'shipping_method' => 'required',
+                'agree' => 'required',
+
+                'shiping_name' => 'required',
+                'shiping_mobile' => 'required',
+                'shiping_country' => 'required',
+                'shiping_city' => 'required',
+                'shiping_address' => 'required',
+                'shiping_zipcode' => 'required',
+                'create_password' => 'required',
+            ]);
+        }elseif($ShipDifferenceAddress==1){
             $this->validate($request,[
                 'name' => 'required',
                 'mobile' => 'required',
@@ -34,7 +61,23 @@ class OrderController extends Controller
                 'shiping_address' => 'required',
                 'shiping_zipcode' => 'required',
             ]);
-        }else{
+        }elseif($CreateAccountStatus==1){
+            $this->validate($request,[
+                'name' => 'required',
+                'mobile' => 'required',
+                'address' => 'required',
+                'zipcode' => 'required',
+                'city' => 'required',
+                'country' => 'required',
+                'email' => 'required',
+                'payment_method' => 'required',
+                'shipping_method' => 'required',
+                'agree' => 'required',
+
+                'create_password' => 'required',
+            ]);
+        }
+        else{
             $this->validate($request,[
                 'name' => 'required',
                 'mobile' => 'required',
@@ -48,9 +91,11 @@ class OrderController extends Controller
                 'agree' => 'required',
             ]);
         }
+
         
         
-        
+
+
         $City = $request->City;
         $Name = $request->Name;
         $Mobile = $request->Mobile;
