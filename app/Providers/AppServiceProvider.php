@@ -14,6 +14,7 @@ use App\Models\ProductAttributeSet;
 use App\Models\ProductAttribute;
 use App\Models\ProductVariation;
 use App\Models\Currency;
+use App\Models\ShippingRule;
 use Session;
 
 class AppServiceProvider extends ServiceProvider
@@ -39,6 +40,12 @@ class AppServiceProvider extends ServiceProvider
             $CurrencyObj = Currency::where('is_default',1)->first();
             Session::put('Currency', $CurrencyObj);
         }
+
+        if(!Session::has('shippingcharge')){
+            $ShippingObj = ShippingRule::where('isdefault',1)->first();
+            Session::put('shippingcharge', $ShippingObj->price);
+        }
+
 
         $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
 

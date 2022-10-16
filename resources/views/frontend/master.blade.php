@@ -346,5 +346,30 @@
     });
 </script>
 
+
+
+<script>
+    function switchShipping(){
+        $.ajax({
+            url: "{{ url('shipping-method-change') }}/",
+            method: "GET",
+            success: function(data) {
+                $('#shipping-method-change').html(data);
+            },
+        });
+    }
+
+    $(document).on('click', '.shippingmethod', function(e) {
+        var id = $(this).attr('id');
+        $.ajax({
+            url: "{{ url('switch-shipping') }}/" + id,
+            method: "GET",
+            success: function(data) {
+                switchShipping();
+            },
+        });
+    });
+</script>
+
 </body>
 </html>

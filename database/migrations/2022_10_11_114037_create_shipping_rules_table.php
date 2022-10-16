@@ -22,6 +22,7 @@ class CreateShippingRulesTable extends Migration
             $table->decimal('from', 15,4)->default(0)->nullable();
             $table->decimal('to', 15,4)->default(0)->nullable();
             $table->decimal('price', 15,4)->default(0)->nullable();
+            $table->integer('isdefault')->default(0)->unsigned()->nullable();
             $table->timestamps();
         });
     }

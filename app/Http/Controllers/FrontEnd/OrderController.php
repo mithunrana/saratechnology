@@ -4,6 +4,15 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Cart;
+use App\Models\Products;
+use App\Models\ShippingRule;
+use App\Models\Order;
+use App\Models\Payment;
+use App\Models\OrderAddress;
+use App\Models\OrderProduct;
+use Session;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -14,13 +23,7 @@ class OrderController extends Controller
             $ShipDifferenceAddress = 1;
         }
 
-        $CreateAccountStatus = 0;
-        if($request->createaccount=='on'){
-            $CreateAccountStatus = 1;
-        }
-
-
-        if($ShipDifferenceAddress==1 and $CreateAccountStatus==1){
+        if($ShipDifferenceAddress==1){
             $this->validate($request,[
                 'name' => 'required',
                 'mobile' => 'required',
@@ -39,42 +42,6 @@ class OrderController extends Controller
                 'shiping_city' => 'required',
                 'shiping_address' => 'required',
                 'shiping_zipcode' => 'required',
-                'create_password' => 'required',
-            ]);
-        }elseif($ShipDifferenceAddress==1){
-            $this->validate($request,[
-                'name' => 'required',
-                'mobile' => 'required',
-                'address' => 'required',
-                'zipcode' => 'required',
-                'city' => 'required',
-                'country' => 'required',
-                'email' => 'required',
-                'payment_method' => 'required',
-                'shipping_method' => 'required',
-                'agree' => 'required',
-
-                'shiping_name' => 'required',
-                'shiping_mobile' => 'required',
-                'shiping_country' => 'required',
-                'shiping_city' => 'required',
-                'shiping_address' => 'required',
-                'shiping_zipcode' => 'required',
-            ]);
-        }elseif($CreateAccountStatus==1){
-            $this->validate($request,[
-                'name' => 'required',
-                'mobile' => 'required',
-                'address' => 'required',
-                'zipcode' => 'required',
-                'city' => 'required',
-                'country' => 'required',
-                'email' => 'required',
-                'payment_method' => 'required',
-                'shipping_method' => 'required',
-                'agree' => 'required',
-
-                'create_password' => 'required',
             ]);
         }
         else{
@@ -92,88 +59,95 @@ class OrderController extends Controller
             ]);
         }
 
-        
-        
+        $name = $request->name;
+        $mobile = $request->mobile;
+        $country = $request->country;
+        $city = $request->city;
+        $address = $request->address;
+        $zipcode = $request->zipcode;
+        $email = $request->email;
 
 
-        $City = $request->City;
-        $Name = $request->Name;
-        $Mobile = $request->Mobile;
-        $Email = $request->Email;
-        $Address = $request->Address;
-        $cartSetting = CartSetting::latest()->first();
-        $OrderNumber = 0;
-        $SubTotal = 0;
-        $ShipingCharge = $cartSetting->shipping;
-        
-        
-        
+        $shiping_name = $request->shiping_name;
+        $shiping_mobile = $request->shiping_mobile;
+        $shiping_country = $request->shiping_country;
+        $shiping_city = $request->shiping_city;
+        $shiping_address = $request->shiping_address;
+        $shiping_zipcode = $request->shiping_zipcode;
+        $shiping_email = $request->shiping_email;
+        $shipping_method = $request->shipping_method;
+        $description = $request->description;
+        $payment_method = $request->payment_method;
+
+        $CartTotal = Session::get('shippingcharge') + str_replace(',', '', Cart::total());
+        $CartSubTotal = str_replace(',', '', Cart::subtotal());
+        $CartTax = str_replace(',', '', Cart::tax());
+
         $order = new Order();
-        if(Auth::check()){
-            $order->UserID = Auth::user()->id;
-        }
+        $payment = new Payment();
+        $orderaddress = new OrderAddress;
         
-        $order->TotalAmonut = 0;
-        $order->SubTotal = 0;
-        $order->PaymentMethod = "";
-        $order->CurrencyID = null;
-        
-        if($request->shipping_method=='Pickup'){
-            $order->ShippingCharge = 0;
-            $order->DeliveryType = "Pickup";
-        }else{
-            $order->ShippingCharge = $cartSetting->shipping;
-            $order->DeliveryType = "HomeDelivery";
+
+        if(Auth::guard('customer')->check()) {
+            return $order->customer_id = Auth::guard('customer')->user()->id;
         }
-        $order->Vat = 0;
-        $order->OrderDate = date('Y-m-d');
-        $order->TransactionID = null;
-        $order->Status = "Pending";
+        $order->shipping_method  =  $shipping_method;
+        // Currency Set From App Service Provider and Currny Controller For switch
+        $order->currency_id = Session::get('Currency')->id;
+        $order->tax_amount = $CartTax;
+        $order->shipping_amount = Session::get('shippingcharge');
+        $order->description = $description;
+        $order->discount_amount = 0;
+        $order->sub_total = $CartSubTotal;
         $order->save();
-        $latestRecord = Order::latest()->first(); 
-        $OrderNumber = $OrderNumber + $latestRecord->id;
-        
-        
-        $shipping = new OrderAddress();
-        $shipping->Name     = $request->Name;
-        $shipping->City     = $request->City;
-        $shipping->Mobile   = $request->Mobile;
-        $shipping->Email    = $request->Email;
-        $shipping->OrderID  = $OrderNumber;
-        $shipping->Address  = $request->Address;
-        $shipping->save();
-        
-        
-        foreach(Cart::content() as $row){
-            $orderDetails = new OrderDetails();
-            $orderDetails->OrderID          = $OrderNumber;
-            $orderDetails->ProductID        = $row->id;
-            $orderDetails->Qty              = $row->qty;
-            $orderDetails->Price            = $row->price;
-            $orderDetails->Weight           = $row->weight;
-            $orderDetails->save();
-            $SubTotal = $SubTotal + $row->price;
+
+
+        $payment->currency = Session::get('Currency')->id;
+        $payment->payment_channel = $payment_method;
+        $payment->amount = $CartTotal;
+        $payment->order_id = $order->id;
+        $payment->status = "pending";
+        $payment->save();
+
+        if($ShipDifferenceAddress==1){
+            $orderaddress->name  = $shiping_name;
+            $orderaddress->phone  = $shiping_mobile;
+            $orderaddress->email  = $shiping_email;
+            $orderaddress->country  = $shiping_country;
+            $orderaddress->city  = $shiping_city;
+            $orderaddress->address  = $shiping_address;
+            $orderaddress->save();
+        }else{
+            $orderaddress->name  = $name;
+            $orderaddress->phone  = $mobile;
+            $orderaddress->email  = $email;
+            $orderaddress->country  = $country;
+            $orderaddress->city  = $city;
+            $orderaddress->zipcode = $zipcode;
+            $orderaddress->address  = $address;
+            $orderaddress->save();
         }
-        
-        $VatPercentage = $cartSetting->vat;
-        $Vat = $SubTotal/100*$VatPercentage;
-        $OrderUpdate = Order::where('id',$OrderNumber)->first();
-        $OrderUpdate->SubTotal = $SubTotal;
-        $OrderUpdate->Vat = $Vat;
-        $TotalAmount = $SubTotal+$Vat+$cartSetting->shipping;
-        $OrderUpdate->TotalAmonut = $TotalAmount;
-        $OrderUpdate->save();
-        
-        $Products = Products::where('id',$request->ProductId)->first();
-        $incomeMailAddress = "drinkcanbd@gmail.com";
-        Mail::to($incomeMailAddress)->send(new OrderMail($Name,$Mobile,$Address,$City,$Email,$TotalAmount,$SubTotal,$Vat,$ShipingCharge));
+
+        foreach(Cart::content() as $row){
+            $orderproduct = new OrderProduct;
+            $ProductObj = Products::where('id',$row->id)->first();
+
+            $orderproduct->order_id = $order->id;
+            $orderproduct->product_id = $row->id;
+            $orderproduct->product_name = $ProductObj->name;
+            $orderproduct->qty = $row->qty;
+            $orderproduct->price = $row->price;
+            $orderproduct->weight = 0;
+            $orderproduct->save();
+        }
         
         Cart::destroy();
-       return redirect("sucess")->with('order-sucess-message','Order Successfully Submitted, Order ID: THI000'.$OrderNumber);
+       return redirect("sucess")->with('order-sucess-message','Order Successfully Submitted, Order ID: THI000'.$order->id);
     }
 
+
     public function sucessOrder(){
-        return view('frontend.sucess-order');
+        return view('frontend.cart.success');
     }
 
     public function orderView($id){

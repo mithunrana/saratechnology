@@ -17,7 +17,6 @@ var VueObj = new Vue({
     methods:{
   
     }
-  
   }).$mount('#vueapp')
 
 import Alpine from 'alpinejs';

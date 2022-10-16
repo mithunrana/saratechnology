@@ -18,6 +18,11 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/product-edit/{productid}','ProductController@productsEdit')->name('dashboard.product.edit');
     Route::post('/admin/product-edit/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
 
+    Route::post('/admin/product.variation.store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
+    Route::post('/admin/product.variation.update','ProductController@productVariationUpdate')->name('dashboard.product.variation.update');
+
+    Route::post('/admin/prdoct-with-attribute-set-update','ProductController@productWithAttributeSetUpdate')->name('dashboard.product.with.attributeset.update');
+
 
     Route::get('/admin/product-brand','ProductController@productsBrandManage')->name('dashboard.product.brand');
     Route::get('/admin/product-brand-add','ProductController@productsBrandAdd')->name('dashboard.product.brand.add');
@@ -72,11 +77,13 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product-attribute-edit/{attributeid}','ProductController@productAttributeUpdate')->name('dashboard.product.attribute.update');
 
 
+
     Route::get('/admin/customer','CustomerController@index')->name('dashboard.customer');
     Route::get('/admin/customer-add','CustomerController@add')->name('dashboard.customer.add');
     Route::post('/admin/customer-store','CustomerController@store')->name('dashboard.customer.store');
     Route::get('/admin/customer-edit/{attributeid}','CustomerController@edit')->name('dashboard.customer.edit');
     Route::post('/admin/customer-update/{attributeid}','CustomerController@update')->name('dashboard.customer.update');
+
 
     Route::get('/admin/country','SetupMasterController@country')->name('dashboard.country');
     Route::get('/admin/country-add','SetupMasterController@countryAdd')->name('dashboard.country.add');
@@ -122,11 +129,15 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('cart/delete/{id}','CartController@cartdelete');
 
     Route::post('/confirm-order', 'OrderController@order')->name('order.confirm');
+    Route::get('/sucess','OrderController@sucessOrder');
 
     Route::get('/switch-currency/{id}', 'CurrencyController@swithCurrency')->name('currency.switch');
+    Route::get('/shipping-method-change', 'CartController@shippingMethodChange')->name('shipping.method.change');
+    Route::get('/switch-shipping/{id}', 'CartController@switchShippingMethod')->name('switch.shipping.method');
 
     Route::get('/{url}','ProductController@productView')->name('productview');
 });
+
 
 Route::get('/customer/login', [AuthenticatedSessionController::class, 'create'])->name('customer.login')->middleware('guest:customer');
 Route::post('/customer/login/store', [AuthenticatedSessionController::class, 'store'])->name('customer.login.store');

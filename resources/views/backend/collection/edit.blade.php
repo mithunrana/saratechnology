@@ -69,7 +69,7 @@
                         </div>
                     </div>
 
-                    <single-image-input singleimageurlpass="{{$GetCollectionData->image')}}"></single-image-input>
+                    <single-image-input singleimageurlpass="{{$GetCollectionData->image}}"></single-image-input>
 
                     <div class="card card-default">
                         <div class="card-header">

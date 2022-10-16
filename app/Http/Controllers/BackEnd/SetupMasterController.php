@@ -140,12 +140,13 @@ class SetupMasterController extends Controller
     public function shippingMethodStore(Request $request){
         $this->validate($request, [
             'name' => 'required|unique:shipping_rules,name',
-            'price' => "required",
+            'price' => "required|numeric|min:0|max:99999999",
         ]);
 
         $ShippingObj = new ShippingRule();
         $ShippingObj->name = $request->name;
         $ShippingObj->price = $request->price;
+        $ShippingObj->isdefault = $request->is_default ? 1 : 0;
         $ShippingObj->save();
 
         return redirect('admin/shipping-method')->with('message', 'Shipping Method Successfully Added');
@@ -160,12 +161,13 @@ class SetupMasterController extends Controller
     function shippingMethodUpdate(Request $request,$id){
         $this->validate($request, [
             'name' => "required|unique:shipping_rules,name,$id",
-            'price' => "required",
+            'price' => "required|numeric|min:0|max:99999999",
         ]);
 
         $ShippingObj = ShippingRule::where('id',$id)->first();
         $ShippingObj->name = $request->name;
         $ShippingObj->price = $request->price;
+        $ShippingObj->isdefault = $request->is_default ? 1 : 0;
         $ShippingObj->save();
 
         return redirect('admin/shipping-method')->with('message', 'Shipping Method Successfully Updated');

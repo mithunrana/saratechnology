@@ -49,6 +49,7 @@
                                 <th>ID</th>
                                 <th>TITLE</th>
                                 <th>Price</th>
+                                <th>IS Default</th>
                                 <th style="">CREATED AT</th>
                                 <th style="">OPERATION</th>
                             </tr>
@@ -60,6 +61,7 @@
                                   <td>{{ $Shipping->id }}</td>
                                   <td>{{ $Shipping->name }}</td>
                                   <td>{{ $Shipping->price }}</td>
+                                  <td>{{ $Shipping->isdefault }}</td>
                                   <td>{{ $Shipping->created_at->diffForHumans() }}</td>
                                   <td>
                                     <a href="{{ route('dashboard.shipping.method.edit',$Shipping->id) }}" class="btn btn-info" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size: 17px;"></i></a>

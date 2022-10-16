@@ -75,7 +75,7 @@
                                     @if ($errors->has('country'))
                                         <span class="text-danger">{{ $errors->first('country') }}</span>
                                     @endif
-                                    <select class="form-control {{$errors->has('country') ? ' is-invalid' : ''}} first_null not_chosen">
+                                    <select class="form-control {{$errors->has('country') ? ' is-invalid' : ''}} first_null not_chosen" name="country">
                                         <option value="">Select an Country...</option>
                                         <option @if (old('status') == "BD") {{ 'selected' }} @endif  value="BD">Bangladesh</option>
                                     </select>
@@ -86,7 +86,7 @@
                                     @if ($errors->has('city'))
                                         <span class="text-danger">{{ $errors->first('city') }}</span>
                                     @endif
-                                    <select class="form-control {{$errors->has('city') ? ' is-invalid' : ''}} first_null not_chosen">
+                                    <select class="form-control {{$errors->has('city') ? ' is-invalid' : ''}} first_null not_chosen" name="city">
                                         <option value="">Select an City...</option>
                                         <option @if (old('status') == "BD") {{ 'selected' }} @endif value="BD">Bangladesh</option>
                                     </select>
@@ -127,14 +127,12 @@
                                         @if ($errors->has('shipping_method'))
                                             <span class="text-danger">{{ $errors->first('shipping_method') }}</span>
                                         @endif
-                                        <div class="custome-radio">
-                                            <input class="form-check-input" type="radio" name="shipping_method" id="shiping_option1" value="option1" checked="checked">
-                                            <label class="form-check-label" for="shiping_option1">Home Delivery</label>
-                                        </div>
-                                        <div class="custome-radio">
-                                            <input class="form-check-input" type="radio" name="shipping_method" id="shiping_option2" value="option2" >
-                                            <label class="form-check-label" for="shiping_option2">Store Pickup</label>
-                                        </div>
+                                        @foreach($ShippingMethods as $ShippingMethod)
+                                            <div class="custome-radio">
+                                                <input class="form-check-input shippingmethod" type="radio" name="shipping_method" id="{{$ShippingMethod->id}}" value="{{$ShippingMethod->id}}" @if($ShippingMethod->isdefault==1) checked @endif>
+                                                <label class="form-check-label" for="{{$ShippingMethod->id}}">{{$ShippingMethod->name}} - <strong>{{$ShippingMethod->price}}</strong></label>
+                                            </div>
+                                        @endforeach
                                     </div> 
                                 </div>
                             </div>
@@ -143,29 +141,15 @@
                         <div class="form-group">
                             <div class="chek-form">
                                 <div class="custome-checkbox">
+                                    @if ($errors->has('agree'))
+                                        <span class="text-danger">{{ $errors->first('agree') }}</span>
+                                    @endif
                                     <input class="form-check-input" type="checkbox" name="agree" id="agree" @if (old('agree') == "on") checked @endif>
                                     <label class="form-check-label label_info" for="agree"><span style="font-weight: 300;font-size: 16px;">I have read and agree to the Terms and Conditions, Privacy Policy, Return Refund Policy</span></label>
                                 </div>
                             </div>
                         </div>
 
-                        @guest('customer')
-                            <div class="form-group">
-                                <div class="chek-form">
-                                    <div class="custome-checkbox">
-                                        <input class="form-check-input" type="checkbox"  name="createaccount" id="createaccount" @if (old('createaccount') == "on") checked @endif>
-                                        <label class="form-check-label label_info" for="createaccount"><span>Create an account?</span></label>
-                                    </div>
-                                </div>
-                            </div>
-                        @endguest
-
-                        <div class="form-group create-account"  style='@if (old('createaccount') == "on")display: block!important; @endif' >
-                            @if ($errors->has('create_password'))
-                                <span class="text-danger">{{ $errors->first('create_password') }}</span>
-                            @endif
-                            <input class="form-control" required="" type="password" placeholder="Password" name="create_password">
-                        </div>
 
                         <div class="ship_detail">
                             <div class="form-group">
@@ -176,9 +160,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        {{ Session::get('Currency')->exchange_rate }}
-                        {{$CurrencyObj->exchange_rate}}
 
                         <div class="different_address" style="display: block!important;"  >
                             <div class="row">
@@ -252,7 +233,7 @@
                         </div>
 
                         <div class="form-group mb-0">
-                            <textarea rows="3" class="form-control" placeholder="Order notes"></textarea>
+                            <textarea rows="3" class="form-control" placeholder="Order notes" name="description">{{old('description')}}</textarea>
                         </div>
                     </div>
             
@@ -290,7 +271,7 @@
                                         </tr>
                                     @endforeach
                                 </tbody>
-                                <tfoot>
+                                <tfoot id="shipping-method-change">
                                     <tr>
                                         <th>SubTotal</th>
                                         <td class="product-subtotal">{{Cart::subtotal()}}</td>
@@ -305,11 +286,11 @@
                                     </tr>
                                     <tr>
                                         <th>Shipping</th>
-                                        <td>Free Shipping</td>
+                                        <td>{{session()->get('shippingcharge')}}</td>
                                     </tr>
                                     <tr>
                                         <th>Total</th>
-                                        <td class="product-subtotal">{{Cart::total()}}</td>
+                                        <td class="product-subtotal">{{$NetTotalAmount}}</td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -324,21 +305,21 @@
                                     @if ($errors->has('payment_method'))
                                         <span class="text-danger">{{ $errors->first('payment_method') }}</span>
                                     @endif
-                                    <div class="payment_option">
+                                    <div class="payment_method">
                                         <div class="custome-radio">
-                                            <input class="form-check-input" type="radio" name="payment_method" id="exampleRadios3" value="option3" checked="">
+                                            <input class="form-check-input" required="" type="radio" name="payment_method" id="exampleRadios3" value="option3" checked="" >
                                             <label class="form-check-label" for="exampleRadios3">Direct Bank Transfer</label>
-                                            <p data-method="option3" class="payment-text" style="display: none;">There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration. </p>
+                                            <p data-method="option3" class="payment-text" style="display: none;"></p>
                                         </div>
                                         <div class="custome-radio">
                                             <input class="form-check-input" type="radio" name="payment_method" id="exampleRadios4" value="option4">
                                             <label class="form-check-label" for="exampleRadios4">Check Payment</label>
-                                            <p data-method="option4" class="payment-text" style="display: none;">Please send your cheque to Store Name, Store Street, Store Town, Store State / County, Store Postcode.</p>
+                                            <p data-method="option4" class="payment-text" style="display: block;"></p>
                                         </div>
                                         <div class="custome-radio">
                                             <input class="form-check-input" type="radio" name="payment_method" id="exampleRadios5" value="option5">
                                             <label class="form-check-label" for="exampleRadios5">Paypal</label>
-                                            <p data-method="option5" class="payment-text" style="display: none;">Pay via PayPal; you can pay with your credit card if you don't have a PayPal account.</p>
+                                            <p data-method="option5" class="payment-text" style="display: none;"></p>
                                         </div>
                                     </div>
                                 </div>

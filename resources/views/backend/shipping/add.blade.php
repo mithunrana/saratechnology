@@ -62,6 +62,18 @@
                             <button type="submit" value="apply" class="btn btn-success"><i class="fa fa-check-circle"></i> Save & Edit</button>
                         </div>
                     </div>
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <h3 class="card-title" style="color: rgb(31, 100, 160) !important; font-weight: bold;">Is Default</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                                    <input type="checkbox" name="is_default" class="form-check-input" @if (old('is_default')=='on') checked @endif> Is Default
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </form>

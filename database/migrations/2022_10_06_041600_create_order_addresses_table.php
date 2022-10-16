@@ -21,6 +21,7 @@ class CreateOrderAddressesTable extends Migration
             $table->string('country', 120)->nullable();
             $table->string('state', 120)->nullable();
             $table->string('city', 120)->nullable();
+            $table->string('zipcode', 120)->nullable();
             $table->string('address');
             $table->timestamps();
         });

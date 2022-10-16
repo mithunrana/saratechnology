@@ -140,19 +140,19 @@
               </li>
               <li class="nav-item">
                 <a href="{{route('dashboard.product.taxes')}}" class="nav-link">
-                  <i class="fas fa-money-check-alt nav-icon"></i>
+                  <i class='fas fa-money-check-alt'></i>
                   <p>Taxes</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('dashboard.currency')}}" class="nav-link">
-                  <i class="fas fa-cogs nav-icon"></i>
+                  <i class='fas fa-money-bill'></i>
                   <p>Currency</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{route('dashboard.country')}}" class="nav-link">
-                  <i class="fas fa-cogs nav-icon"></i>
+                  <i class='fas fa-city'></i>
                   <p>Country</p>
                 </a>
               </li>

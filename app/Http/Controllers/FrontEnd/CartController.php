@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Cart;
 use App\Models\Products;
+use App\Models\ShippingRule;
 use Session;
 class CartController extends Controller
 {
@@ -17,15 +18,16 @@ class CartController extends Controller
 
     
     public function checkout(){
-        //Session::forget('Currency');
-        return view('frontend.cart.checkout');
+        $ShippingMethods = ShippingRule::get();
+        $CartTotal = str_replace(',', '', Cart::total());
+        $NetTotalAmount = $CartTotal + session()->get('shippingcharge');
+        return view('frontend.cart.checkout',compact('ShippingMethods','NetTotalAmount'));
     }
 
 
     public function store(Request $request, $id)
     {
         //Cart::destroy();
-
         $ImageSize =  config('ImageSize');
 
         $product = Products::find($id);
@@ -46,11 +48,9 @@ class CartController extends Controller
 
 
     public function qtyInc($rowId){
-        
         $data = Cart::get($rowId);
         Cart::update($rowId, $data->qty + 1);
         return response()->json($data);
-        
     }
 
 
@@ -76,6 +76,17 @@ class CartController extends Controller
         $data = Cart::remove($id);
         return redirect()->back()->with('message', 'You have modified your shopping cart!');
      }
+
+    public function shippingMethodChange(){
+        return view('backend.shipping.shipping-change');
+    }
+
+    public function switchShippingMethod($id){
+        if(ShippingRule::where('id',$id)->exists()){
+            $ShippingObj = ShippingRule::where('id',$id)->first();
+            Session::put('shippingcharge', $ShippingObj->price);
+        }
+    }
     
 
 }
