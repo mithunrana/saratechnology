@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Country;
 use App\Models\Currency;
 use App\Models\ShippingRule;
-
+use App\Models\Slider;
+use App\Models\SliderItem;
 class SetupMasterController extends Controller
 {
     function country(){
@@ -171,6 +172,116 @@ class SetupMasterController extends Controller
         $ShippingObj->save();
 
         return redirect('admin/shipping-method')->with('message', 'Shipping Method Successfully Updated');
+    }
+
+
+
+
+    #Slider Manager ===============================================================================
+
+    public function slider(){
+        $SliderList  = Slider::get();
+        return view('backend.slider.slider',compact('SliderList'));
+    }
+
+    public function sliderAdd(){
+        return view('backend.slider.add');
+    }
+
+    public function sliderStore(Request $request){
+        $this->validate($request, [
+            'name' => "required|unique:sliders,name",
+            'key' => "required|unique:sliders,key",
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+        $slider  = new Slider();
+        $slider->name = $request->name;
+        $slider->key = $request->key;
+        $slider->description = $request->description;
+        $slider->status = $request->status;
+        $slider->save();
+
+        return redirect('admin/slider')->with('message','Slider Successfully Added');
+    }
+
+    public function sliderEdit(Request $request,$id){
+        $SliderObj  = Slider::where('id',$id)->first();
+        $SliderItems = SliderItem::where('slider_id',$id)->get();
+        return view('backend.slider.edit',compact('SliderObj','SliderItems'));
+    }
+
+    public function sliderUpdate(Request $request,$id){
+        $this->validate($request, [
+            'name' => "required|unique:sliders,name,$id",
+            'key' => "required|unique:sliders,key,$id",
+            'description' => 'required',
+            'status' => 'required',
+        ]);
+        $SliderObj  = Slider::where('id',$id)->first();
+        $SliderObj->name = $request->name;
+        $SliderObj->key = $request->key;
+        $SliderObj->description = $request->description;
+        $SliderObj->status = $request->status;
+        $SliderObj->save();
+        return redirect('admin/slider')->with('message','Slider Successfully Updated');
+    }
+
+
+    public function sliderDelete($id){
+        $SliderObj  = Slider::find($id);
+        $SliderObj->delete();
+        return redirect()->back()->with('message','Slider Successfully Delete');
+    }
+
+
+    
+
+
+
+    public function sliderItemStore(Request $request){
+        $this->validate($request, [
+            'slider_id' => "required",
+            'title' => "required",
+            'imageurl' => 'required',
+            'order' => 'required',
+        ]);
+        $SliderItemObj = new SliderItem();
+        $SliderItemObj->slider_id = $request->slider_id;
+        $SliderItemObj->title = $request->title;
+        $SliderItemObj->button_text = $request->button_text;
+        $SliderItemObj->image = $request->imageurl;
+        $SliderItemObj->link = $request->link;
+        $SliderItemObj->description = $request->description;
+        $SliderItemObj->order = $request->order;
+        $SliderItemObj->save();
+        return redirect()->back()->with('message','Slider Item Successfully Added');
+    }
+
+
+    public function sliderItemUpdate(Request $request,$id){
+        $this->validate($request, [
+            'slider_id' => "required",
+            'title' => "required",
+            'imageurl' => 'required',
+            'order' => 'required',
+        ]);
+        $SliderItemObj = SliderItem::where('id',$id)->first();
+        $SliderItemObj->slider_id = $request->slider_id;
+        $SliderItemObj->title = $request->title;
+        $SliderItemObj->button_text = $request->button_text;
+        $SliderItemObj->image = $request->imageurl;
+        $SliderItemObj->link = $request->link;
+        $SliderItemObj->description = $request->description;
+        $SliderItemObj->order = $request->order;
+        $SliderItemObj->save();
+        return redirect()->back()->with('message','Slider Item Successfully Update');
+    }
+
+    public function sliderItemDelete($id){
+        $SliderItemObj = SliderItem::find($id);
+        $SliderItemObj->delete();
+        return redirect()->back()->with('message','Slider Item Successfully Deleted');
     }
 
 }

@@ -62,6 +62,7 @@ class AppServiceProvider extends ServiceProvider
             $GetAllProductPublishedAttributeSet = ProductAttributeSet::where('status','Published')->orderBy('id', 'DESC')->get();
             $CurrencyList = Currency::orderBy('id', 'DESC')->get();
             $CurrencyObj = Currency::where('is_default',1)->first();
+            $ProductCollections = ProductCollection::where('status','Published')->get();
 
 
             $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
@@ -78,6 +79,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('PublishedProductAttributeSet',$GetAllProductPublishedAttributeSet);
             $view->with('ImageSize',$ImageSize);
             $view->with('CurrencyList',$CurrencyList);
+            $view->with('ProductCollections',$ProductCollections);
+
+
 
             $view->with('CurrencyObj',$CurrencyObj);
         });

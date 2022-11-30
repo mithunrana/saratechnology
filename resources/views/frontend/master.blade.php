@@ -349,6 +349,13 @@
 
 
 <script>
+
+    $(document).ready(function(){
+        $('.ratingid').click(function(){
+            $('#starvalue').val($(this).attr('data-value'));
+        });
+    });
+
     function switchShipping(){
         $.ajax({
             url: "{{ url('shipping-method-change') }}/",

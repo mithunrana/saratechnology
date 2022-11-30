@@ -289,7 +289,7 @@ class ProductController extends Controller
         $data['Product'] = $Product;
         $data['ProductCategories'] = $Product->categories->pluck('id')->toArray();
         $data['ProductLabels'] = $Product->productLabel->pluck('id')->toArray();
-        $data['ProductCollections'] = $Product->productCollection->pluck('id')->toArray();
+        $data['ProductCollection'] = $Product->productCollection->pluck('id')->toArray();
         $data['RelatedProducts'] = $Product->relatedProduct->pluck('id')->toArray();
         $data['CrossSellingProducts'] = $Product->crossSellingProduct->pluck('id')->toArray();
         $data['CurrentAttributeSet'] = $Product->attributeset->pluck('id')->toArray();

@@ -830,12 +830,12 @@
                                 <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Product
                                     collections</h3>
                             </div>
-
+                        
                             <div class="card-body">
                                 @foreach ($GetAllProductCollection as $Collection)
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="collection[]" value="{{ $Collection->id }}"{{ in_array($Collection->id, $ProductCollections) ? 'checked' : '' }}>{{ $Collection->name }}
+                                            <input type="checkbox" class="form-check-input" name="collection[]" value="{{ $Collection->id }}" {{ in_array($Collection->id, $ProductLabels) ? 'checked' : '' }}>{{ $Collection->name }}
                                         </label>
                                     </div>
                                 @endforeach
@@ -848,12 +848,10 @@
                             </div>
 
                             <div class="card-body">
-                                @foreach ($GetAllProductLabel as $Label)
+                                @foreach ($GetAllProductCollection as $Collection)
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="label[]"
-                                                value="{{ $Label->id }}"
-                                                {{ in_array($Label->id, $ProductLabels) ? 'checked' : '' }}>{{ $Label->name }}
+                                            <input type="checkbox" class="form-check-input" name="collection[]" value="{{ $Collection->id }}"{{ in_array($Collection->id, $ProductCollection) ? 'checked' : '' }}>{{ $Collection->name }}
                                         </label>
                                     </div>
                                 @endforeach

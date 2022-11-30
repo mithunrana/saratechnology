@@ -41,13 +41,19 @@ class Products extends Model
         return $this->belongsToMany(MediaFile::class,'product_with_image');
     }
 
-    public static function productFirstImageNormalSize(){
-        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',8)->first();
+    public static function productFirstImageNormalSize($id){
+        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
         return $ImageObject->urlwithoutextension.'-500x500.'.$ImageObject->extension;
     }
 
-    public static function productFirstImageSmallSize(){
-        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',8)->first();
+    public static function productFirstImageLongHeightSize($id){
+        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
+        return $ImageObject->urlwithoutextension.'-540x600.'.$ImageObject->extension;
+    }
+
+
+    public static function productFirstImageSmallSize($id){
+        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
         return $ImageObject->urlwithoutextension.'-150x150.'.$ImageObject->extension;
     }
 

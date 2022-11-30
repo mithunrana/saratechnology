@@ -17,10 +17,13 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product-store','ProductController@productStore')->name('dashboard.product.store');
     Route::get('/admin/product-edit/{productid}','ProductController@productsEdit')->name('dashboard.product.edit');
     Route::post('/admin/product-edit/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
+    Route::post('/admin/product-update/{productid}','ProductController@productUpdate')->name('dashboard.product.update');
+    Route::get('/admin/product-delete/{productid}','ProductController@productDelete')->name('dashboard.product.delete');
+
 
     Route::post('/admin/product.variation.store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
     Route::post('/admin/product.variation.update','ProductController@productVariationUpdate')->name('dashboard.product.variation.update');
-
+    Route::get('/admin/product-variation-delete/{variationid}','ProductController@productVariationDelete')->name('dashboard.product.variation.delete');
     Route::post('/admin/prdoct-with-attribute-set-update','ProductController@productWithAttributeSetUpdate')->name('dashboard.product.with.attributeset.update');
 
 
@@ -105,6 +108,20 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/shipping-method-update/{id}','SetupMasterController@shippingMethodUpdate')->name('dashboard.shipping.method.update');
 
 
+    Route::get('/admin/slider','SetupMasterController@slider')->name('dashboard.slider');
+    Route::get('/admin/slider-add','SetupMasterController@sliderAdd')->name('dashboard.slider.add');
+    Route::post('/admin/slider-store','SetupMasterController@sliderStore')->name('dashboard.slider.store');
+    Route::get('/admin/slider-edit/{id}','SetupMasterController@sliderEdit')->name('dashboard.slider.edit');
+    Route::post('/admin/slider-update/{id}','SetupMasterController@sliderUpdate')->name('dashboard.slider.update');
+    Route::get('/admin/slider-delete/{id}','SetupMasterController@sliderDelete')->name('dashboard.slider.delete');
+
+
+    Route::post('/admin/slider-item-store','SetupMasterController@sliderItemStore')->name('dashboard.slider.item.store');
+    Route::post('/admin/slider-item-update/{id}','SetupMasterController@sliderItemUpdate')->name('dashboard.slider.item.update');
+    Route::get('/admin/slider-item-delete/{id}','SetupMasterController@sliderItemDelete')->name('dashboard.slider.item.delete');
+
+
+
 
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
     Route::get('/admin/media/{folderid}','MediaController@fetchMedia')->name('media.fetch');
@@ -134,6 +151,8 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('/switch-currency/{id}', 'CurrencyController@swithCurrency')->name('currency.switch');
     Route::get('/shipping-method-change', 'CartController@shippingMethodChange')->name('shipping.method.change');
     Route::get('/switch-shipping/{id}', 'CartController@switchShippingMethod')->name('switch.shipping.method');
+
+    Route::get('/product-rating','ProductController@ratingSubmit')->name('product.rating');
 
     Route::get('/{url}','ProductController@productView')->name('productview');
 });

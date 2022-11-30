@@ -142,17 +142,17 @@
             	<div class="tab-style3">
 					<ul class="nav nav-tabs" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" id="Description-tab" data-toggle="tab" href="#Description" role="tab" aria-controls="Description" aria-selected="true">Description</a>
+							<a class="nav-link @if($errors->any()) @else active @endif" id="Description-tab" data-toggle="tab" href="#Description" role="tab" aria-controls="Description" aria-selected="true">Description</a>
                       	</li>
                       	<li class="nav-item">
                         	<a class="nav-link" id="Additional-info-tab" data-toggle="tab" href="#Additional-info" role="tab" aria-controls="Additional-info" aria-selected="false">Additional info</a>
                       	</li>
                       	<li class="nav-item">
-                        	<a class="nav-link" id="Reviews-tab" data-toggle="tab" href="#Reviews" role="tab" aria-controls="Reviews" aria-selected="false">Reviews (2)</a>
+                        	<a class="nav-link @if($errors->any()) active @endif" id="Reviews-tab" data-toggle="tab" href="#Reviews" role="tab" aria-controls="Reviews" aria-selected="false">Reviews ({{$TotalReview}})</a>
                       	</li>
                     </ul>
                 	<div class="tab-content shop_info_tab">
-                      	<div class="tab-pane fade show active" id="Description" role="tabpanel" aria-labelledby="Description-tab">
+                      	<div class="tab-pane fade @if($errors->any()) @else show active @endif" id="Description" role="tabpanel" aria-labelledby="Description-tab">
                           {!! html_entity_decode($Product->content) !!}
                       	</div>
                       	<div class="tab-pane fade" id="Additional-info" role="tabpanel" aria-labelledby="Additional-info-tab">
@@ -175,72 +175,62 @@
                                 </tr>
                         	</table>
                       	</div>
-                      	<div class="tab-pane fade" id="Reviews" role="tabpanel" aria-labelledby="Reviews-tab">
+                      	<div class="tab-pane fade @if($errors->any()) active show @endif" id="Reviews" role="tabpanel" aria-labelledby="Reviews-tab">
                         	<div class="comments">
-                            	<h5 class="product_tab_title">2 Review For <span>Blue Dress For Woman</span></h5>
+                            	<h5 class="product_tab_title">{{$TotalReview}} Review For <span>{{$Product->name}}</span></h5>
                                 <ul class="list_none comment_list mt-4">
-                                    <li>
-                                        <div class="comment_img">
-                                            <img src="{{asset('')}}frontend/assets/images/user1.jpg" alt="user1"/>
-                                        </div>
-                                        <div class="comment_block">
-                                            <div class="rating_wrap">
-                                                <div class="rating">
-                                                    <div class="product_rate" style="width:80%"></div>
+                                    @foreach($ProductReviews as $Review)
+                                        <li>
+                                            <div class="comment_img">
+                                                <img src="{{asset('')}}frontend/assets/images/user1.jpg" alt="user1"/>
+                                            </div>
+                                            <div class="comment_block">
+                                                <div class="rating_wrap">
+                                                    <div class="rating">
+                                                        <div class="product_rate" style="width:{{$Review->reviewPercent($Review->star)}}%"></div>
+                                                    </div>
+                                                </div>
+                                                <p class="customer_meta">
+                                                    <span class="review_author">{{$Review->Customer->name}}</span>
+                                                    <span class="comment-date">{{$Review->created_at->format('d/m/Y');}}</span>
+                                                </p>
+                                                <div class="description">
+                                                    <p>{{$Review->comment}}</p>
                                                 </div>
                                             </div>
-                                            <p class="customer_meta">
-                                                <span class="review_author">Alea Brooks</span>
-                                                <span class="comment-date">March 5, 2018</span>
-                                            </p>
-                                            <div class="description">
-                                                <p>Lorem Ipsumin gravida nibh vel velit auctor aliquet. Aenean sollicitudin, lorem quis bibendum auctor, nisi elit consequat ipsum, nec sagittis sem nibh id elit. Duis sed odio sit amet nibh vulputate</p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="comment_img">
-                                            <img src="{{asset('')}}frontend/assets/images/user2.jpg" alt="user2"/>
-                                        </div>
-                                        <div class="comment_block">
-                                            <div class="rating_wrap">
-                                                <div class="rating">
-                                                    <div class="product_rate" style="width:60%"></div>
-                                                </div>
-                                            </div>
-                                            <p class="customer_meta">
-                                                <span class="review_author">Grace Wong</span>
-                                                <span class="comment-date">June 17, 2018</span>
-                                            </p>
-                                            <div class="description">
-                                                <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters</p>
-                                            </div>
-                                        </div>
-                                    </li>
+                                        </li>
+                                    @endforeach
                                 </ul>
                         	</div>
                             <div class="review_form field_form">
                                 <h5>Add a review</h5>
-                                <form class="row mt-3">
+                                <form class="row mt-3" action="{{route('product.rating')}}">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$Product->id}}">
+                                    <input id="starvalue" type="hidden" name="star" value="5">
+                                    <div class="form-group col-12">
+                                        @if($errors->has('star'))
+                                            <span class="text-danger">{{ $errors->first('star') }}</span>
+                                        @endif
+                                        @if($errors->has('product_id'))
+                                            <span class="text-danger">{{ $errors->first('product_id') }}</span>
+                                        @endif
+                                    </div>
                                     <div class="form-group col-12">
                                         <div class="star_rating">
-                                            <span data-value="1"><i class="far fa-star"></i></span>
-                                            <span data-value="2"><i class="far fa-star"></i></span> 
-                                            <span data-value="3"><i class="far fa-star"></i></span>
-                                            <span data-value="4"><i class="far fa-star"></i></span>
-                                            <span data-value="5"><i class="far fa-star"></i></span>
+                                            <span class="ratingid" data-value="1" style="cursor: pointer"><i class="far fa-star"></i></span>
+                                            <span class="ratingid" data-value="2" style="cursor: pointer"><i class="far fa-star"></i></span> 
+                                            <span class="ratingid" data-value="3" style="cursor: pointer"><i class="far fa-star"></i></span>
+                                            <span class="ratingid" data-value="4" style="cursor: pointer"><i class="far fa-star"></i></span>
+                                            <span class="ratingid selected" data-value="5" style="cursor: pointer"><i class="far fa-star"></i></span>
                                         </div>
                                     </div>
                                     <div class="form-group col-12">
+                                        @if ($errors->has('message'))
+                                            <span class="text-danger">{{ $errors->first('message') }}</span>
+                                        @endif
                                         <textarea required="required" placeholder="Your review *" class="form-control" name="message" rows="4"></textarea>
                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <input required="required" placeholder="Enter Name *" class="form-control" name="name" type="text">
-                                     </div>
-                                    <div class="form-group col-md-6">
-                                        <input required="required" placeholder="Enter Email *" class="form-control" name="email" type="email">
-                                    </div>
-                                   
                                     <div class="form-group col-12">
                                         <button type="submit" class="btn btn-fill-out" name="submit" value="Submit">Submit Review</button>
                                     </div>
