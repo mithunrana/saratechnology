@@ -25,6 +25,7 @@ class CreateProductCategoriesTable extends Migration
             $table->tinyInteger('is_featured')->unsigned()->default(0);
             $table->string('seotitle')->nullable()->default(null);
             $table->string('seodescription')->nullable()->default(null);
+            $table->string('icon')->nullable()->default(null);
             $table->timestamp('created_at')->nullable()->default(null);
             $table->timestamp('updated_at')->nullable()->default(null);
         });

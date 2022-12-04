@@ -23,6 +23,10 @@ class CreateCustomersTable extends Migration
             $table->string('phone', 25)->nullable();
             $table->rememberToken();
             $table->timestamp('email_verified_at')->nullable();
+
+            #this is extra field for email verification check
+            $table->boolean('is_email_verified')->default(0);
+
             $table->timestamps();
         });
     }
@@ -34,6 +38,8 @@ class CreateCustomersTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('customers');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

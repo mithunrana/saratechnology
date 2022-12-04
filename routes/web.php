@@ -11,7 +11,6 @@ use App\Http\Controllers\FrontEnd\CustomerController;
 Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin','AdminController@index')->name('dashboard');
     
-
     Route::get('/admin/product','ProductController@productsManage')->name('dashboard.product');
     Route::get('/admin/product-add','ProductController@productsAdd')->name('dashboard.product.add');
     Route::post('/admin/product-store','ProductController@productStore')->name('dashboard.product.store');
@@ -40,6 +39,41 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/product/category-store','ProductController@productCategoryStore')->name('dashboard.product.category.store');
     Route::get('/admin/product-category-edit/{categoryid}','ProductController@productsCategoryEdit')->name('dashboard.product.category.edit');
     Route::post('/admin/product-category-edit/{categoryid}','ProductController@productCategoryUpdate')->name('dashboard.product.category.update');
+
+
+
+    Route::get('/admin/blog','BlogController@blogManage')->name('dashboard.blog');
+    Route::get('/admin/blog-add','BlogController@blogAdd')->name('dashboard.blog.add');
+    Route::post('/admin/blog-store','BlogController@blogStore')->name('dashboard.blog.store');
+    Route::get('/admin/blog-edit/{productid}','BlogController@blogEdit')->name('dashboard.blog.edit');
+    Route::post('/admin/blog-update/{productid}','BlogController@blogUpdate')->name('dashboard.blog.update');
+    Route::get('/admin/blog-delete/{productid}','BlogController@blogDelete')->name('dashboard.blog.delete');
+
+
+    Route::get('/admin/blog-category','BlogController@blogCategory')->name('dashboard.blog.category');
+    Route::get('/admin/blog-category-add','BlogController@blogCategoryAdd')->name('dashboard.blog.category.add');
+    Route::post('/admin/blog-category-store','BlogController@blogCategoryStore')->name('dashboard.blog.category.store');
+    Route::get('/admin/blog-category-edit/{categoryid}','BlogController@blogCategoryEdit')->name('dashboard.blog.category.edit');
+    Route::post('/admin/blog-category-update/{categoryid}','BlogController@blogCategoryUpdate')->name('dashboard.blog.category.update');
+    Route::get('/admin/blog-category-delete/{categoryid}','BlogController@blogCategoryDelete')->name('dashboard.blog.category.delete');
+
+
+    Route::get('/admin/blog-tag','BlogController@blogTag')->name('dashboard.blog.tag');
+    Route::get('/admin/blog-tag-add','BlogController@blogTagAdd')->name('dashboard.blog.tag.add');
+    Route::post('/admin/blog-tag-store','BlogController@blogTagStore')->name('dashboard.blog.tag.store');
+    Route::get('/admin/blog-tag-edit/{tagid}','BlogController@blogTagEdit')->name('dashboard.blog.tag.edit');
+    Route::post('/admin/blog-tag-update/{tagid}','BlogController@blogTagUpdate')->name('dashboard.blog.tag.update');
+    Route::get('/admin/blog-tag-delete/{tagid}','BlogController@blogTagDelete')->name('dashboard.blog.tag.delete');
+
+
+
+
+    Route::get('/admin/service','ServiceController@index')->name('dashboard.service');
+    Route::get('/admin/service-add','ServiceController@add')->name('dashboard.service.add');
+    Route::post('/admin/service-store','ServiceController@store')->name('dashboard.service.store');
+    Route::get('/admin/service-edit/{id}','ServiceController@edit')->name('dashboard.service.edit');
+    Route::post('/admin/service-edit/{id}','ServiceController@update')->name('dashboard.service.update');
+    Route::get('/admin/service-delete/{id}','ServiceController@delete')->name('dashboard.service.delete');
 
     
 
@@ -101,11 +135,30 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/currency-update/{id}','SetupMasterController@currencyUpdate')->name('dashboard.currency.update');
 
 
+    Route::get('/admin/contact','ContactController@index')->name('dashboard.contact');
+    Route::get('/admin/contact-edit/{id}','ContactController@contactEdit')->name('dashboard.contact.edit');
+    Route::post('/admin/contact-update/{id}','ContactController@contactUpdate')->name('dashboard.contact.update');
+    Route::get('/admin/contact-delete/{id}','ContactController@contactDelete')->name('dashboard.contact.delete');
+    Route::post('/admin/contact-reply/{id}','ContactController@contactReply')->name('dashboard.contact.reply');
+
+
+    Route::get('/admin/newsletter','NewsletterController@index')->name('dashboard.newsletter');
+    Route::get('/admin/newsletter-edit/{id}','NewsletterController@newsletterEdit')->name('dashboard.newsletter.edit');
+    Route::post('/admin/newsletter-update/{id}','NewsletterController@newsletterUpdate')->name('dashboard.newsletter.update');
+    Route::get('/admin/newsletter-delete/{id}','NewsletterController@newsletterDelete')->name('dashboard.newsletter.delete');
+
+
     Route::get('/admin/shipping-method','SetupMasterController@shippingMethod')->name('dashboard.shipping.method');
     Route::get('/admin/shipping-method-add','SetupMasterController@shippingMethodAdd')->name('dashboard.shipping.method.add');
     Route::post('/admin/shipping-method-store','SetupMasterController@shippingMethodStore')->name('dashboard.shipping.method.store');
     Route::get('/admin/shipping-method-edit/{id}','SetupMasterController@shippingMethodEdit')->name('dashboard.shipping.method.edit');
     Route::post('/admin/shipping-method-update/{id}','SetupMasterController@shippingMethodUpdate')->name('dashboard.shipping.method.update');
+
+
+    Route::get('/admin/reviews','ReviewController@index')->name('dashboard.review');
+    Route::get('/admin/review/edit/{id}','ReviewController@edit')->name('dashboard.review.edit');
+    Route::post('/admin/review/update/{id}','ReviewController@update')->name('dashboard.review.update');
+    Route::get('/admin/review/delete/{id}','ReviewController@delete')->name('dashboard.slider.item.delete');
 
 
     Route::get('/admin/slider','SetupMasterController@slider')->name('dashboard.slider');
@@ -120,15 +173,60 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/slider-item-update/{id}','SetupMasterController@sliderItemUpdate')->name('dashboard.slider.item.update');
     Route::get('/admin/slider-item-delete/{id}','SetupMasterController@sliderItemDelete')->name('dashboard.slider.item.delete');
 
+    
+    Route::get('/admin/menubar','MenubarController@index')->name('dashboard.menubar');
+    Route::get('/admin/menubar-add','MenubarController@add')->name('dashboard.menubar.add');
+    Route::post('/admin/menubar-store','MenubarController@store')->name('dashboard.menubar.store');
+    Route::get('/admin/menubar-edit/{id}','MenubarController@edit')->name('dashboard.menubar.edit');
+    Route::post('/admin/menubar-update/{id}','MenubarController@update')->name('dashboard.menubar.update');
+    Route::get('/admin/menubar-delete/{id}','MenubarController@delete')->name('dashboard.menubar.delete');
 
 
+    Route::post('/admin/menubar-item-store','MenubarController@menuItemStore')->name('dashboard.menubar.item.store');
+    Route::post('/admin/menubar-item-update/{id}','MenubarController@menuItemUpdate')->name('dashboard.menubar.item.update');
+    Route::get('/admin/menubar-item-delete/{id}','MenubarController@menuItemDelete')->name('dashboard.menubar.item.delete');
 
+
+    Route::get('/admin/widget','WidgetCotroller@index')->name('dashboard.widget');
+    Route::post('/admin/widget','WidgetCotroller@widgetStore')->name('dashboard.widget.store');
+    Route::post('/admin/widgetbar','WidgetCotroller@widgetBarStore')->name('dashboard.widget.bar.store');
+    Route::post('/admin/widgetset','WidgetCotroller@widgetSetStore')->name('dashboard.widget.set.store');
+    Route::post('/admin/widgetset-update/{id}','WidgetCotroller@widgetSetUpdate')->name('dashboard.widget.set.update');
+    Route::get('/admin/widgetset-delete/{id}','WidgetCotroller@widgetSetDelete')->name('dashboard.widget.set.delete');
+
+
+    Route::get('/admin/autogenerate','SettingController@autoGenerate')->name('dashboard.autogenerate');
+    Route::get('/admin/setting/options','SettingController@settingOption')->name('dashboard.setting.option');
+
+    Route::post('/admin/setting/socialupdate','SettingController@socialInformationUpdate')->name('dashboard.setting.social.update');
+    Route::post('/admin/setting/headerupdate','SettingController@headerlInformationUpdate')->name('dashboard.setting.header.update');
+
+    Route::post('/admin/setting/facebookinformationupdate','SettingController@facebookInformationUpdate')->name('dashboard.setting.facebook.update');
+    Route::post('/admin/setting/bloginformationupdate','SettingController@blogInformationUpdate')->name('dashboard.setting.blog.update');
+
+    Route::post('/admin/setting/ecommerceinformationupdate','SettingController@ecommerceInformationUpdate')->name('dashboard.setting.ecommerce.update');
+    Route::post('/admin/setting/homepageinformationupdate','SettingController@homepageInformationUpdate')->name('dashboard.setting.homepage.update');
+    Route::post('/admin/setting/cookieinformationupdate','SettingController@cookieInformationUpdate')->name('dashboard.setting.cookie.update');
+    
+    Route::post('/admin/setting/generalupdate','SettingController@generalInformationUpdate')->name('dashboard.setting.general.update');
+    Route::post('/admin/setting/logoupdate','SettingController@logoInformationUpdate')->name('dashboard.setting.logo.update');
+
+    Route::get('/admin/setting/customjs','SettingController@customJS')->name('dashboard.setting.customjs');
+    Route::post('/admin/setting/customjsupdate','SettingController@customJSUpdate')->name('dashboard.setting.customjs.update');
+
+    Route::get('/admin/setting/customcss','SettingController@customCSS')->name('dashboard.setting.customcss');
+    Route::post('/admin/setting/customcssupdate','SettingController@customCSSUpdate')->name('dashboard.setting.customcss.update');
+    Route::post('/admin/setting/policyupdate','SettingController@policyUpdate')->name('dashboard.setting.policy.update');
+
+
+    
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
     Route::get('/admin/media/{folderid}','MediaController@fetchMedia')->name('media.fetch');
     Route::post('/admin/media-upload','MediaController@mediaStore')->name('media.upload');
     Route::post('/admin/media-folder-create','MediaController@mediaFolderCreate')->name('media.folder.create');
 
 });
+
 
 
 
@@ -154,30 +252,43 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
 
     Route::get('/product-rating','ProductController@ratingSubmit')->name('product.rating');
 
+    Route::get('/service','ServiceController@index')->name('service');
+    Route::get('/about','Homecontroller@about')->name('about.us');
+    Route::get('/contact','ContactController@index')->name('contact.us');
+    Route::post('/contact','ContactController@sendMail')->name('contact.us.mail');
+    Route::post('/subscribe','NewsletterController@subsCribe')->name('newsletter.subscribe');
+
+    Route::get('/privacy-policy','Homecontroller@PrivacyPolicy')->name('privacy.policy');
+    Route::get('/terms-condition','Homecontroller@TermsCondition')->name('terms.condition');
+    Route::get('/return-refund-policy','Homecontroller@ReturnRefundPolicy')->name('return.refund.policy');
+    Route::get('/online-delivery','Homecontroller@OnlineDelivery')->name('online.delivery');
+
+    Route::get('/products','ProductController@index')->name('products');
+    Route::get('/products/{url}','ProductController@categoryWiseProducts')->name('category.products');
     Route::get('/{url}','ProductController@productView')->name('productview');
 });
 
 
+
+Route::get('/customer/register', [CustomerController::class, 'create'])->name('customer.register')->middleware('guest:customer');
+Route::post('/customer/register', [CustomerController::class, 'register'])->name('customer.register')->middleware('guest:customer');
+
 Route::get('/customer/login', [AuthenticatedSessionController::class, 'create'])->name('customer.login')->middleware('guest:customer');
 Route::post('/customer/login/store', [AuthenticatedSessionController::class, 'store'])->name('customer.login.store');
-Route::group(['middleware' => 'customer'], function() {
-    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+
+
+Route::group(['middleware' => ['customer']], function() {
+    Route::post('/customer/verification', [CustomerController::class, 'resendMailVerificationSend'])->name('customer.verification.send');
+    Route::get('/customer/verification', [CustomerController::class, 'resendMailVerification'])->name('customer.verification');
     Route::get('/customer/logout', [AuthenticatedSessionController::class, 'destroy'])->name('customer.logout');
 });
 
 
+Route::group(['middleware' => ['customer','is_customer_verify_email']], function() {
+    Route::get('/customer/dashboard', [CustomerController::class, 'index'])->name('customer.dashboard');
+});
 
-/*
-Route::get('/', function () {
-    return view('welcome');
-});*/
-
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth','verified'])->name('dashboard');
-
-require __DIR__.'/auth.php';
+Route::get('customer/verify/{token}', [CustomerController::class, 'verifyAccount'])->name('customer.verify'); 
 
 
 

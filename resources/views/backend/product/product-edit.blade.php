@@ -835,7 +835,7 @@
                                 @foreach ($GetAllProductCollection as $Collection)
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="collection[]" value="{{ $Collection->id }}" {{ in_array($Collection->id, $ProductLabels) ? 'checked' : '' }}>{{ $Collection->name }}
+                                            <input type="checkbox" class="form-check-input" name="collection[]" value="{{ $Collection->id }}" {{ in_array($Collection->id, $ProductCollection) ? 'checked' : '' }}>{{ $Collection->name }}
                                         </label>
                                     </div>
                                 @endforeach
@@ -848,10 +848,10 @@
                             </div>
 
                             <div class="card-body">
-                                @foreach ($GetAllProductCollection as $Collection)
+                                @foreach ($GetAllProductLabel as $Label)
                                     <div class="form-check">
                                         <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="collection[]" value="{{ $Collection->id }}"{{ in_array($Collection->id, $ProductCollection) ? 'checked' : '' }}>{{ $Collection->name }}
+                                            <input type="checkbox" class="form-check-input" name="label[]" value="{{ $Label->id }}"{{ in_array($Label->id, $ProductLabels) ? 'checked' : '' }}>{{ $Label->name }}
                                         </label>
                                     </div>
                                 @endforeach

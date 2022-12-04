@@ -29,6 +29,7 @@ class Products extends Model
         return $this->belongsToMany(ProductCollection::class,'product_with_collection');
     }
 
+
     public function relatedProduct(){
         return $this->belongsToMany(Products::class,'product_with_related_product','products_id','relation_with_product_id');
     }

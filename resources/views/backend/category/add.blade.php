@@ -62,6 +62,16 @@
               </div>
             </div>
 
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Addition Information</h3>
+              </div>
+
+              <div class="card-body">
+                <label>Icon</label>
+                <input type="text" class="form-control {{$errors->has('icon') ? ' is-invalid' : ''}}" id="icon"  value="{{old('icon')}}" name="icon" placeholder="icon">
+              </div>
+            </div>
 
             <div class="card card-default">
               <div class="card-header">

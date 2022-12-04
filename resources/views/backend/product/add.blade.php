@@ -100,9 +100,7 @@
                                                 <input type="text" class="form-control {{$errors->has('discount_end_date') ? ' is-invalid' : ''}}" id="discount_end_date" name="discount_end_date" value="{{old('discount_end_date')}}" placeholder="">
                                             </div>
                                         </div>
-
                                         <hr>
-
                                         <div class="row">
                                             <div class="form-group col-sm-6">
                                                 <div class="form-check-inline">

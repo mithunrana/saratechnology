@@ -22,7 +22,7 @@ class CreateOrderAddressesTable extends Migration
             $table->string('state', 120)->nullable();
             $table->string('city', 120)->nullable();
             $table->string('zipcode', 120)->nullable();
-            $table->string('address');
+            $table->longText('address');
             $table->timestamps();
         });
     }

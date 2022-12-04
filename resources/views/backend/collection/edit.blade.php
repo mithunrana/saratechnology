@@ -51,7 +51,12 @@
 
                             <div class="form-group">
                                 <label>Description</label>
-                                <textarea class="form-control summernote-editor {{$errors->has('description') ? ' is-invalid' : ''}}" id="description" name="description" rows="4" placeholder="Enter ...">{{$GetCollectionData->description}}</textarea>
+                                <textarea class="form-control {{$errors->has('description') ? ' is-invalid' : ''}}" id="description" name="description" rows="4" placeholder="Enter ...">{{$GetCollectionData->description}}</textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Order</label>
+                                <input type="number" class="form-control {{$errors->has('order') ? ' is-invalid' : ''}}" id="order"  name="order" value="{{$GetCollectionData->order}}">
                             </div>
                         </div>
                     </div>
@@ -70,6 +75,20 @@
                     </div>
 
                     <single-image-input singleimageurlpass="{{$GetCollectionData->image}}"></single-image-input>
+
+                    <div class="card card-default">
+                        <div class="card-header">
+                            <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Is Featured</h3>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input type="checkbox" class="form-check-input" name="is_featured" @if ($GetCollectionData->is_featured == 1) checked @endif>Is Featured
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="card card-default">
                         <div class="card-header">

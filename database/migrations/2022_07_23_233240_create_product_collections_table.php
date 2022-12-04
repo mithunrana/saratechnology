@@ -17,9 +17,10 @@ class CreateProductCollectionsTable extends Migration
             $table->id();
             $table->string('name', 191);
             $table->string('slug', 191);
-            $table->string('description', 400)->nullable()->default(null);
+            $table->longText('description', 400)->nullable()->default(null);
             $table->string('image', 255)->nullable()->default(null);
             $table->string('status', 60)->default('published');
+            $table->tinyInteger('order')->nullable()->unsigned()->default(0);
             $table->timestamp('created_at')->nullable()->default(null);
             $table->timestamp('updated_at')->nullable()->default(null);
             $table->tinyInteger('is_featured')->unsigned()->default(0);
@@ -33,6 +34,8 @@ class CreateProductCollectionsTable extends Migration
      */
     public function down()
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS = 0');
         Schema::dropIfExists('product_collections');
+        DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     }
 }

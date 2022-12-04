@@ -20,7 +20,7 @@ class CreateReviewsTable extends Migration
             $table->bigInteger('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade')->onUpdate('cascade');
             $table->float('star');
-            $table->string('comment');
+            $table->longText('comment');
             $table->string('status', 60)->default('published');
             $table->timestamps();
         });

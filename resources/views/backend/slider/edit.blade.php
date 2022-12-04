@@ -90,10 +90,19 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <img src="{{asset('')}}{{$Item->image}}" id="{{$Item->id}}slideimagepreview" style="width: 150px;height:150px;border:2px solid #17a2b8!important;">
-                                            <input type="hidden" name="imageurl" id="{{$Item->id}}slideimageurl" class="image-data" value=""><br>
-                                            <a href="#" data-value="{{$Item->id}}" class="editslide" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                                        <div class="row">
+                                            <div style="padding:10px;" class="form-group">
+                                                <label for="{{$Item->id}}slideimage">Slide Image</label><br>
+                                                <img src="{{asset('')}}{{$Item->image}}" id="{{$Item->id}}slideimagepreview" style="width: 150px;height:150px;border:2px solid #17a2b8!important;">
+                                                <input type="hidden" name="imageurl" id="{{$Item->id}}slideimage" class="image-data" value="{{$Item->image}}"><br>
+                                                <a href="#" data-value="{{$Item->id}}slideimage" class="addslide" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                                            </div>
+                                            <div style="padding:10px;" class="form-group">
+                                                <label for="{{$Item->id}}backgroundimage">Background Image</label><br>
+                                                <img src="{{asset('')}}{{$Item->background}}" id="{{$Item->id}}backgroundimagepreview" style="width: 150px;height:150px;border:2px solid #17a2b8!important;">
+                                                <input type="hidden" name="backgroundimage" id="{{$Item->id}}backgroundimage" class="image-data" value="{{$Item->background}}"><br>
+                                                <a href="#" data-value="{{$Item->id}}backgroundimage" class="addslide" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +117,6 @@
             </div>
         @endforeach
         <!-- Slider Item EDIT modal End -->
-
 
 
 
@@ -176,10 +184,19 @@
                                     </div>
                                 </div>
                                 <div class="col-md-12">
-                                    <div class="form-group">
-                                        <img src="{{asset('')}}demo-image.png" id="slideimagepreview" style="width: 150px;height:150px;border:2px solid #17a2b8!important;">
-                                        <input type="hidden" name="imageurl" id="slideimageurl" class="image-data" value=""><br>
-                                        <a href="#" data-value="" class="addslide" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                                    <div class="row">
+                                        <div style="padding:10px;" class="form-group">
+                                            <label for="slideimage">Slide Image</label><br>
+                                            <img src="{{asset('')}}demo-image.png" id="slideimagepreview" style="width: 150px;height:150px;border:2px solid #17a2b8!important;">
+                                            <input type="hidden" name="imageurl" id="slideimage" class="image-data" value=""><br>
+                                            <a href="#" data-value="slideimage" class="addslide" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                                        </div>
+                                        <div style="padding:10px;" class="form-group">
+                                            <label for="backgroundimage">Background Image</label><br>
+                                            <img src="{{asset('')}}demo-image.png" id="backgroundimagepreview" style="width: 150px;height:150px;border:2px solid #17a2b8!important;">
+                                            <input type="hidden" name="backgroundimage" id="backgroundimage" class="image-data" value=""><br>
+                                            <a href="#" data-value="backgroundimage" class="addslide" data-toggle="modal" data-target="#SingleImageMedia">Choose image</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -318,8 +335,7 @@
 
 @section('customjs')
 <script>
-    var action = 'ADD'
-    var SlideNo = null;
+    var DataID = null;
     var baseurl = window.location.origin+'/';
 
     $(document).on("click", ".delete", function (e) {
@@ -343,26 +359,18 @@
 
     $(document).on("click", "#imagepush", function (e) {
         var imageurl = $('#mediaurl').val();
-        if(action=='EDIT'){
-            $('#'+SlideNo+'slideimagepreview').attr('src',baseurl+imageurl);
-            $('#'+SlideNo+'slideimageurl').val(imageurl);
-        }else{
-            $('#slideimagepreview').attr('src',baseurl+imageurl);
-            $('#slideimageurl').val(imageurl);
-        }
+        $('#'+DataID+'preview').attr('src',baseurl+imageurl);
+        $('#'+DataID).val(imageurl);
     });
 
     $(document).on("click", ".addslide", function (e) {
-        action = 'ADD';
+        var datavalue = $(this).attr('data-value');
+        DataID = datavalue;
     });
 
     $(document).on("click", ".editslide", function (e) {
-        var SlideID = $(this).attr('data-value');
-        action = 'EDIT';
-        SlideNo = SlideID;
+        var datavalue = $(this).attr('data-value');
+        DataID = datavalue;
     });
-
-  
-
 </script>
 @endsection()

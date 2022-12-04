@@ -177,6 +177,10 @@ class SetupMasterController extends Controller
 
 
 
+
+
+
+
     #Slider Manager ===============================================================================
 
     public function slider(){
@@ -251,6 +255,7 @@ class SetupMasterController extends Controller
         $SliderItemObj->title = $request->title;
         $SliderItemObj->button_text = $request->button_text;
         $SliderItemObj->image = $request->imageurl;
+        $SliderItemObj->background = $request->backgroundimage;
         $SliderItemObj->link = $request->link;
         $SliderItemObj->description = $request->description;
         $SliderItemObj->order = $request->order;
@@ -271,6 +276,7 @@ class SetupMasterController extends Controller
         $SliderItemObj->title = $request->title;
         $SliderItemObj->button_text = $request->button_text;
         $SliderItemObj->image = $request->imageurl;
+        $SliderItemObj->background = $request->backgroundimage;
         $SliderItemObj->link = $request->link;
         $SliderItemObj->description = $request->description;
         $SliderItemObj->order = $request->order;

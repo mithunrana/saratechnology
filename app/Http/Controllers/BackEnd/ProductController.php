@@ -42,6 +42,7 @@ class ProductController extends Controller
 
     public function productStore(Request $request)
     {
+
         $this->validate($request, [
             'name' => 'required',
             'permalink' => 'required',
@@ -50,8 +51,10 @@ class ProductController extends Controller
 
         $images = array();
         if ($request->images) {
-            //$images = '["'.implode('","',$request->images).'"]';
-            $images = implode('"', $request->images);
+            foreach($request->images as $GetImage){
+                $images = $GetImage;
+                break;
+            }
         } else {
             $images = '';
         }
@@ -300,19 +303,21 @@ class ProductController extends Controller
 
     public function productUpdate(Request $request,$id)
     {
-        $ProductObj = Products::findOrFail($id);
-
         $this->validate($request, [
             'name' => 'required',
             'permalink' => "required|unique:products,permalink,$id",
             'tax_id' => 'required',
         ]);
 
+        $ProductObj = Products::findOrFail($id); 
         $VariationCount = ProductVariation::where('products_id',$id)->count();
+
         $images = array();
         if ($request->images) {
-            //$images = '["'.implode('","',$request->images).'"]';
-            $images = implode('"', $request->images);
+            foreach($request->images as $GetImage){
+                $images = $GetImage;
+                break;
+            }
         } else {
             $images = '';
         }
@@ -547,18 +552,20 @@ class ProductController extends Controller
         } else {
             $IsFeatured = 0;
         }
-        $ProductBrandObj = new ProductCategory();
-        $ProductBrandObj->name = $request->name;
-        $ProductBrandObj->permalink = $request->permalink;
-        $ProductBrandObj->description = $request->description;
-        $ProductBrandObj->order = $request->order;
-        $ProductBrandObj->image = $request->imageurl;
-        $ProductBrandObj->parent_id = $request->parent_id;
-        $ProductBrandObj->seotitle = $request->seotitle;
-        $ProductBrandObj->seodescription = $request->seodescription;
-        $ProductBrandObj->status = $request->status;
-        $ProductBrandObj->is_featured = $IsFeatured;
-        $ProductBrandObj->save();
+        
+        $ProductCategoryObj = new ProductCategory();
+        $ProductCategoryObj->name = $request->name;
+        $ProductCategoryObj->permalink = $request->permalink;
+        $ProductCategoryObj->description = $request->description;
+        $ProductCategoryObj->order = $request->order;
+        $ProductCategoryObj->image = $request->imageurl;
+        $ProductCategoryObj->parent_id = $request->parent_id;
+        $ProductCategoryObj->seotitle = $request->seotitle;
+        $ProductCategoryObj->seodescription = $request->seodescription;
+        $ProductCategoryObj->status = $request->status;
+        $ProductCategoryObj->icon = $request->icon;
+        $ProductCategoryObj->is_featured = $IsFeatured;
+        $ProductCategoryObj->save();
 
         return redirect('admin/product-category')->with('message', 'Category Successfully Added');
     }
@@ -587,18 +594,19 @@ class ProductController extends Controller
             $IsFeatured = 0;
         }
 
-        $ProductBrandObj = ProductCategory::findOrFail($id);
-        $ProductBrandObj->name = $request->name;
-        $ProductBrandObj->permalink = $request->permalink;
-        $ProductBrandObj->description = $request->description;
-        $ProductBrandObj->order = $request->order;
-        $ProductBrandObj->image = $request->imageurl;
-        $ProductBrandObj->parent_id = $request->parent_id;
-        $ProductBrandObj->seotitle = $request->seotitle;
-        $ProductBrandObj->seodescription = $request->seodescription;
-        $ProductBrandObj->status = $request->status;
-        $ProductBrandObj->is_featured = $IsFeatured;
-        $ProductBrandObj->save();
+        $ProductCategoryObj = ProductCategory::findOrFail($id);
+        $ProductCategoryObj->name = $request->name;
+        $ProductCategoryObj->permalink = $request->permalink;
+        $ProductCategoryObj->description = $request->description;
+        $ProductCategoryObj->order = $request->order;
+        $ProductCategoryObj->image = $request->imageurl;
+        $ProductCategoryObj->parent_id = $request->parent_id;
+        $ProductCategoryObj->seotitle = $request->seotitle;
+        $ProductCategoryObj->seodescription = $request->seodescription;
+        $ProductCategoryObj->status = $request->status;
+        $ProductCategoryObj->is_featured = $IsFeatured;
+        $ProductCategoryObj->icon = $request->icon;
+        $ProductCategoryObj->save();
 
         return redirect('admin/product-category')->with('message', 'Category Successfully Updated');
     }
@@ -704,6 +712,7 @@ class ProductController extends Controller
             'name' => 'required',
             'slug' => "required",
             'status' => 'required',
+            'order' => 'required',
         ]);
 
         $IsFeatured = 0;
@@ -719,6 +728,8 @@ class ProductController extends Controller
         $ProductCollectionObj->description = $request->description;
         $ProductCollectionObj->image = $request->imageurl;
         $ProductCollectionObj->status = $request->status;
+        $ProductCollectionObj->order = $request->order;
+        $ProductCollectionObj->is_featured = $IsFeatured;
         $ProductCollectionObj->save();
 
         return redirect('admin/product-collection')->with('message', 'Collection Successfully Added');
@@ -739,6 +750,7 @@ class ProductController extends Controller
             'name' => 'required',
             'slug' => "required",
             'status' => 'required',
+            'order' => 'required',
         ]);
 
         $IsFeatured = 0;
@@ -754,6 +766,8 @@ class ProductController extends Controller
         $ProductCollectionObj->description = $request->description;
         $ProductCollectionObj->image = $request->imageurl;
         $ProductCollectionObj->status = $request->status;
+        $ProductCollectionObj->order = $request->order;
+        $ProductCollectionObj->is_featured = $IsFeatured;
         $ProductCollectionObj->save();
 
         return redirect('admin/product-collection')->with('message', 'Collection Successfully Updated');

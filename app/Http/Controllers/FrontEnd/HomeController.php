@@ -42,7 +42,6 @@ class HomeController extends Controller
         $SlideObj = Slider::where('key','home-slider')->first();
         $data['SlideItems'] =  SliderItem::where('slider_id',$SlideObj->id)->orderBy('order','DESC')->get();
 
-        
         return view('frontend.index',$data);
     }
 }
