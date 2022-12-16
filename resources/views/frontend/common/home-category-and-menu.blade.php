@@ -6,7 +6,7 @@
                         <button type="button" data-toggle="collapse" data-target="#navCatContent" aria-expanded="false" class="categories_btn">
                             <i class="linearicons-menu"></i><span>All Categories </span>
                         </button>
-                        <div id="navCatContent" class="nav_cat navbar collapse">
+                        <div id="navCatContent" class="@if(Route::currentRouteName() == 'home') nav_cat @endif navbar collapse">
                             <ul> 
                                 @foreach($PublishDefaultProductCategories as $Categories)
                                     @if(count($Categories->childItems))
@@ -44,41 +44,37 @@
                                     @foreach($PublishMoreProductCategories as $Categories)
                                         <li>
                                             <ul class="more_slide_open">
-                                                <li><a class="dropdown-item nav-link nav_item" href="login.html"><i class="{{$Categories->icon}}"></i> <span>{{$Categories->name}}</span></a></li>
-                                                <li><a class="dropdown-item nav-link nav_item" href="register.html"><i class="{{$Categories->icon}}"></i> <span>{{$Categories->name}}</span></a></li>
+                                                @if(count($Categories->childItems))
+                                                    <li class="dropdown dropdown-mega-menu">
+                                                        <a class="dropdown-item nav-link dropdown-toggler" data-toggle="dropdown" href="{{route('category.products',$Categories->permalink)}}"><i class="{{$Categories->icon}}"></i> <span>{{$Categories->name}}</span></a>
+                                                        <div class="dropdown-menu">
+                                                            <ul class="mega-menu d-lg-flex">
+                                                                <li class="mega-menu-col col-lg-12">
+                                                                    <ul class="d-lg-flex">
+                                                                        @foreach($Categories->childItems as $SubCategory)
+                                                                            <li class="mega-menu-col col-lg-6">
+                                                                                <ul> 
+                                                                                    <li class="dropdown-header">{{$SubCategory->name}}</li>
+                                                                                    @foreach($SubCategory->childItems as $Item)
+                                                                                        <li><a class="dropdown-item nav-link nav_item" href="{{route('category.products',$Item->permalink)}}">{{$Item->name}}</a></li>
+                                                                                    @endforeach
+                                                                                </ul>
+                                                                            </li>
+                                                                        @endforeach
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                @else
+                                                    <li>
+                                                        <a class="dropdown-item nav-link nav_item" href="{{route('category.products',$Categories->permalink)}}">
+                                                            <i class="{{$Categories->icon}}"></i> <span>{{$Categories->name}}</span>
+                                                        </a>
+                                                    </li>
+                                                @endif
                                             </ul>
                                         </li>
-                                        @foreach($PublishMoreProductCategories as $Categories)
-                                            @if(count($Categories->childItems))
-                                                <li class="dropdown dropdown-mega-menu">
-                                                    <a class="dropdown-item nav-link dropdown-toggler" data-toggle="dropdown" href="{{route('category.products',$Categories->permalink)}}"><i class="{{$Categories->icon}}"></i> <span>{{$Categories->name}}</span></a>
-                                                    <div class="dropdown-menu">
-                                                        <ul class="mega-menu d-lg-flex">
-                                                            <li class="mega-menu-col col-lg-12">
-                                                                <ul class="d-lg-flex">
-                                                                    @foreach($Categories->childItems as $SubCategory)
-                                                                        <li class="mega-menu-col col-lg-6">
-                                                                            <ul> 
-                                                                                <li class="dropdown-header">{{$SubCategory->name}}</li>
-                                                                                @foreach($SubCategory->childItems as $Item)
-                                                                                    <li><a class="dropdown-item nav-link nav_item" href="{{route('category.products',$Item->permalink)}}">{{$Item->name}}</a></li>
-                                                                                @endforeach
-                                                                            </ul>
-                                                                        </li>
-                                                                    @endforeach
-                                                                </ul>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </li>
-                                            @else
-                                                <li>
-                                                    <a class="dropdown-item nav-link nav_item" href="{{route('category.products',$Categories->permalink)}}">
-                                                        <i class="{{$Categories->icon}}"></i> <span>{{$Categories->name}}</span>
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
                                     @endforeach
                                 @endif
                             </ul>

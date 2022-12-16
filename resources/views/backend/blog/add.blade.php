@@ -49,6 +49,11 @@
                 </div>
 
                 <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="form-control  {{$errors->has('description') ? ' is-invalid' : ''}} " id="description" name="description" rows="4"  placeholder="Enter ...">{{old('description')}}</textarea>
+                </div>
+
+                <div class="form-group">
                   <label>Content</label>
                   <textarea class="form-control summernote-editor {{$errors->has('content') ? ' is-invalid' : ''}}" id="content" name="content" rows="4"  placeholder="Enter ...">{{old('content')}}</textarea>
                 </div>
@@ -96,9 +101,9 @@
               <div class="card-body">
                 <div class="form-group">
                     <select class="form-control {{$errors->has('status') ? ' is-invalid' : ''}}" name="status" id="status">
-                      <option value="Published" @if (old('status') == "Published") {{ 'selected' }} @endif >Published</option>
-                      <option value="Draft" @if (old('status') == "Draft") {{ 'selected' }} @endif >Draft</option>
-                      <option value="Pending" @if (old('status') == "Pending") {{ 'selected' }} @endif >Pending</option>
+                      <option value="published" @if (old('status') == "published") {{ 'selected' }} @endif >Published</option>
+                      <option value="draft" @if (old('status') == "draft") {{ 'selected' }} @endif >Draft</option>
+                      <option value="pending" @if (old('status') == "pending") {{ 'selected' }} @endif >Pending</option>
                     </select>
                 </div>
               </div>
@@ -154,6 +159,22 @@
 
             <div class="card card-default">
               <div class="card-header">
+                <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Order</h3>
+              </div>
+
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="order">Order</label>
+                  <input type="text" oninput="this.value=this.value.toLowerCase()" class="form-control {{$errors->has('order') ? ' is-invalid' : ''}}" id="order" name="order" value="{{old('order')}}" placeholder="order">
+                  @if ($errors->has('order'))
+                    <span class="text-danger">{{ $errors->first('order') }}</span>
+                  @endif
+                </div>
+              </div>
+            </div>
+
+            <div class="card card-default">
+              <div class="card-header">
                 <h3 class="card-title" style="color:#1f64a0!important;font-weight:bold">Is featured</h3>
               </div>
 
@@ -182,7 +203,9 @@
 @section('customjs')
 <script>
   $(document).ready(function(){
-    $('.summernote-editor').summernote()
+    $('.summernote-editor').summernote({
+      height: 200     
+    })
 
     $('#tags').select2({
       placeholder: 'select tags'

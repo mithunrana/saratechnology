@@ -100,6 +100,16 @@ public function autoGenerate(){
             "theme_thigo_blog_page_id"=>"",
             "theme_thigo_number_of_blog_posts_in_a_category"=>"12",
             "theme_thigo_number_of_blog_posts_in_a_tag"=>"12",
+            "blog_side_banner_image"=>"demo-image.png",
+            "blog_side_banner_title"=>"SALE 30% OFF",
+            "blog_side_banner_subtitle"=>"NEW COLLECTION",
+            "blog_side_banner_buttontext"=>"Shop Now",
+            "blog_side_banner_url"=>"www.thigo.org",
+            "blog_page_meta_keyword"=>"meta keyword",
+            "blog_page_meta_description"=>"meta description",
+            "blog_page_title"=>"Blog Page Title",
+
+
             
             
             //Theme Ecommerce information
@@ -131,6 +141,34 @@ public function autoGenerate(){
             "refund_and_return_policy"=>"",
             "privacy_policy"=>"",
             "online_delivery" => "", 
+
+
+            //Home Page information
+            "home_exclusive_section_title"=>"Exclusive Products",
+            "home_exclusive_section_side_banner"=>"demo-image.png",
+
+
+            //Home Page information
+            "home_page_first_banner_image1"=>"demo-image.png",
+            "home_page_first_banner_title1"=>"Watch",
+            "home_page_first_banner_subtitle1"=>"50% OFF",
+            "home_page_first_banner_url1"=>"#",
+
+            "home_page_first_banner_image2"=>"demo-image.png",
+            "home_page_first_banner_title2"=>"Drone",
+            "home_page_first_banner_subtitle2"=>"50% OFF",
+            "home_page_first_banner_url2"=>"#",
+
+            "home_page_first_banner_image3"=>"demo-image.png",
+            "home_page_first_banner_title3"=>"Phone",
+            "home_page_first_banner_subtitle3"=>"50% OFF",
+            "home_page_first_banner_url3"=>"#",
+
+
+            //SEO Manager 
+            "og_image_width"=>"600",
+            "og_image_height"=>"315",
+
             
         );
 
@@ -155,6 +193,14 @@ public function autoGenerate(){
     public function customJS(){
         return view('backend.settings.customjs');
     }
+
+
+    public function metaManagerUpdate(){
+        Setting::where('key','og_image_width')->update(['value'=>$request->og_image_width]);
+        Setting::where('key','og_image_height')->update(['value'=>$request->og_image_height]);
+        return redirect()->back()->with('message','Meta Information Successfully Updated');
+    }
+
 
     public function customJSUpdate(Request $request){
         Setting::where('key','custom_body_js')->update(['value'=>$request->custom_body_js]);
@@ -228,8 +274,14 @@ public function autoGenerate(){
         Setting::where('key','theme_thigo_blog_page_id')->update(['value'=>$request->theme_thigo_blog_page_id]);
         Setting::where('key','theme_thigo_number_of_blog_posts_in_a_category')->update(['value'=>$request->theme_thigo_number_of_blog_posts_in_a_category]);
         Setting::where('key','theme_thigo_number_of_blog_posts_in_a_tag')->update(['value'=>$request->theme_thigo_number_of_blog_posts_in_a_tag]);
+        Setting::where('key','blog_side_banner_url')->update(['value'=>$request->blog_side_banner_url]);
+        Setting::where('key','blog_side_banner_buttontext')->update(['value'=>$request->blog_side_banner_buttontext]);
+        Setting::where('key','blog_side_banner_subtitle')->update(['value'=>$request->blog_side_banner_subtitle]);
+        Setting::where('key','blog_side_banner_title')->update(['value'=>$request->blog_side_banner_title]);
+        Setting::where('key','blog_side_banner_image')->update(['value'=>$request->blog_side_banner_image]);
         return redirect()->back()->with('message','Facebook Information succesfully updated');
     }
+
 
     public function ecommerceInformationUpdate(Request $request){
         Setting::where('key','theme_thigo_payment_methods_image')->update(['value'=>$request->theme_thigo_payment_methods_image]);
@@ -267,5 +319,43 @@ public function autoGenerate(){
         Setting::where('key','online_delivery')->update(['value'=>$request->online_delivery]);
         return redirect()->back()->with('message','Policy Information succesfully updated');
     }
+
+
+    //========================= Home Page Setting ===========================//
+
+    public function homePageSetting(){
+        return view('backend.settings.home-option');
+    }
+
+
+    public function homeExclusiveSectionUpdate(Request $request){
+        Setting::where('key','home_exclusive_section_title')->update(['value'=>$request->home_exclusive_section_title]);
+        Setting::where('key','home_exclusive_section_side_banner')->update(['value'=>$request->home_exclusive_section_side_banner]);
+        return redirect()->back()->with('message','Home Exclusive Section Information Update');
+    }
+
+
+
+    public function home3ColumnFirstBannerUpdate(Request $request){
+        Setting::where('key','home_page_first_banner_image1')->update(['value'=>$request->home_page_first_banner_image1]);
+        Setting::where('key','home_page_first_banner_title1')->update(['value'=>$request->home_page_first_banner_title1]);
+        Setting::where('key','home_page_first_banner_subtitle1')->update(['value'=>$request->home_page_first_banner_subtitle1]);
+        Setting::where('key','home_page_first_banner_url1')->update(['value'=>$request->home_page_first_banner_url1]);
+
+        Setting::where('key','home_page_first_banner_image2')->update(['value'=>$request->home_page_first_banner_image2]);
+        Setting::where('key','home_page_first_banner_title2')->update(['value'=>$request->home_page_first_banner_title2]);
+        Setting::where('key','home_page_first_banner_subtitle2')->update(['value'=>$request->home_page_first_banner_subtitle2]);
+        Setting::where('key','home_page_first_banner_url2')->update(['value'=>$request->home_page_first_banner_url2]);
+
+        Setting::where('key','home_page_first_banner_image3')->update(['value'=>$request->home_page_first_banner_image3]);
+        Setting::where('key','home_page_first_banner_title3')->update(['value'=>$request->home_page_first_banner_title3]);
+        Setting::where('key','home_page_first_banner_subtitle3')->update(['value'=>$request->home_page_first_banner_subtitle3]);
+        Setting::where('key','home_page_first_banner_url3')->update(['value'=>$request->home_page_first_banner_url3]);
+        return redirect()->back()->with('message','Home Page 3 Column First Banner Update');
+    }
+
+
+
+
 
 }

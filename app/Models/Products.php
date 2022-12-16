@@ -57,6 +57,7 @@ class Products extends Model
         $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
         return $ImageObject->urlwithoutextension.'-150x150.'.$ImageObject->extension;
     }
+    
 
     public static function productLastImage($ProductID){
         return 1;

@@ -21,27 +21,44 @@ use App\Models\OrderProduct;
 use App\Models\Order;
 use App\Models\SliderItem;
 use App\Models\Slider;
+use App\Models\Testimonial;
+use App\Models\BlogPost;
+use App\Models\FlashSale;
+use DateTime;
 use Session;
 
 class HomeController extends Controller
 {
     public function index(){
 
-        $data['Brands'] = ProductBrand::where('status','Published')->orderBy('order','ASC')->get();
-        $data['LatestProducts'] = Products::where('status','Published')->orderBy('id','DESC')->skip(0)->take(10)->get();
+        $data['Brands'] = ProductBrand::where('status','published')->orderBy('order','ASC')->get();
+        $data['LatestProducts'] = Products::where('status','published')->orderBy('id','DESC')->skip(0)->take(10)->get();
 
         $data['FeaturedProducts'] =  Products::where('is_featured',1)->orderBy('id','DESC')->skip(0)->take(3)->get();
         $data['FeaturedProducts2'] =  Products::where('is_featured',1)->orderBy('id','DESC')->skip(3)->take(6)->get();
 
-        $data['TopRatedProducts'] = Reviews::where('status','Published')->orderBy('star','DESC')->skip(0)->take(3)->get()->unique('product_id');
-        $data['TopRatedProducts2'] = Reviews::where('status','Published')->orderBy('star','DESC')->skip(3)->take(3)->get()->unique('product_id');
+        $data['TopRatedProducts'] = Reviews::where('status','published')->orderBy('star','DESC')->skip(0)->take(3)->get()->unique('product_id');
+        $data['TopRatedProducts2'] = Reviews::where('status','published')->orderBy('star','DESC')->skip(3)->take(3)->get()->unique('product_id');
 
         $data['OrderProducts'] = OrderProduct::orderBy('id','DESC')->skip(0)->take(3)->get()->unique('product_id');
         $data['OrderProducts2'] = OrderProduct::orderBy('id','DESC')->skip(3)->take(3)->get()->unique('product_id');
 
+        $data['ProductCollections'] = ProductCollection::where('status','published')->where('is_featured',1)->get();
+
+        $data['TopCategories'] = ProductCategory::where('status','published')->where('is_featured',1)->get();
+
+        $data['Testimonials'] = Testimonial::where('status','published')->get();
+
+        $data['BlogPost'] = BlogPost::where('status','published')->orderBy('order','DESC')->skip(0)->take(3)->get();
+
+        //
+
         $SlideObj = Slider::where('key','home-slider')->first();
         $data['SlideItems'] =  SliderItem::where('slider_id',$SlideObj->id)->orderBy('order','DESC')->get();
 
-        return view('frontend.index',$data);
+        $dt = new DateTime();
+        return $data['FlashSales'] = FlashSale::where('status','published')->where('end_date', '>', $dt->format('Y-m-d H:i:s'))->get();
+
+        //return view('frontend.index',$data);
     }
 }

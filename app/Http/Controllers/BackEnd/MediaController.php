@@ -46,7 +46,7 @@ class MediaController extends Controller
         }
 
         //Intervention Image
-        if($extension=='jpg' || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG' || $extension=='png' || $extension=='PNG' || $extension=='gif' || $extension=='GIF'){
+        if($extension=='jpg' || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG' || $extension=='png' || $extension=='PNG' || $extension=='gif' || $extension=='GIF' || $extension=='webp'){
             $img = Image::make($file->getRealPath());
             $img->save($UploadPath.'/'.$file_name,90);
             // if i first convert to small then convert lerge quality it will be loss.
@@ -58,7 +58,7 @@ class MediaController extends Controller
         }
         
         $mediaUpload = new MediaFile();
-        if($extension=='jpg' || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG' || $extension=='png' || $extension=='PNG' || $extension=='gif' || $extension=='GIF'){
+        if($extension=='jpg' || $extension=='JPG' || $extension=='jpeg' || $extension=='JPEG' || $extension=='png' || $extension=='PNG' || $extension=='gif' || $extension=='GIF' || $extension=='webp'){
             $mediaUpload->mime_type = 'image';
         }elseif($extension =='mp4' || $extension=='mkv' || $extension=='avi'){
             $mediaUpload->mime_type = 'video';

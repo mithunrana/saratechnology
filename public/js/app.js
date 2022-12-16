@@ -5416,7 +5416,7 @@ vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vue_axios__WEBPACK_IMPORTED_MOD
     var myDropzone = new (dropzone__WEBPACK_IMPORTED_MODULE_4___default())(".dropzone", {
       url: '/admin/media-upload',
       method: "post",
-      acceptedFiles: ".jpeg,.JPEG,.jpg,.JPG,.png,.PNG,.gif,.GIF,.pdf,.mp4,.mkv,.avi,.mp3,.wav,.exe",
+      acceptedFiles: ".jpeg,.JPEG,.jpg,.JPG,.png,.PNG,.gif,.GIF,.pdf,.mp4,.mkv,.avi,.mp3,.wav,.exe,.webp",
       addRemoveLinks: true,
       maxFilesize: 500,
       dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
@@ -5802,7 +5802,7 @@ vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vue_axios__WEBPACK_IMPORTED_MOD
     var myDropzone = new (dropzone__WEBPACK_IMPORTED_MODULE_4___default())(".dropzone", {
       url: '/admin/media-upload',
       method: "post",
-      acceptedFiles: ".jpeg,.JPEG,.jpg,.JPG,.png,.PNG,.gif,.GIF,.pdf,.mp4,.mkv,.avi,.mp3,.wav,.exe",
+      acceptedFiles: ".jpeg,.JPEG,.jpg,.JPG,.png,.PNG,.gif,.GIF,.pdf,.mp4,.mkv,.avi,.mp3,.wav,.exe,.webp",
       addRemoveLinks: true,
       maxFilesize: 500,
       dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
@@ -6168,7 +6168,7 @@ vue__WEBPACK_IMPORTED_MODULE_5__["default"].use((vue_axios__WEBPACK_IMPORTED_MOD
     var myDropzone = new (dropzone__WEBPACK_IMPORTED_MODULE_4___default())(".dropzone", {
       url: '/admin/media-upload',
       method: "post",
-      acceptedFiles: ".jpeg,.JPEG,.jpg,.JPG,.png,.PNG,.gif,.GIF,.pdf,.mp4,.mkv,.avi,.mp3,.wav,.exe",
+      acceptedFiles: ".jpeg,.JPEG,.jpg,.JPG,.png,.PNG,.gif,.GIF,.pdf,.mp4,.mkv,.avi,.mp3,.wav,.exe,.webp",
       addRemoveLinks: true,
       maxFilesize: 500,
       dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",

@@ -7,22 +7,22 @@
 @section('maincontent')
 
     <div class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-        <div class="col-sm-12">
-            <ol class="breadcrumb float-sm-left">
-            <li class="breadcrumb-item">
-                <a href="#"><i class="fa fa-home"></i> Home</a>
-            </li>
-            <li class="breadcrumb-item">Products</li>
-            <li class="breadcrumb-item">
-                <a style="color: #212529;" href="{{route('dashboard.product.label')}}" >Label</a>
-            </li>
-            <li class="breadcrumb-item active">Label add</li>
-            </ol>
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <ol class="breadcrumb float-sm-left">
+                        <li class="breadcrumb-item">
+                            <a href="#"><i class="fa fa-home"></i> Home</a>
+                        </li>
+                        <li class="breadcrumb-item">Products</li>
+                        <li class="breadcrumb-item">
+                            <a style="color: #212529;" href="{{route('dashboard.product.label')}}" >Label</a>
+                        </li>
+                        <li class="breadcrumb-item active">Label add</li>
+                    </ol>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
     </div>
   
     <section id="vueapp" class="content">

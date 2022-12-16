@@ -133,6 +133,7 @@
             </div>
 
             <single-image-input singleimageurlpass='{{$GetCategoryData->image}}'></single-image-input>
+            <p style="margin-top: -16px;padding-left: 5px;">Image size shoud be 152 X 142 px</p>
 
             <div class="card card-default">
               <div class="card-header">

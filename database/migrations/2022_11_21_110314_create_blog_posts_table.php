@@ -16,6 +16,7 @@ class CreateBlogPostsTable extends Migration
         Schema::create('blog_posts', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
+            $table->string('description',400)->default(null)->nullable();
             $table->longText('content')->nullable();
             $table->string('status', 60)->default('published');
 
@@ -23,6 +24,8 @@ class CreateBlogPostsTable extends Migration
             $table->string('author_type', 255)->nullable();
             
             $table->tinyInteger('is_featured')->unsigned()->default(0);
+            $table->integer('order')->unsigned()->default(0);
+
             $table->string('image', 255)->nullable();
             $table->integer('views')->unsigned()->default(0);
             $table->string('format_type', 30)->nullable();

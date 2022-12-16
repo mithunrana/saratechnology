@@ -23,19 +23,25 @@
 @endsection()
 
 
+@section('home-top-categories')
+    @include('frontend.home.home-top-categories')
+@endsection()
+
+
 @section('exclusive-product')
     @include('frontend.product.home.exclusive-product')
 @endsection()
 
 
 @section('category-banner')
-    @include('frontend.product.home.category-bannger')
+    @include('frontend.product.home.home-first-three-column-banner')
 @endsection()
 
 
 @section('offer-product')
-    @include('frontend.product.home.offer-product')
+    @include('frontend.home.offer-product')
 @endsection()
+
 
 
 @section('trending-product')
@@ -49,11 +55,22 @@
 
 
 @section('featured-rated-sale-product')
-    @include('frontend.product.home.featured-rated-sale-product')
+    @include('frontend.home.featured-rated-sale-product')
 @endsection()
+
+
+@section('testimonial-section')
+    @include('frontend.home.testimonial')
+@endsection()
+
 
 @section('newsletter')
     @include('frontend.common.newsletter')
+@endsection()
+
+
+@section('home-blog-section')
+    @include('frontend.home.home-blog')
 @endsection()
 
 

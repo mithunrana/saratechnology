@@ -55,7 +55,6 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('*', function ($view){
 
             #Public collection and object
-            $ProductCollections = ProductCollection::where('status','published')->get();
             $GetReviews = Reviews::where('status','published')->orderBy('star', 'ASC')->skip(0)->take(10)->get();
             $FeaturedPoducts = Products::where('status','published')->where('is_featured',1)->orderBy('id', 'DESC')->skip(0)->take(4)->get();
             $GetAllProductPublishedAttributeSet = ProductAttributeSet::where('status','published')->orderBy('id', 'DESC')->get();
@@ -109,7 +108,6 @@ class AppServiceProvider extends ServiceProvider
             $view->with('PublishedProductAttributeSet',$GetAllProductPublishedAttributeSet);
             $view->with('ImageSize',$ImageSize);
             $view->with('CurrencyList',$CurrencyList);
-            $view->with('ProductCollections',$ProductCollections);
             $view->with('ProductFeatures',$ProductFeatures);
             $view->with('TopTenReview',$GetReviews);
             $view->with('FeaturedPoducts',$FeaturedPoducts);

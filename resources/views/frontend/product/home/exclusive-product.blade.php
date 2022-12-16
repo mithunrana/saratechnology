@@ -4,7 +4,7 @@
         	<div class="col-xl-3 d-none d-xl-block">
             	<div class="sale-banner">
                 	<a class="hover_effect1" href="#">
-                		<img src="frontend/assets/images/shop_banner_img6.jpg" alt="shop_banner_img6">
+                		<img src="{{asset('')}}{{ $SettingKey['home_exclusive_section_side_banner'] }}" alt="Exclusive Banner">
                     </a>
                 </div>
             </div>
@@ -13,7 +13,7 @@
                     <div class="col-12">
                         <div class="heading_tab_header">
                             <div class="heading_s2">
-                                <h4>Exclusive Products</h4>
+                                <h4>{{ $SettingKey['home_exclusive_section_title'] }}</h4>
                             </div>
                             <div class="tab-style2">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#tabmenubar" aria-expanded="false"> 

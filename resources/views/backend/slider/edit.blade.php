@@ -313,9 +313,9 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <select class="form-control" name="status" id="status">
-                                        <option value="Published" @if($SliderObj->status == "Published") selected @endif>Published</option>
-                                        <option value="Draft" @if($SliderObj->status == "Draft") selected @endif>Draft</option>
-                                        <option value="Pending" @if($SliderObj->status == "Pending") selected @endif>Pending</option>
+                                        <option value="published" @if($SliderObj->status == "published") selected @endif>Published</option>
+                                        <option value="draft" @if($SliderObj->status == "draft") selected @endif>Draft</option>
+                                        <option value="pending" @if($SliderObj->status == "pending") selected @endif>Pending</option>
                                     </select>
                                 </div>
                             </div>

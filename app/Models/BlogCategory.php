@@ -20,10 +20,10 @@ class BlogCategory extends Model
     }
 
     public function childItems(){
-        return $this->hasMany(BlogCategory::class,'parent_id')->with('subCategory')->where('status','=', 'Published');
+        return $this->hasMany(BlogCategory::class,'parent_id')->with('subCategory')->where('status','=', 'published');
     }
 
     public function blogs(){
-        return $this->belongsToMany(BlogPost::class,'blog_with_category');
+        return $this->belongsToMany(BlogPost::class,'blog_with_category','blog_id','blog_category_id');
     }
 }

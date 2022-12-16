@@ -20,6 +20,18 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/product-delete/{productid}','ProductController@productDelete')->name('dashboard.product.delete');
 
 
+    Route::get('/admin/flash-sales','FlashSaleController@index')->name('dashboard.flash.sale');
+    Route::get('/admin/flash-sale-create','FlashSaleController@create')->name('dashboard.flash.sale.create');
+    Route::post('/admin/flash-sale-store','FlashSaleController@store')->name('dashboard.flash.sale.store');
+    Route::get('/admin/flash-sale-edit/{id}','FlashSaleController@edit')->name('dashboard.flash.sale.edit');
+    Route::post('/admin/flash-sale-update/{id}','FlashSaleController@update')->name('dashboard.flash.sale.update');
+    Route::get('/admin/flash-sale-delete/{id}','FlashSaleController@delete')->name('dashboard.flash.sale.delete');
+
+    Route::post('/admin/flash-sale-item-store/','FlashSaleController@flashSaleItemStore')->name('dashboard.flash.sale.item.store');
+    Route::post('/admin/flash-sale-item-update/{id}','FlashSaleController@flashSaleItemUpdate')->name('dashboard.flash.sale.item.update');
+    Route::get('/admin/flash-sale-item-delete/{id}','FlashSaleController@flashSaleItemRemove')->name('dashboard.flash.sale.item.delete');
+
+
     Route::post('/admin/product.variation.store','ProductController@productVariationStore')->name('dashboard.product.variation.store');
     Route::post('/admin/product.variation.update','ProductController@productVariationUpdate')->name('dashboard.product.variation.update');
     Route::get('/admin/product-variation-delete/{variationid}','ProductController@productVariationDelete')->name('dashboard.product.variation.delete');
@@ -161,6 +173,15 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/review/delete/{id}','ReviewController@delete')->name('dashboard.slider.item.delete');
 
 
+
+    Route::get('/admin/testimonials','TestimonialController@index')->name('dashboard.testimonials');
+    Route::get('/admin/testimonial/add','TestimonialController@create')->name('dashboard.testimonial.add');
+    Route::post('/admin/testimonial/store','TestimonialController@store')->name('dashboard.testimonial.store');
+    Route::get('/admin/testimonial/edit/{id}','TestimonialController@edit')->name('dashboard.testimonial.edit');
+    Route::post('/admin/testimonial/update/{id}','TestimonialController@update')->name('dashboard.testimonial.update');
+    Route::get('/admin/testimonial/delete/{id}','TestimonialController@delete')->name('dashboard.testimonial.delete');
+
+
     Route::get('/admin/slider','SetupMasterController@slider')->name('dashboard.slider');
     Route::get('/admin/slider-add','SetupMasterController@sliderAdd')->name('dashboard.slider.add');
     Route::post('/admin/slider-store','SetupMasterController@sliderStore')->name('dashboard.slider.store');
@@ -198,6 +219,11 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/autogenerate','SettingController@autoGenerate')->name('dashboard.autogenerate');
     Route::get('/admin/setting/options','SettingController@settingOption')->name('dashboard.setting.option');
 
+    Route::get('/admin/setting/home/options','SettingController@homePageSetting')->name('dashboard.setting.home.option');
+    
+    Route::post('/admin/setting/home/exclusivesectionupdate','SettingController@homeExclusiveSectionUpdate')->name('dashboard.setting.home.exclusive.update');
+    Route::post('/admin/setting/home/3columnfirstbannerupdate','SettingController@home3ColumnFirstBannerUpdate')->name('dashboard.setting.home.threecolumnfirstbanner.update');
+
     Route::post('/admin/setting/socialupdate','SettingController@socialInformationUpdate')->name('dashboard.setting.social.update');
     Route::post('/admin/setting/headerupdate','SettingController@headerlInformationUpdate')->name('dashboard.setting.header.update');
 
@@ -218,6 +244,8 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/setting/customcssupdate','SettingController@customCSSUpdate')->name('dashboard.setting.customcss.update');
     Route::post('/admin/setting/policyupdate','SettingController@policyUpdate')->name('dashboard.setting.policy.update');
 
+    Route::post('/admin/setting/metamanagerupdate','SettingController@metaManagerUpdate')->name('dashboard.setting.metamanager.update');
+
 
     
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
@@ -226,6 +254,7 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/media-folder-create','MediaController@mediaFolderCreate')->name('media.folder.create');
 
 });
+
 
 
 
@@ -263,10 +292,19 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('/return-refund-policy','Homecontroller@ReturnRefundPolicy')->name('return.refund.policy');
     Route::get('/online-delivery','Homecontroller@OnlineDelivery')->name('online.delivery');
 
+    Route::get('/blog','BlogController@index')->name('blog');
+    Route::get('/category/{url}','BlogController@categoryWiseBlogs')->name('category.blog');
+    Route::get('/tag/{url}','BlogController@tagWiseBlogs')->name('tag.blog');
+    Route::get('blog/{url}','BlogController@singleBlog')->name('single.blog');
+
     Route::get('/products','ProductController@index')->name('products');
     Route::get('/products/{url}','ProductController@categoryWiseProducts')->name('category.products');
     Route::get('/{url}','ProductController@productView')->name('productview');
+
+
+
 });
+
 
 
 
@@ -289,7 +327,6 @@ Route::group(['middleware' => ['customer','is_customer_verify_email']], function
 });
 
 Route::get('customer/verify/{token}', [CustomerController::class, 'verifyAccount'])->name('customer.verify'); 
-
 
 
 

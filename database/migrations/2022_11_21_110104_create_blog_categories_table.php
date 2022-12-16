@@ -24,6 +24,7 @@ class CreateBlogCategoriesTable extends Migration
             $table->tinyInteger('order')->default(0);
             $table->tinyInteger('is_featured')->default(0);
             $table->tinyInteger('is_default')->nullable()->unsigned()->default(0);
+            $table->longText('content')->nullable();
 
             $table->string('permalink', 255)->default(null);
             $table->string('seotitle')->nullable()->default(null);

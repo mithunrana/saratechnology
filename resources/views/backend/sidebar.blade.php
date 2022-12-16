@@ -88,7 +88,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('dashboard.flash.sale')}}" class="nav-link">
                   <i class="fa fa-bolt nav-icon"></i>
                   <p>Flash sales</p>
                 </a>
@@ -240,6 +240,11 @@
               <li class="nav-item">
                 <a href="{{route('dashboard.setting.option')}}" style="font-weight:100" class="nav-link">
                   <p>&nbsp Theme Options</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.setting.home.option')}}" style="font-weight:100" class="nav-link">
+                  <p>&nbsp Home</p>
                 </a>
               </li>
               <li class="nav-item">

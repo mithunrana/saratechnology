@@ -23,15 +23,18 @@ class BlogController extends Controller
     public function blogStore(Request $request){
         $this->validate($request, [
             'name' => 'required',
-            'permalink' => 'required|unique:blog_tags,permalink',
+            'permalink' => "required|unique:blog_posts,permalink",
+            'order' => 'required|integer|digits_between:1,10',
             'status' => 'required',
         ]);
 
         $BlogObj = new  BlogPost();
         $BlogObj->name =  $request->name;
+        $BlogObj->description =  $request->description;
         $BlogObj->content =  $request->content;
         $BlogObj->status =  $request->status;
         $BlogObj->is_featured = $request->is_featured ? 1 : 0;
+        $BlogObj->order =  $request->order;
         $BlogObj->image =  $request->imageurl;
         $BlogObj->permalink =  $request->permalink;
         $BlogObj->seotitle =  $request->seotitle;
@@ -57,12 +60,22 @@ class BlogController extends Controller
 
 
     public function blogUpdate(Request $request,$id){
+
+        $this->validate($request, [
+            'name' => 'required',
+            'permalink' => "required|unique:blog_posts,permalink,$id",
+            'order' => 'required|integer|digits_between:1,10',
+            'status' => 'required',
+        ]);
+
         $BlogObj = BlogPost::where('id', $id)->first();
         $BlogObj->name =  $request->name;
+        $BlogObj->description =  $request->description;
         $BlogObj->content =  $request->content;
         $BlogObj->status =  $request->status;
         $BlogObj->is_featured = $request->is_featured ? 1 : 0;
         $BlogObj->image =  $request->imageurl;
+        $BlogObj->order =  $request->order;
         $BlogObj->permalink =  $request->permalink;
         $BlogObj->seotitle =  $request->seotitle;
         $BlogObj->metadescription =  $request->metadescription;
@@ -75,6 +88,15 @@ class BlogController extends Controller
 
         return redirect()->route('dashboard.blog')->with('message', 'Blog Successfully Updated');
     }
+
+
+
+
+
+    #------------------- Blog Category Manager----------------------
+
+
+
 
     public function blogCategory(){
         return view('backend.blog.category');
@@ -97,6 +119,7 @@ class BlogController extends Controller
         $BlogCategoryObj->permalink = $request->permalink;
         $BlogCategoryObj->order = $request->order;
         $BlogCategoryObj->icon = $request->icon;
+        $BlogCategoryObj->content = $request->content;
         $BlogCategoryObj->seotitle = $request->seotitle;
         $BlogCategoryObj->metadescription = $request->metadescription;
         $BlogCategoryObj->is_featured = $request->is_featured ? 1 : 0;
@@ -126,6 +149,7 @@ class BlogController extends Controller
         $BlogCategoryObj->permalink = $request->permalink;
         $BlogCategoryObj->order = $request->order;
         $BlogCategoryObj->icon = $request->icon;
+        $BlogCategoryObj->content = $request->content;
         $BlogCategoryObj->seotitle = $request->seotitle;
         $BlogCategoryObj->metadescription = $request->metadescription;
         $BlogCategoryObj->is_featured = $request->is_featured ? 1 : 0;

@@ -98,9 +98,9 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <select class="form-control" name="status" id="status">
-                                <option value="Published" @if($GetCollectionData->status == "Published") selected @endif>Published</option>
-                                <option value="Draft" @if($GetCollectionData->status == "Draft") selected @endif>Draft</option>
-                                <option value="Pending" @if($GetCollectionData->status == "Pending") selected @endif>Pending</option>
+                                    <option value="published" @if($GetCollectionData->status == "published") selected @endif>Published</option>
+                                    <option value="draft" @if($GetCollectionData->status == "draft") selected @endif>Draft</option>
+                                    <option value="pending" @if($GetCollectionData->status == "pending") selected @endif>Pending</option>
                                 </select>
                             </div>
                         </div>

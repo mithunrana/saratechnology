@@ -67,6 +67,9 @@
                                 <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-policy-tab" data-toggle="pill" href="#vert-tabs-policy" role="tab" aria-controls="vert-tabs-policy" aria-selected="false">
                                     <i class="fas fa-file-contract"></i> Policy
                                 </a>
+                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-meta-tab" data-toggle="pill" href="#vert-tabs-meta" role="tab" aria-controls="vert-tabs-meta" aria-selected="false">
+                                    <i class="fas fa-file-contract"></i> Meta Manager
+                                </a>
                             </div>
                         </div>
 
@@ -311,6 +314,43 @@
                                                 <label for="theme_thigo_number_of_blog_posts_in_a_tag">Number of posts per page in a tag:</label>
                                                 <input type="text" class="form-control" id="theme_thigo_number_of_blog_posts_in_a_tag" value="{{ $SettingKey['theme_thigo_number_of_blog_posts_in_a_tag'] }}" name="theme_thigo_number_of_blog_posts_in_a_tag">
                                             </div>
+
+
+                                            <div class="form-group">
+                                                <label for="blog_page_title">Blog Page Title:</label>
+                                                <input type="text" class="form-control" id="blog_page_title" value="{{ $SettingKey['blog_page_title'] }}" name="blog_page_title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="blog_page_meta_description">Blog Page Meta Description:</label>
+                                                <input type="text" class="form-control" id="blog_page_meta_description" value="{{ $SettingKey['blog_page_meta_description'] }}" name="blog_page_meta_description">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="blog_page_meta_keyword">Blog Page Meta Keyword:</label>
+                                                <input type="text" class="form-control" id="blog_page_meta_keyword" value="{{ $SettingKey['blog_page_meta_keyword'] }}" name="blog_page_meta_keyword">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="blog_side_banner_title">Blog Side Banner Title:</label>
+                                                <input type="text" class="form-control" id="blog_side_banner_title" value="{{ $SettingKey['blog_side_banner_title'] }}" name="blog_side_banner_title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="blog_side_banner_subtitle">Blog Side Banner Subtitle:</label>
+                                                <input type="text" class="form-control" id="blog_side_banner_subtitle" value="{{ $SettingKey['blog_side_banner_subtitle'] }}" name="blog_side_banner_subtitle">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="blog_side_banner_buttontext">Blog Side Banner Button Text:</label>
+                                                <input type="text" class="form-control" id="blog_side_banner_buttontext" value="{{ $SettingKey['blog_side_banner_buttontext'] }}" name="blog_side_banner_buttontext">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="blog_side_banner_url">Blog Side Banner URL:</label>
+                                                <input type="text" class="form-control" id="blog_side_banner_url" value="{{ $SettingKey['blog_side_banner_url'] }}" name="blog_side_banner_url">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="blog_side_banner_image">Blog Banner Image:</label><br>
+                                                <img src="{{asset('')}}{{ $SettingKey['blog_side_banner_image'] }}" id="blog_side_banner_imagepreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
+                                                <input type="hidden" name="blog_side_banner_image" id="blog_side_banner_image" value="{{ $SettingKey['blog_side_banner_image'] }}" class="image-data"><br> 
+                                                <a href="#" data-value="blog_side_banner_image" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
+                                            </div>
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </form>
                                     </div>
@@ -437,6 +477,23 @@
                                             <div class="form-group">
                                                 <label for="online_delivery">Online Delivery Policy:</label>
                                                 <textarea class="form-control summernote-editor" rows="6" id="online_delivery" name="online_delivery">{{ $SettingKey['online_delivery'] }}</textarea>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane fade" id="vert-tabs-meta" role="tabpanel" aria-labelledby="vert-tabs-meta-tab">
+                                    <div class="container">
+                                        <form action="{{route('dashboard.setting.metamanager.update')}}" method="post">
+                                            @csrf
+                                            <div class="form-group">
+                                                <label for="og_image_height">OG Image Height:</label>
+                                                <input type="text" class="form-control" id="og_image_height" value="{{ $SettingKey['og_image_height'] }}"  name="og_image_height">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="og_image_width">OG Image Width:</label>
+                                                <input type="text" class="form-control" id="og_image_width" value="{{ $SettingKey['og_image_width'] }}" name="og_image_width">
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </form>

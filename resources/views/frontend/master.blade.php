@@ -4,15 +4,30 @@
 <!-- Meta -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta content="Anil z" name="author">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Shopwise is Powerful features and You Can Use The Perfect Build this Template For Any eCommerce Website. The template is built for sell Fashion Products, Shoes, Bags, Cosmetics, Clothes, Sunglasses, Furniture, Kids Products, Electronics, Stationery Products and Sporting Goods.">
-<meta name="keywords" content="ecommerce, electronics store, Fashion store, furniture store,  bootstrap 4, clean, minimal, modern, online store, responsive, retail, shopping, ecommerce store">
 
-<!-- SITE TITLE -->
-<title>Shopwise - eCommerce Bootstrap 4 HTML Template</title>
-<!-- Favicon Icon -->
-<link rel="shortcut icon" type="image/x-icon" href="{{asset('')}}frontend/assets/images/favicon.png">
+
+<!-- SEO RELATED DATA START-->
+<title>  @isset($title) {{$title}} @endisset </title>
+<meta name="author" content="Mithun Rana">
+<meta name="description" content="@isset($metadescription){{$metadescription}}@endisset">
+<meta name="keywords" content="@isset($metakeywords){{$metakeywords}}@endisset">
+<link rel="shortcut icon" href="{{ $SettingKey['theme_thigo_favicon'] }}" sizes="32x32" />
+<link rel="icon" type="image/ico" href="{{ $SettingKey['theme_thigo_favicon'] }}" sizes="192x1922" />
+
+<meta name="fb:app_id" property="fb:app_id" content="308590786521219" />
+
+<meta property="og:url"           content="@php echo url()->current(); @endphp"/>
+<meta property="og:title"         content="@isset($title){{$title}}@endisset"/>
+<meta property="og:description"   content="@isset($metadescription){{$metadescription}}@endisset" />
+<meta property="og:image"         content="@isset($image){{asset('')}}{{$image}}@endisset" />
+
+<meta property="og:image:width"   content="{{ $SettingKey['og_image_width'] }}" />
+<meta property="og:image:height"  content="{{ $SettingKey['og_image_height'] }}" />
+<!-- SEO RELATED DATA END-->
+
+
+
 <!-- Animation CSS -->
 <link rel="stylesheet" href="{{asset('')}}frontend/assets/css/animate.css">	
 <!-- Latest Bootstrap min CSS -->
@@ -84,43 +99,64 @@
 
     @yield('main-content')
 
-    @yield('product-view-details')
+    <!-- START PRODUCT VIEW SECTION -->
+        @yield('product-view-details')
+    <!-- END PRODUCT VIEW SECTION -->
+
 
     <!-- START SECTION SHOP -->
-    @yield('exclusive-product')
+        @yield('home-top-categories')
+    <!-- END SECTION SHOP -->
+
+
+    <!-- START SECTION SHOP -->
+        @yield('exclusive-product')
     <!-- END SECTION SHOP -->
 
 
 
     <!-- START CATEGORY SECTION BANNER --> 
-    @yield('category-banner')
+        @yield('category-banner')
     <!-- END CATEGORY SECTION BANNER --> 
 
+    
 
     <!-- START SECTION SHOP -->
-    @yield('offer-product')
+        @yield('offer-product')
     <!-- END SECTION SHOP -->
 
 
 
     <!-- START SECTION SHOP | Trending Products-->
-    @yield('trending-product')
+        @yield('trending-product')
     <!-- END SECTION SHOP -->
 
 
 
     <!-- START SECTION BRAND LOGO -->
-    @yield('brand-section')
+        @yield('brand-section')
     <!-- END SECTION CLIENT LOGO -->
 
 
     <!-- START SECTION SHOP -->
-    @yield('featured-rated-sale-product')
+        @yield('featured-rated-sale-product')
     <!-- END SECTION SHOP -->
 
 
+
+    <!-- START SECTION SHOP -->
+        @yield('testimonial-section')
+    <!-- END SECTION SHOP -->
+    
+
+    <!-- START SECTION BLOG  -->
+        @yield('home-blog-section')
+    <!-- END SECTION BLOG  -->
+
+
+
     <!-- START SECTION SUBSCRIBE NEWSLETTER -->
-    @yield('newsletter')
+        @yield('newsletter')
     <!-- START SECTION SUBSCRIBE NEWSLETTER -->
 </div>
 <!-- END MAIN CONTENT -->

@@ -54,6 +54,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label>Category Details</label>
+                    <textarea class="form-control {{$errors->has('content') ? ' is-invalid' : ''}} summernote-editor" rows="3" id="content" name="content" value="" placeholder="content">{{$CategoryData->content}}</textarea>
+                </div>
+
+                <div class="form-group">
                   <label for="icon">Icon</label>
                   <input type="text" class="form-control {{$errors->has('icon') ? ' is-invalid' : ''}}" id="icon"  value="{{$CategoryData->icon}}" name="icon" placeholder="Ex: fa fa-home">
                 </div>
@@ -119,9 +124,9 @@
               <div class="card-body">
                 <div class="form-group">
                     <select class="form-control {{$errors->has('status') ? ' is-invalid' : ''}}" name="status" id="status">
-                      <option value="Published" @if ($CategoryData->status == "Published") {{ 'selected' }} @endif >Published</option>
-                      <option value="Draft" @if ($CategoryData->status == "Draft") {{ 'selected' }} @endif >Draft</option>
-                      <option value="Pending" @if ($CategoryData->status == "Pending") {{ 'selected' }} @endif >Pending</option>
+                      <option value="published" @if ($CategoryData->status == "published") {{ 'selected' }} @endif >Published</option>
+                      <option value="draft" @if ($CategoryData->status == "draft") {{ 'selected' }} @endif >Draft</option>
+                      <option value="pending" @if ($CategoryData->status == "pending") {{ 'selected' }} @endif >Pending</option>
                     </select>
                 </div>
               </div>
