@@ -58,13 +58,14 @@
                                         <td>{{$FlashSale->name }}</td>
                                         <td>{{$FlashSale->created_at->diffForHumans()}}</td>
                                         <td>
-                                            <span class="badge badge-info">{{$FlashSale->status}}</span>
+                                            <span class="badge badge-info">{{$FlashSale->status}}</span> 
                                         </td>
                                         <td>
                                             <a href="{{ route('dashboard.flash.sale.edit',$FlashSale->id) }}" class="btn btn-info" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size: 17px;"></i></a>
                                             <button href="{{ route('dashboard.flash.sale.delete',$FlashSale->id) }}" type="button" value="{{ $FlashSale->id }}" class="btn btn-danger delete" data-toggle="tooltip" title="Delete">
                                             <i aria-hidden="true" class="fa fa-trash"></i>
                                             </button>
+                                            
                                         </td>
                                     </tr>
                                 @endforeach

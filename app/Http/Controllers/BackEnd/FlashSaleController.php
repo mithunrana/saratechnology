@@ -35,7 +35,7 @@ class FlashSaleController extends Controller
 
     public function edit(Request $request,$id){
         $FlashSaleData = FlashSale::where('id',$id)->first();
-        $Products = Products::orderBy('id','DESC')->get();
+        $Products = Products::orderBy('id','DESC')->where('status','published')->get();
         return view('backend.flashsale.edit',compact('FlashSaleData','Products'));
     }
 

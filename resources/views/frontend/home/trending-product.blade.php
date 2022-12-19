@@ -24,12 +24,12 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="product_slider carousel_slider owl-carousel owl-theme dot_style1" data-loop="true" data-margin="20" data-responsive='{"0":{"items": "1"}, "481":{"items": "2"}, "768":{"items": "3"}, "991":{"items": "4"}}'>
-                            @foreach($LatestProducts as $Product)
+                            @foreach($TrendingProducts as $Product)
                                 <div class="item">
                                     <div class="product_wrap">
                                         <div class="product_img">
                                             <a href="shop-product-detail.html">
-                                                <img src="{{$Product->productFirstImageLongHeightSize($Product->id)}}" alt="el_img2">
+                                                <img src="{{$Product->product->productFirstImageLongHeightSize($Product->product->id)}}" alt="el_img2">
                                             </a>
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
@@ -41,10 +41,10 @@
                                             </div>
                                         </div>
                                         <div class="product_info">
-                                            <h6 class="product_title"><a href="shop-product-detail.html">{{$Product->name}}</a></h6>
+                                            <h6 class="product_title"><a href="shop-product-detail.html">{{$Product->product->name}}</a></h6>
                                             <div class="product_price">
-                                                <span class="price">{{$Product->sale_price}}</span>
-                                                <del>{{$Product->price}}</del>
+                                                <span class="price">{{$Product->product->sale_price}}</span>
+                                                <del>{{$Product->product->price}}</del>
                                                 <div class="on_sale">
                                                     <span>25% Off</span>
                                                 </div>

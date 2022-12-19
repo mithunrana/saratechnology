@@ -748,11 +748,11 @@
                                 <div class="form-group">
                                     <select class="form-control {{ $errors->has('status') ? ' is-invalid' : '' }}"
                                         name="status" id="status">
-                                        <option value="Published" @if ($Product->status == 'Published') selected @endif>
+                                        <option value="published" @if ($Product->status == 'published') selected @endif>
                                             Published</option>
-                                        <option value="Draft" @if ($Product->status == 'Draft') selected @endif>Draft
+                                        <option value="draft" @if ($Product->status == 'draft') selected @endif>Draft
                                         </option>
-                                        <option value="Pending" @if ($Product->status == 'Pending') selected @endif>Pending
+                                        <option value="pending" @if ($Product->status == 'pending') selected @endif>Pending
                                         </option>
                                     </select>
                                 </div>

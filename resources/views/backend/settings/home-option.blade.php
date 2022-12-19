@@ -43,8 +43,8 @@
                                 <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-3column-bannder-first-tab" data-toggle="pill" href="#vert-tabs-3column-bannder-first" role="tab" aria-controls="vert-tabs-3column-bannder-first" aria-selected="false">
                                     <i class="fa fa-image"></i> 3 Column Banner First
                                 </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-social-tab" data-toggle="pill" href="#vert-tabs-social" role="tab" aria-controls="vert-tabs-social" aria-selected="false">
-                                    <i class="fa fa-share-alt"></i> Social
+                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-trending-products-tab" data-toggle="pill" href="#vert-tabs-trending-products" role="tab" aria-controls="vert-tabs-trending-products" aria-selected="false">
+                                    <i class="fa fa-camera"></i> Trending Products
                                 </a>
                                 <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-header-tab" data-toggle="pill" href="#vert-tabs-header" role="tab" aria-controls="vert-tabs-header" aria-selected="false">
                                     <i class="fas fa-magic"></i> Header
@@ -181,32 +181,47 @@
                                 </div>
 
 
-                                <div class="tab-pane fade" id="vert-tabs-social" role="tabpanel" aria-labelledby="vert-tabs-social-tab">
+                                <div class="tab-pane fade" id="vert-tabs-trending-products" role="tabpanel" aria-labelledby="vert-tabs-trending-products-tab">
                                     <div class="container">
-                                        <form action="{{route('dashboard.setting.social.update')}}" method="post">
+                                        <form action="{{route('dashboard.setting.trending.item.store')}}" method="post">
                                             @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_facebook">Facebook:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_facebook" value="{{ $SettingKey['theme_thigo_facebook'] }}"  name="theme_thigo_facebook">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_twitter">Twitter:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_twitter" value="{{ $SettingKey['theme_thigo_twitter'] }}" name="theme_thigo_twitter">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_youtube">Youtube:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_youtube" value="{{ $SettingKey['theme_thigo_youtube'] }}" name="theme_thigo_youtube">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_instagram">Instagram:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_instagram" value="{{ $SettingKey['theme_thigo_instagram'] }}" name="theme_thigo_instagram">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_linkedin">Linkedin:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_linkedin" value="{{ $SettingKey['theme_thigo_linkedin'] }}" name="theme_thigo_linkedin">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label for="products_id">Item</label>
+                                                    <select class="form-control {{$errors->has('products_id') ? ' is-invalid' : ''}} products" name="products_id" id="products_id">
+                                                        @foreach($Products as $Product)
+                                                            <option data-left="{{asset('')}}{{$Product->productFirstImageSmallSize($Product->id)}}" {{ in_array($Product->id, $TrendigItems) ? 'data-right=Added' : '' }}  value="{{$Product->id}}" >{{$Product->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    @if ($errors->has('products_id'))
+                                                        <span class="text-danger">{{ $errors->first('products_id') }}</span>
+                                                    @endif
+                                                </div>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </form>
+
+                                        <div class="row" style="margin-top:10px;">
+                                            @foreach($TrendingProducts as $Product)
+                                                <div class="col-sm-3">
+                                                    <div class="card">
+                                                        <img class="card-img-top" src="{{asset('')}}{{$Product->product->productFirstImageSmallSize($Product->product->id)}}" alt="Card image" style="width:100%">
+                                                        <div class="card-body">
+                                                            <h4 class="card-title"> <b><del>{{$Product->product->price}}</del></b> | <b>{{$Product->product->sale_price}}</b></h4>
+                                                            <p class="card-text">{{$Product->product->name}}</p>
+                                                            <button href="{{ route('dashboard.setting.trending.item.remove',$Product->product->id) }}" type="button" value="{{ $Product->product->id }}" class="btn btn-danger delete" data-toggle="tooltip" title="Delete">
+                                                                <i aria-hidden="true" class="fa fa-trash"></i>
+                                                            </button>
+                                                            @if($Product->product->status=='published')
+                                                                <span class="btn btn-success">{{$Product->product->status}}</span>
+                                                            @else
+                                                                <span class="btn btn-danger">{{$Product->product->status}}</span>
+                                                            @endif()
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endforeach()
+                                        </div>
                                     </div>
                                 </div>
 
@@ -451,7 +466,7 @@
     var DataID = null;
     var baseurl = window.location.origin+'/';
 
-    $(document).on("click", "#imagepush", function (e) {
+    $(document).on("click", "#imagepush", function (e){
         var imageurl = $('#mediaurl').val();
         $('#'+DataID+'preview').attr('src',baseurl+imageurl);
         $('#'+DataID).val(imageurl);
@@ -463,7 +478,27 @@
     });
 
     $(document).ready(function(){
-        $('.summernote-editor').summernote()
+        $('.summernote-editor').summernote();
+        $('.products').selectator();
+
+        $(document).on("click", ".delete", function (e) {
+            e.preventDefault();
+            var link = $(this).attr("href");
+            Swal.fire({
+                title: "Are you sure?",
+                text: "Delete this data!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!",
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = link;
+                    Swal.fire("Deleted!", "Data has been deleted.", "success");
+                }
+            });
+        });
     })
 </script>
 @endsection()

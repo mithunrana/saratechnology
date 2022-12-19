@@ -44,18 +44,28 @@ class Products extends Model
 
     public static function productFirstImageNormalSize($id){
         $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
-        return $ImageObject->urlwithoutextension.'-500x500.'.$ImageObject->extension;
+        if($ImageObject){
+            return $ImageObject->urlwithoutextension.'-500x500.'.$ImageObject->extension;
+        }
     }
 
     public static function productFirstImageLongHeightSize($id){
         $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
-        return $ImageObject->urlwithoutextension.'-540x600.'.$ImageObject->extension;
+        if($ImageObject){
+            return $ImageObject->urlwithoutextension.'-540x600.'.$ImageObject->extension;
+        }else{
+            return "demo-image.png";
+        }
     }
 
 
     public static function productFirstImageSmallSize($id){
         $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
-        return $ImageObject->urlwithoutextension.'-150x150.'.$ImageObject->extension;
+        if($ImageObject){
+            return $ImageObject->urlwithoutextension.'-150x150.'.$ImageObject->extension;
+        }else{
+            return "demo-image.png";
+        }
     }
     
 

@@ -4,7 +4,8 @@ namespace App\Http\Controllers\BackEnd;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
-
+use App\Models\Products;
+use App\Models\TrendingItem;
 class SettingController extends Controller
 {
 public function autoGenerate(){
@@ -324,7 +325,10 @@ public function autoGenerate(){
     //========================= Home Page Setting ===========================//
 
     public function homePageSetting(){
-        return view('backend.settings.home-option');
+        $Products = Products::orderBy('id','DESC')->where('status','published')->get();
+        $TrendingProducts = TrendingItem::orderBy('id','DESC')->get();
+        $TrendigItems = TrendingItem::pluck('products_id')->toArray();
+        return view('backend.settings.home-option',compact('Products','TrendingProducts','TrendigItems'));
     }
 
 
@@ -334,6 +338,24 @@ public function autoGenerate(){
         return redirect()->back()->with('message','Home Exclusive Section Information Update');
     }
 
+
+    public function trendingProductAdd(Request $request){
+        $validated = $request->validate([
+            'products_id' => "required:|integer|unique:trending_items",
+        ]);
+
+        $TrendingItemObj = new  TrendingItem(); 
+        $TrendingItemObj->products_id = $request->products_id;
+        $TrendingItemObj->save();
+        return redirect()->back()->with('message','Trending Item Successfully Added');
+    }
+
+
+    public function trendingProductRemove(Request $request,$id){
+        $TrendingItemObj = TrendingItem::where('products_id',$id)->first();
+        $TrendingItemObj->delete();
+        return redirect()->back()->with('message','Item Successfully Removed');
+    }
 
 
     public function home3ColumnFirstBannerUpdate(Request $request){

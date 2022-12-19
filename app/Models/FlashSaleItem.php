@@ -12,4 +12,17 @@ class FlashSaleItem extends Model
     public function products(){
         return $this->belongsTo(Products::class,'products_id');
     }
+
+
+
+    public static function availablePercent($TotalQuantity,$SoldQuantity){
+        $EachProductPercent = 100/$TotalQuantity;
+        return 100 - $EachProductPercent*$SoldQuantity;
+    }
+
+
+    public static function availableQuantity($TotalQuantity,$SoldQuantity){
+        return $AvailableQuantity = $TotalQuantity - $SoldQuantity;
+    }
+
 }

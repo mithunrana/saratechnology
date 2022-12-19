@@ -23,7 +23,7 @@
                     	<div class="blog_text">
                             <h5 class="blog_title"><a href="{{route('single.blog',$Blog->permalink)}}">{{$Blog->name}}</a></h5>
                             <ul class="list_none blog_meta">
-                                <li><a href="#"><i class="ti-calendar"></i> {{ date_format($Blog->created_at,"d-M-Y");}}</a></li>
+                                <li><a href="#"><i class="ti-calendar"></i> {{ date_format($Blog->created_at,"d-M-Y")}}</a></li>
                                 <li><a href="#"><i class="ti-comments"></i> 2 Comment</a></li>
                             </ul>
                             <p> {!! Str::limit($Blog->description, 60, ' ...') !!}</p>

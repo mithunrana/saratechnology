@@ -45,7 +45,7 @@
 
 
 @section('trending-product')
-    @include('frontend.product.home.trending-product')
+    @include('frontend.home.trending-product')
 @endsection()
 
 

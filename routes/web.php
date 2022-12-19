@@ -244,6 +244,9 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/setting/customcssupdate','SettingController@customCSSUpdate')->name('dashboard.setting.customcss.update');
     Route::post('/admin/setting/policyupdate','SettingController@policyUpdate')->name('dashboard.setting.policy.update');
 
+    Route::post('/admin/setting/trendingitemstore','SettingController@trendingProductAdd')->name('dashboard.setting.trending.item.store');
+    Route::get('/admin/setting/trendingitemremove/{id}','SettingController@trendingProductRemove')->name('dashboard.setting.trending.item.remove');
+
     Route::post('/admin/setting/metamanagerupdate','SettingController@metaManagerUpdate')->name('dashboard.setting.metamanager.update');
 
 

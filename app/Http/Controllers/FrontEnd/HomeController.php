@@ -24,6 +24,8 @@ use App\Models\Slider;
 use App\Models\Testimonial;
 use App\Models\BlogPost;
 use App\Models\FlashSale;
+use App\Models\FlashSaleItem;
+use App\Models\TrendingItem;
 use DateTime;
 use Session;
 
@@ -32,7 +34,7 @@ class HomeController extends Controller
     public function index(){
 
         $data['Brands'] = ProductBrand::where('status','published')->orderBy('order','ASC')->get();
-        $data['LatestProducts'] = Products::where('status','published')->orderBy('id','DESC')->skip(0)->take(10)->get();
+        $data['TrendingProducts'] = TrendingItem::get();
 
         $data['FeaturedProducts'] =  Products::where('is_featured',1)->orderBy('id','DESC')->skip(0)->take(3)->get();
         $data['FeaturedProducts2'] =  Products::where('is_featured',1)->orderBy('id','DESC')->skip(3)->take(6)->get();
@@ -51,14 +53,12 @@ class HomeController extends Controller
 
         $data['BlogPost'] = BlogPost::where('status','published')->orderBy('order','DESC')->skip(0)->take(3)->get();
 
-        //
-
         $SlideObj = Slider::where('key','home-slider')->first();
         $data['SlideItems'] =  SliderItem::where('slider_id',$SlideObj->id)->orderBy('order','DESC')->get();
 
         $dt = new DateTime();
-        return $data['FlashSales'] = FlashSale::where('status','published')->where('end_date', '>', $dt->format('Y-m-d H:i:s'))->get();
+        $data['FlashSales'] = FlashSale::where('status','published')->where('end_date', '>', $dt->format('Y-m-d H:i:s'))->get();
 
-        //return view('frontend.index',$data);
+        return view('frontend.index',$data);
     }
 }
