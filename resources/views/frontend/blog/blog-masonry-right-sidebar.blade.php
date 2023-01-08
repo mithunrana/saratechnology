@@ -20,7 +20,7 @@
 
 
 @section('category-and-menu-section')
-    @include('frontend.common.home-category-and-menu')
+    @include('frontend.common.category-and-menu')
 @endsection()
 
 
@@ -76,9 +76,6 @@
                                 </div>
                             </div>
                         @endforeach()
-                    </div>
-                    <div class="row">
-                        {{ $BlogPost->links('vendor.pagination.custom') }}
                     </div>
                 </div>
 

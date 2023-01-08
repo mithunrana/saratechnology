@@ -6,7 +6,7 @@
 
 
 @section('category-and-menu-section')
-    @include('frontend.common.close-category-menu')
+    @include('frontend.common.category-and-menu')
 @endsection()
 
 
@@ -40,7 +40,7 @@
                         <h3>Your order is completed!</h3>
                         </div>
                         <p>Thank you for your order! Your order is being processed and will be completed within 3-6 hours. You will receive an email confirmation when your order is completed.</p>
-                        <a href="shop-left-sidebar.html" class="btn btn-fill-out">Continue Shopping</a>
+                        <a href="{{route('home')}}" class="btn btn-fill-out">Continue Shopping</a>
                     </div>
                 </div>
             </div>

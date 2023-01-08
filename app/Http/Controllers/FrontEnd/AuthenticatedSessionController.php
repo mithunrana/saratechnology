@@ -54,6 +54,6 @@ class AuthenticatedSessionController extends Controller
         
         session()->put('cart', $data);
 
-        return redirect('/');
+        return redirect('/customer/login');
     }
 }

@@ -9,7 +9,7 @@ class NewsletterController extends Controller
 {
     public function subsCribe(Request $request){
         if(Newsletter::where('email',$request->email)->exists()){
-            return redirect()->back()->with('message','Already you subscribe!');
+            return redirect()->back()->with('message','Already subscribed!');
         }else{
             $NewsletterObj = new Newsletter();
             $NewsletterObj->email = $request->email;

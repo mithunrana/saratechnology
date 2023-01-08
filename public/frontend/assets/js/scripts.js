@@ -75,8 +75,13 @@ PAGE JS
 
 	    if (scroll >= 150) {
 	        $('header.fixed-top').addClass('nav-fixed');
+			$('.home_nav_cat').removeClass('nav_cat');
+			$('.home_nav_cat').removeClass('show');
+			$('.others_nav_cat').removeClass('show');
 	    } else {
 	        $('header.fixed-top').removeClass('nav-fixed');
+			$('.home_nav_cat').addClass('nav_cat');
+			//$('.others_nav_cat').removeClass('show');
 	    }
 
 	});
@@ -819,11 +824,6 @@ PAGE JS
 	26. ONLOAD POPUP JS
 	*===================================*/
 	
-	$(window).on('load',function(){
-		setTimeout(function() {
-			$("#onload-popup").modal('show', {}, 500);
-		}, 3000);
-		
-	});	
+
 	
 })(jQuery);

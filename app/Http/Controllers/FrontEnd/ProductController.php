@@ -18,6 +18,18 @@ use App\Models\Reviews;
 use Auth;
 class ProductController extends Controller
 {
+    public function index(){
+        $Products  = Products::where('status','published')->orderBy('id','DESC')->paginate(20);
+        return view('frontend.product.products',compact('Products'));
+    }
+
+
+    public function productQuickView($id){
+        $Product = Products::where('id',$id)->first();
+        return view('frontend.product.product-quick-view',compact('Product'));
+    }
+
+
     public function productView($url){
         $Product = Products::where('permalink',$url)->first();
         $ProductVariation = 0;
@@ -31,6 +43,8 @@ class ProductController extends Controller
         $ProductReviews = Reviews::where('product_id',$Product->id)->get();
         return view('frontend.product.product-view',compact('Product','ProductVariation','ProductVariationObj','TotalReview','ProductReviews'));
     }
+
+
 
     public function ratingSubmit(Request $request){
         $this->validate($request,[
@@ -50,6 +64,26 @@ class ProductController extends Controller
         }else{
             return redirect()->back()->with('message', 'Login Must Be Required');
         }
+    }
+
+
+    public function categoryWiseProducts($permalink){
+        $CategoryObj = ProductCategory::where('permalink',$permalink)->first();
+        $Products =  $CategoryObj->products()->paginate(20);
+        return view('frontend.product.products',compact('Products'));
+    }
+
+
+    public function tagWiseProducts($slug){
+        $TagObj = ProductTag::where('slug',$slug)->first();
+        $Products =  $TagObj->products->paginate(20);
+        return view('frontend.product.products',compact('Products'));
+    }
+
+    public function brandWiseProducts($permalink){
+        $BrandObj = ProductBrand::where('permalink',$permalink)->first();
+        $Products =  $BrandObj->products->paginate(20);
+        return view('frontend.product.products',compact('Products'));
     }
     
 }

@@ -50,11 +50,16 @@
                   <p>&nbsp Tags</p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.blog.comments')}}" style="font-weight:100" class="nav-link">
+                  <p>&nbsp Comments</p>
+                </a>
+              </li>
             </ul>
           </li>
           
           <li style="border-bottom:1px solid #484848;" class="nav-item">
-            <a href="{{route('dashboard.review')}}" class="nav-link">
+            <a href="{{route('dashboard.testimonials')}}" class="nav-link">
             &nbsp <i class="far fa-comment-dots"></i> &nbsp
               <p>
                 Testimonials
@@ -148,7 +153,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="" class="nav-link">
+                <a href="{{route('dashboard.review')}}" class="nav-link">
                   <i class="fa fa-comments nav-icon"></i>
                   <p>Reviews</p>
                 </a>
@@ -181,12 +186,6 @@
                 <a href="{{route('dashboard.currency')}}" class="nav-link">
                   &nbsp <i class='fas fa-money-bill'></i>
                   <p>Currency</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{route('dashboard.country')}}" class="nav-link">
-                 &nbsp <i class='fas fa-city'></i>
-                  <p>Country</p>
                 </a>
               </li>
               <li class="nav-item">
@@ -263,8 +262,23 @@
           <li style="border-bottom:1px solid #484848;" class="nav-item">
             <a href="" class="nav-link">
             &nbsp <i class="fa fa-plug"></i> &nbsp
-              <p>Plugins</p>
+              <p>Setupmaster <i class="fas fa-angle-left right"></i></p>
             </a>
+
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{route('dashboard.country')}}" class="nav-link">
+                  &nbsp <i class="fa fa-flag" aria-hidden="true"></i>
+                  <p>Country</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.city')}}" class="nav-link">
+                  &nbsp <i class='fas fa-city'></i>
+                  <p>City</p>
+                </a>
+              </li>
+            </ul>
           </li>
 
           <li style="border-bottom:1px solid #484848;" class="nav-item">
@@ -291,6 +305,11 @@
               <li class="nav-item">
                 <a href="{{route('dashboard.widget')}}" style="font-weight:100" class="nav-link">
                   <p>&nbsp Permalink</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{route('dashboard.our.feature')}}" style="font-weight:100" class="nav-link">
+                  <p>&nbsp Our Features</p>
                 </a>
               </li>
               <li class="nav-item">

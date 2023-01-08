@@ -152,7 +152,21 @@
                                                 </select>
                                             </div>
                                             <div class="form-group">
-                                                <label for="theme_thigo_newsletter_show_after_seconds">Newsletter popup delay time (seconds):</label>
+                                                <label for="theme_thigo_newsletter_image">Newsletter Image(Size shoud be 340x400px):</label><br>
+                                                <img src="{{asset('')}}{{ $SettingKey['theme_thigo_newsletter_image'] }}" id="theme_thigo_newsletter_imagepreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
+                                                <input type="hidden" name="theme_thigo_newsletter_image" id="theme_thigo_newsletter_image" value="{{ $SettingKey['theme_thigo_newsletter_image'] }}" class="image-data"><br> 
+                                                <a href="#" data-value="theme_thigo_newsletter_image" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="theme_thigo_newsletter_title">Newsletter Title:</label>
+                                                <input type="text" class="form-control" id="theme_thigo_newsletter_title" value="{{ $SettingKey['theme_thigo_newsletter_title'] }}"  name="theme_thigo_newsletter_title">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="theme_thigo_newsletter_text">Newsletter Text:</label>
+                                                <input type="text" class="form-control" id="theme_thigo_newsletter_text" value="{{ $SettingKey['theme_thigo_newsletter_text'] }}"  name="theme_thigo_newsletter_text">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="theme_thigo_newsletter_show_after_seconds">Newsletter popup delay time (mili seconds):</label>
                                                 <input type="text" class="form-control" id="theme_thigo_newsletter_show_after_seconds" value="{{ $SettingKey['theme_thigo_newsletter_show_after_seconds'] }}"  name="theme_thigo_newsletter_show_after_seconds">
                                             </div>
                                             <div class="form-group">

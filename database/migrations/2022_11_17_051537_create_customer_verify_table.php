@@ -14,6 +14,7 @@ class CreateCustomerVerifyTable extends Migration
     public function up()
     {
         Schema::create('customer_verify', function (Blueprint $table) {
+            $table->id();
             $table->integer('customer_id');
             $table->string('token');
             $table->timestamps();

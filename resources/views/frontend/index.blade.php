@@ -6,15 +6,13 @@
 @endsection()
 
 
-
 @section('home-header')
     @include('frontend.common.home-header')
 @endsection()
 
 
-
 @section('category-and-menu-section')
-    @include('frontend.common.home-category-and-menu')
+    @include('frontend.common.category-and-menu')
 @endsection()
 
 
@@ -29,12 +27,12 @@
 
 
 @section('exclusive-product')
-    @include('frontend.product.home.exclusive-product')
+    @include('frontend.home.exclusive-product')
 @endsection()
 
 
 @section('category-banner')
-    @include('frontend.product.home.home-first-three-column-banner')
+    @include('frontend.home.home-first-three-column-banner')
 @endsection()
 
 
@@ -50,7 +48,7 @@
 
 
 @section('brand-section')
-    @include('frontend.product.home.brand-section')
+    @include('frontend.home.brand-section')
 @endsection()
 
 

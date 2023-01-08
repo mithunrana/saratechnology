@@ -6,7 +6,7 @@
 
 
 @section('category-and-menu-section')
-    @include('frontend.common.close-category-menu')
+    @include('frontend.common.category-and-menu')
 @endsection()
 
 
@@ -17,9 +17,8 @@
         <div class="row align-items-center">
             <div class="col-md-12">
                 <ol class="breadcrumb justify-content-md-start">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#">Pages</a></li>
-                    <li class="breadcrumb-item active">Product Detail</li>
+                    <li class="breadcrumb-item"><a href="{{route('home')}}">Home</a></li>
+                    <li class="breadcrumb-item active">Login</li>
                 </ol>
             </div>
         </div>
@@ -64,7 +63,7 @@
                             <li><a href="#" class="btn btn-facebook"><i class="ion-social-facebook"></i>Facebook</a></li>
                             <li><a href="#" class="btn btn-google"><i class="ion-social-googleplus"></i>Google</a></li>
                         </ul>
-                        <div class="form-note text-center">Don't Have an Account? <a href="signup.html">Sign up now</a></div>
+                        <div class="form-note text-center">Don't Have an Account? <a href="{{route('customer.register')}}">Sign up now</a></div>
                     </div>
                 </div>
             </div>

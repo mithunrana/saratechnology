@@ -11,11 +11,13 @@ class CurrencyController extends Controller
     public function swithCurrency(Request $request,$id){
         if(Currency::where('id',$id)->exists()){
             Session::forget('Currency');
-            $CurrencyObj = Currency::where('id',1)->first();
+            $CurrencyObj = Currency::where('id',$id)->first();
             Session::put('Currency', $CurrencyObj);
-            return redirect()->back();
+            $response = ['message' => 'Currency Successfully Changed'];
+            return response()->json($response, 200);
         }else{
-            return redirect()->back();
+            $response = ['message' => 'Something Error'];
+            return response()->json($response, 200);
         }
     }
 }

@@ -2,109 +2,81 @@
 	<div class="footer_top small_pt pb_20">
         <div class="custom-container">
             <div class="row">
-                <div class="col-lg-4 col-md-12 col-sm-12">
-                	<div class="widget">
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <div class="widget mb-lg-0">
                         <div class="footer_logo">
-                            <a href="#"><img src="frontend/assets/images/logo_dark.png" alt="logo"/></a>
+                            <a href="{{asset('')}}"><img src="{{asset('')}}{{ $SettingKey['theme_thigo_logo_footer'] }}" alt="{{asset('')}}{{ $SettingKey['theme_thigo_show_site_name'] }}"/></a>
                         </div>
-                        <p class="mb-3">If you are going to use of Lorem Ipsum need to be sure there isn't anything hidden of text</p>
+                        <p class="mb-3">{{ $SettingKey['theme_thigo_about_us'] }}</p>
+                        <ul class="social_icons text-center text-lg-left">
+                            <li><a href="{{ $SettingKey['theme_thigo_facebook'] }}" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
+                            <li><a href="{{ $SettingKey['theme_thigo_twitter'] }}" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
+                            <li><a href="{{ $SettingKey['theme_thigo_linkedin'] }}" class="sc_linkedin"><i class="ion-social-linkedin"></i></a></li>
+                            <li><a href="{{ $SettingKey['theme_thigo_youtube'] }}" class="sc_youtube"><i class="ion-social-youtube-outline"></i></a></li>
+                            <li><a href="{{ $SettingKey['theme_thigo_instagram'] }}" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                @foreach($FooterBarObj->widgetset->sortBy('order') as $Widget)
+                    @if($Widget->widget->type == 'text')
+                        {!! $Widget->content !!}
+                    @elseif($Widget->widget->type == 'menu')
+                        <div class="col-lg-2 col-md-4 col-sm-6">
+                            <div class="widget">
+                                <h3 class="widget_title">{{$Widget->widgetshowname}}</h3>
+                                <ul class="widget_links">
+                                    @foreach($Widget->menu->menuitems->sortBy('order') as $Item)
+                                        <li><a style="{{$Item->css_class}}" href="{{$Item->title}}"><i class="{{$Item->icon_font}}"></i>{{$Item->title}}</a></li>
+                                    @endforeach()
+                                </ul>
+                            </div>
+                        </div>
+                    @endif()
+                @endforeach()
+
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                	<div class="widget">
+                        <h3 class="widget_title">Contact Info</h3>
                         <ul class="contact_info">
                             <li>
                                 <i class="ti-location-pin"></i>
-                                <p>123 Street, Old Trafford, NewYork, USA</p>
+                                <p>{{ $SettingKey['theme_thigo_address'] }}</p>
                             </li>
                             <li>
                                 <i class="ti-email"></i>
-                                <a href="mailto:info@sitename.com">info@sitename.com</a>
+                                <a href="mailto:{{ $SettingKey['theme_thigo_email'] }}">{{ $SettingKey['theme_thigo_email'] }}</a>
                             </li>
                             <li>
                                 <i class="ti-mobile"></i>
-                                <p>+ 457 789 789 65</p>
+                                <p>{{ $SettingKey['theme_thigo_hotline'] }}</p>
                             </li>
                         </ul>
                     </div>
         		</div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                	<div class="widget">
-                        <h6 class="widget_title">Useful Links</h6>
-                        <ul class="widget_links">
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">FAQ</a></li>
-                            <li><a href="#">Location</a></li>
-                            <li><a href="#">Affiliates</a></li>
-                            <li><a href="#">Contact</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                	<div class="widget">
-                        <h6 class="widget_title">My Account</h6>
-                        <ul class="widget_links">
-                            <li><a href="#">My Account</a></li>
-                            <li><a href="#">Discount</a></li>
-                            <li><a href="#">Returns</a></li>
-                            <li><a href="#">Orders History</a></li>
-                            <li><a href="#">Order Tracking</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12">
-                	<div class="widget">
-                        <h6 class="widget_title">Instagram</h6>
-                        <ul class="widget_instafeed instafeed_col4">
-                            <li><a href="#"><img src="frontend/assets/images/insta_img1.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img2.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img3.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img4.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img5.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img6.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img7.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                            <li><a href="#"><img src="frontend/assets/images/insta_img8.jpg" alt="insta_img"><span class="insta_icon"><i class="ti-instagram"></i></span></a></li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+
     <div class="middle_footer">
     	<div class="custom-container">
         	<div class="row">
             	<div class="col-12">
                 	<div class="shopping_info">
                         <div class="row justify-content-center">
-                            <div class="col-md-4">	
-                                <div class="icon_box icon_box_style2">
-                                    <div class="icon">
-                                        <i class="flaticon-shipped"></i>
-                                    </div>
-                                    <div class="icon_box_content">
-                                    	<h5>Free Delivery</h5>
-                                        <p>Phasellus blandit massa enim elit of passage varius nunc.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-4">	
-                                <div class="icon_box icon_box_style2">
-                                    <div class="icon">
-                                        <i class="flaticon-money-back"></i>
-                                    </div>
-                                    <div class="icon_box_content">
-                                    	<h5>30 Day Returns Guarantee</h5>
-                                        <p>Phasellus blandit massa enim elit of passage varius nunc.</p>
+                            @foreach($OurFeatures as $Feature)
+                                <div class="col-md-4">	
+                                    <div class="icon_box icon_box_style2">
+                                        <div class="icon">
+                                            <i class="{{$Feature->icon}}"></i>
+                                        </div>
+                                        <div class="icon_box_content">
+                                            <h5>{{$Feature->title}}</h5>
+                                            <p>{{$Feature->content}}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">	
-                                <div class="icon_box icon_box_style2">
-                                    <div class="icon">
-                                        <i class="flaticon-support"></i>
-                                    </div>
-                                    <div class="icon_box_content">
-                                    	<h5>27/4 Online Support</h5>
-                                        <p>Phasellus blandit massa enim elit of passage varius nunc.</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endforeach()
                         </div>
                     </div>
                 </div>
@@ -114,28 +86,8 @@
     <div class="bottom_footer border-top-tran">
         <div class="custom-container">
             <div class="row">
-                <div class="col-lg-4">
-                    <p class="mb-lg-0 text-center">© 2020 All Rights Reserved by Bestwebcreator</p>
-                </div>
-                <div class="col-lg-4 order-lg-first">
-                    <div class="widget mb-lg-0">
-                        <ul class="social_icons text-center text-lg-left">
-                            <li><a href="#" class="sc_facebook"><i class="ion-social-facebook"></i></a></li>
-                            <li><a href="#" class="sc_twitter"><i class="ion-social-twitter"></i></a></li>
-                            <li><a href="#" class="sc_google"><i class="ion-social-googleplus"></i></a></li>
-                            <li><a href="#" class="sc_youtube"><i class="ion-social-youtube-outline"></i></a></li>
-                            <li><a href="#" class="sc_instagram"><i class="ion-social-instagram-outline"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <ul class="footer_payment text-center text-lg-right">
-                        <li><a href="#"><img src="frontend/assets/images/visa.png" alt="visa"></a></li>
-                        <li><a href="#"><img src="frontend/assets/images/discover.png" alt="discover"></a></li>
-                        <li><a href="#"><img src="frontend/assets/images/master_card.png" alt="master_card"></a></li>
-                        <li><a href="#"><img src="frontend/assets/images/paypal.png" alt="paypal"></a></li>
-                        <li><a href="#"><img src="frontend/assets/images/amarican_express.png" alt="amarican_express"></a></li>
-                    </ul>
+                <div class="col-lg-12">
+                    <p class="mb-md-0 text-center ">{{ $SettingKey['theme_thigo_copyright'] }}</p>
                 </div>
             </div>
         </div>

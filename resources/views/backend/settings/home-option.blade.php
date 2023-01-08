@@ -38,34 +38,13 @@
                         <div class="col-5 col-sm-3">
                             <div class="nav flex-column nav-tabs h-100" id="vert-tabs-tab" role="tablist" aria-orientation="vertical">
                                 <a style="color:#7a777e;font-weight:bold;" class="nav-link active" id="vert-tabs-exclusive-tab" data-toggle="pill" href="#vert-tabs-exclusive" role="tab" aria-controls="vert-tabs-exclusive" aria-selected="true">
-                                    <i class="fa fa-home"></i> Exclusive Section
+                                    <i class="fa fa-home"></i> Side Banner
                                 </a>
                                 <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-3column-bannder-first-tab" data-toggle="pill" href="#vert-tabs-3column-bannder-first" role="tab" aria-controls="vert-tabs-3column-bannder-first" aria-selected="false">
                                     <i class="fa fa-image"></i> 3 Column Banner First
                                 </a>
                                 <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-trending-products-tab" data-toggle="pill" href="#vert-tabs-trending-products" role="tab" aria-controls="vert-tabs-trending-products" aria-selected="false">
                                     <i class="fa fa-camera"></i> Trending Products
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-header-tab" data-toggle="pill" href="#vert-tabs-header" role="tab" aria-controls="vert-tabs-header" aria-selected="false">
-                                    <i class="fas fa-magic"></i> Header
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-facebook-tab" data-toggle="pill" href="#vert-tabs-facebook" role="tab" aria-controls="vert-tabs-facebook" aria-selected="false">
-                                    <i class="fab fa-facebook"></i> Facebook Integration
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-blog-tab" data-toggle="pill" href="#vert-tabs-blog" role="tab" aria-controls="vert-tabs-blog" aria-selected="false">
-                                    <i class="fa fa-edit"></i> Blog
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-ecommerce-tab" data-toggle="pill" href="#vert-tabs-ecommerce" role="tab" aria-controls="vert-tabs-ecommerce" aria-selected="false">
-                                    <i class="fa fa-shopping-cart"></i> Ecommerce
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-page-tab" data-toggle="pill" href="#vert-tabs-page" role="tab" aria-controls="vert-tabs-page" aria-selected="false">
-                                    <i class="fa fa-book"></i> Page
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-cookie-tab" data-toggle="pill" href="#vert-tabs-cookie" role="tab" aria-controls="vert-tabs-cookie" aria-selected="false">
-                                    <i class="fas fa-cookie-bite"></i> Cookie Consent
-                                </a>
-                                <a style="color:#7a777e;font-weight:bold;" class="nav-link" id="vert-tabs-policy-tab" data-toggle="pill" href="#vert-tabs-policy" role="tab" aria-controls="vert-tabs-policy" aria-selected="false">
-                                    <i class="fas fa-file-contract"></i> Policy
                                 </a>
                             </div>
                         </div>
@@ -80,11 +59,38 @@
                                                 <label for="home_exclusive_section_title">Exclusive Section Title:</label>
                                                 <input type="text" class="form-control" id="home_exclusive_section_title" placeholder="Exclusive Title" value="{{ $SettingKey['home_exclusive_section_title'] }}" name="home_exclusive_section_title">
                                             </div>
+
+                                            <div class="form-group">
+                                                <label for="home_exclusive_section_side_banner_url">Exclusive Section URL:</label>
+                                                <input type="text" class="form-control" id="home_exclusive_section_side_banner_url" placeholder="Banner Url" value="{{ $SettingKey['home_exclusive_section_side_banner_url'] }}" name="home_exclusive_section_side_banner_url">
+                                            </div>
+
                                             <div class="form-group">
                                                 <label for="home_exclusive_section_side_banner">Side Banner:</label><br>
                                                 <img src="{{asset('')}}{{ $SettingKey['home_exclusive_section_side_banner'] }}" id="home_exclusive_section_side_bannerpreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
                                                 <input type="hidden" name="home_exclusive_section_side_banner" id="home_exclusive_section_side_banner" value="{{ $SettingKey['home_exclusive_section_side_banner'] }}" class="image-data"><br> 
                                                 <a href="#" data-value="home_exclusive_section_side_banner" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="home_trending_section_title">Trending Section Title:</label>
+                                                <input type="text" class="form-control" id="home_trending_section_title" placeholder="Exclusive Title" value="{{ $SettingKey['home_trending_section_title'] }}" name="home_trending_section_title">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="home_trending_section_side_banner_url">Trending Section URL:</label>
+                                                <input type="text" class="form-control" id="home_trending_section_side_banner_url" placeholder="Banner Url" value="{{ $SettingKey['home_trending_section_side_banner_url'] }}" name="home_trending_section_side_banner_url">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="home_trending_section_side_banner">Side Banner:</label><br>
+                                                <img src="{{asset('')}}{{ $SettingKey['home_trending_section_side_banner'] }}" id="home_trending_section_side_bannerpreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
+                                                <input type="hidden" name="home_trending_section_side_banner" id="home_trending_section_side_banner" value="{{ $SettingKey['home_trending_section_side_banner'] }}" class="image-data"><br> 
+                                                <a href="#" data-value="home_trending_section_side_banner" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="home_page_top_categories_text">Top Ctegories Text:</label>
+                                                <textarea class="form-control" rows="6" id="home_page_top_categories_text" name="home_page_top_categories_text">{{ $SettingKey['home_page_top_categories_text'] }}</textarea>
                                             </div>
                                             <button type="submit" class="btn btn-primary">Save Changes</button>
                                         </form>
@@ -180,7 +186,7 @@
                                     </div>
                                 </div>
 
-
+                                
                                 <div class="tab-pane fade" id="vert-tabs-trending-products" role="tabpanel" aria-labelledby="vert-tabs-trending-products-tab">
                                     <div class="container">
                                         <form action="{{route('dashboard.setting.trending.item.store')}}" method="post">
@@ -222,227 +228,6 @@
                                                 </div>
                                             @endforeach()
                                         </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-header" role="tabpanel" aria-labelledby="vert-tabs-header-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.header.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_enable_sticky_header">Enable sticky header?</label>
-                                                <select class="form-control" id="theme_thigo_enable_sticky_header" name="theme_thigo_enable_sticky_header">
-                                                    <option value="0"  @if($SettingKey['theme_thigo_enable_sticky_header'] == 0) selected @endif >No</option>
-                                                    <option value="1"  @if($SettingKey['theme_thigo_enable_sticky_header'] == 1) selected @endif >YES</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_collapsing_product_categories_on_homepage">Collapsing product categories on homepage?</label>
-                                                <select class="form-control" id="theme_thigo_collapsing_product_categories_on_homepage" name="theme_thigo_collapsing_product_categories_on_homepage">
-                                                    <option value="0"  @if($SettingKey['theme_thigo_collapsing_product_categories_on_homepage'] == 0) selected @endif >No</option>
-                                                    <option value="1"  @if($SettingKey['theme_thigo_collapsing_product_categories_on_homepage'] == 1) selected @endif >YES</option>
-                                                </select>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-facebook" role="tabpanel" aria-labelledby="vert-tabs-facebook-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.facebook.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_facebook_chat_enabled">Enable Facebook chat?</label>
-                                                <select class="form-control" id="theme_thigo_facebook_chat_enabled" name="theme_thigo_facebook_chat_enabled">
-                                                    <option value="0"  @if($SettingKey['theme_thigo_facebook_chat_enabled'] == 0) selected @endif >No</option>
-                                                    <option value="1"  @if($SettingKey['theme_thigo_facebook_chat_enabled'] == 1) selected @endif >YES</option>
-                                                </select>
-                                                <span style="background-color: #d9edf7;border: 1px solid #bce8f1;cursor: help;" class="help-block">To show chat box on that website, please go to 
-                                                    <a href="https://www.facebook.com//settings/?tab=messenger_platform">https://www.facebook.com//settings/?tab=messenger_platform</a>
-                                                    and add <a href="{{asset('')}}">{{asset('')}}</a> to whitelist domains!
-                                                </span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_facebook_page_id">Facebook page ID:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_facebook_page_id" value="{{ $SettingKey['theme_thigo_facebook_page_id'] }}" name="theme_thigo_facebook_page_id">
-                                                <span style="background-color: #d9edf7;border: 1px solid #bce8f1;cursor: help;" class="help-block">
-                                                    You can get fan page ID using this site <a href="https://findmyfbid.com">https://findmyfbid.com</a>
-                                                </span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_facebook_comment_enabled_in_post">Enable Facebook comment in post detail page?</label>
-                                                <select class="form-control" id="theme_thigo_facebook_comment_enabled_in_post" name="theme_thigo_facebook_comment_enabled_in_post">
-                                                    <option value="0"  @if($SettingKey['theme_thigo_facebook_comment_enabled_in_post'] == 0) selected @endif >No</option>
-                                                    <option value="1"  @if($SettingKey['theme_thigo_facebook_comment_enabled_in_post'] == 1) selected @endif >YES</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_facebook_app_id">Facebook App ID:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_facebook_app_id" value="{{ $SettingKey['theme_thigo_facebook_app_id'] }}" name="theme_thigo_facebook_app_id">
-                                                <span style="background-color: #d9edf7;border: 1px solid #bce8f1;cursor: help;" class="help-block">
-                                                    You can create your app in <a href="https://developers.facebook.com/apps">https://developers.facebook.com/apps</a>
-                                                </span>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_facebook_admin">Facebook Admin ID:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_facebook_admin" value="{{ $SettingKey['theme_thigo_facebook_admin'] }}" name="theme_thigo_facebook_admin">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-blog" role="tabpanel" aria-labelledby="vert-tabs-blog-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.blog.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_blog_page_id">Blog page</label>
-                                                <select class="form-control" id="theme_thigo_blog_page_id" name="theme_thigo_blog_page_id">
-                                                    <option value=""  @if($SettingKey['theme_thigo_blog_page_id'] == '') selected @endif >No</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_number_of_blog_posts_in_a_category">Number of posts per page in a category:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_number_of_blog_posts_in_a_category" value="{{ $SettingKey['theme_thigo_number_of_blog_posts_in_a_category'] }}" name="theme_thigo_number_of_blog_posts_in_a_category">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_number_of_blog_posts_in_a_tag">Number of posts per page in a tag:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_number_of_blog_posts_in_a_tag" value="{{ $SettingKey['theme_thigo_number_of_blog_posts_in_a_tag'] }}" name="theme_thigo_number_of_blog_posts_in_a_tag">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-ecommerce" role="tabpanel" aria-labelledby="vert-tabs-ecommerce-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.ecommerce.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_payment_methods_image">Accepted Payment methods:</label><br>
-                                                <img src="{{asset('')}}{{ $SettingKey['theme_thigo_payment_methods_image'] }}" id="theme_thigo_payment_methods_imagepreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
-                                                <input type="hidden" name="theme_thigo_payment_methods_image" id="theme_thigo_payment_methods_image" value="{{ $SettingKey['theme_thigo_payment_methods_image'] }}" class="image-data"><br> 
-                                                <a href="#" data-value="theme_thigo_payment_methods_image" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_number_of_products_per_page">Number of products per page:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_number_of_products_per_page" value="{{ $SettingKey['theme_thigo_number_of_products_per_page'] }}" name="theme_thigo_number_of_products_per_page">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_number_of_cross_sale_product_product_detail_page">Number of cross sale products in product detail page:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_number_of_cross_sale_product_product_detail_page" value="{{ $SettingKey['theme_thigo_number_of_cross_sale_product_product_detail_page'] }}" name="theme_thigo_number_of_cross_sale_product_product_detail_page">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_max_filter_price">Maximum price to filter:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_max_filter_price" value="{{ $SettingKey['theme_thigo_max_filter_price'] }}" name="theme_thigo_max_filter_price">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_logo_in_the_checkout_page_image">Logo in the checkout page (Default is the main logo):</label><br>
-                                                <img src="{{asset('')}}{{ $SettingKey['theme_thigo_logo_in_the_checkout_page_image'] }}" id="theme_thigo_logo_in_the_checkout_page_imagepreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
-                                                <input type="hidden" name="theme_thigo_logo_in_the_checkout_page_image" id="theme_thigo_logo_in_the_checkout_page_image" value="{{ $SettingKey['theme_thigo_logo_in_the_checkout_page_image'] }}" class="image-data"><br> 
-                                                <a href="#" data-value="theme_thigo_logo_in_the_checkout_page_image" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_logo_in_invoices_image">Logo in invoices (Default is the main logo):</label><br>
-                                                <img src="{{asset('')}}{{ $SettingKey['theme_thigo_logo_in_invoices_image'] }}" id="theme_thigo_logo_in_invoices_imagepreview" style="width: 150px; height: 150px; border: 2px solid rgb(23, 162, 184) !important;">
-                                                <input type="hidden" name="theme_thigo_logo_in_invoices_image" id="theme_thigo_logo_in_invoices_image" value="{{ $SettingKey['theme_thigo_logo_in_invoices_image'] }}" class="image-data"><br> 
-                                                <a href="#" data-value="theme_thigo_logo_in_invoices_image" data-toggle="modal" data-target="#SingleImageMedia" class="addImage">Choose image</a>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-page" role="tabpanel" aria-labelledby="vert-tabs-page-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.homepage.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_homepage_id">Your homepage displays</label>
-                                                <select class="form-control" id="theme_thigo_homepage_id" name="theme_thigo_homepage_id">
-                                                    <option value=""  @if($SettingKey['theme_thigo_homepage_id'] == '') selected @endif >No</option>
-                                                </select>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-cookie" role="tabpanel" aria-labelledby="vert-tabs-cookie-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.cookie.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_enable">Enable cookie consent?</label>
-                                                <select class="form-control" id="theme_thigo_cookie_consent_enable" name="theme_thigo_cookie_consent_enable">
-                                                    <option value="0"  @if($SettingKey['theme_thigo_cookie_consent_enable'] == '') selected @endif >NO</option>
-                                                    <option value="1"  @if($SettingKey['theme_thigo_cookie_consent_enable'] == '') selected @endif >YES</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_message">Message:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_message" value="{{ $SettingKey['theme_thigo_cookie_consent_message'] }}" name="theme_thigo_cookie_consent_message">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_button_text">Button text:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_button_text" value="{{ $SettingKey['theme_thigo_cookie_consent_button_text'] }}" name="theme_thigo_cookie_consent_button_text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_learn_more_url">Learn more URL:</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_learn_more_url" value="{{ $SettingKey['theme_thigo_cookie_consent_learn_more_url'] }}" name="theme_thigo_cookie_consent_learn_more_url">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_learn_more_text">Learn more text</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_learn_more_text" value="{{ $SettingKey['theme_thigo_cookie_consent_learn_more_text'] }}" name="theme_thigo_cookie_consent_learn_more_text">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_background_color">Background color</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_background_color" value="{{ $SettingKey['theme_thigo_cookie_consent_background_color'] }}" name="theme_thigo_cookie_consent_background_color">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_text_color">Text Color</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_text_color" value="{{ $SettingKey['theme_thigo_cookie_consent_text_color'] }}" name="theme_thigo_cookie_consent_text_color">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="theme_thigo_cookie_consent_max_width">Max width (px)</label>
-                                                <input type="text" class="form-control" id="theme_thigo_cookie_consent_max_width" value="{{ $SettingKey['theme_thigo_cookie_consent_max_width'] }}" name="theme_thigo_cookie_consent_max_width">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
-                                    </div>
-                                </div>
-
-
-                                <div class="tab-pane fade" id="vert-tabs-policy" role="tabpanel" aria-labelledby="vert-tabs-policy-tab">
-                                    <div class="container">
-                                        <form action="{{route('dashboard.setting.policy.update')}}" method="post">
-                                            @csrf
-                                            <div class="form-group">
-                                                <label for="terms_and_condition">Terms And Condition:</label>
-                                                <textarea class="form-control summernote-editor" rows="6" id="terms_and_condition" name="terms_and_condition">{{ $SettingKey['terms_and_condition'] }}</textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="refund_and_return_policy">Refund Return Policy:</label>
-                                                <textarea class="form-control summernote-editor" rows="6" id="refund_and_return_policy" name="refund_and_return_policy">{{ $SettingKey['refund_and_return_policy'] }}</textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="privacy_policy">Privacy Policy:</label>
-                                                <textarea class="form-control summernote-editor" rows="6" id="privacy_policy" name="privacy_policy">{{ $SettingKey['privacy_policy'] }}</textarea>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="online_delivery">Online Delivery Policy:</label>
-                                                <textarea class="form-control summernote-editor" rows="6" id="online_delivery" name="online_delivery">{{ $SettingKey['online_delivery'] }}</textarea>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Save Changes</button>
-                                        </form>
                                     </div>
                                 </div>
                             </div>

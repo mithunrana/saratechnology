@@ -74,8 +74,10 @@ class CartController extends Controller
 
     public function cartdelete($id) { 
         $data = Cart::remove($id);
-        return redirect()->back()->with('message', 'You have modified your shopping cart!');
-     }
+        $response = ['message' => 'Item Successfully Removed From Cart'];
+        return response()->json($response, 200);
+    }
+
 
     public function shippingMethodChange(){
         return view('backend.shipping.shipping-change');
@@ -86,6 +88,15 @@ class CartController extends Controller
             $ShippingObj = ShippingRule::where('id',$id)->first();
             Session::put('shippingcharge', $ShippingObj->price);
         }
+    }
+
+
+    public function headerCart(){
+        return view('frontend.cart.headercart');
+    }
+
+    public function pageCart(){
+        return view('frontend.cart.pagecart');
     }
     
 

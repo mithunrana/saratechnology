@@ -65,7 +65,7 @@
                 <tr>
                   <td><input type="checkbox" name="id[]"></td>
                   <td>{{$Product->id }}</td>
-                  <td>{{$Product->model }}</td>
+                  <td>{{$Product->name }}</td>
                   @if($Product->productImages->count() > 0)
                     @foreach($Product->productImages as $Image)
                     <td>

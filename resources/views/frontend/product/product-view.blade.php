@@ -10,6 +10,10 @@
     @include('frontend.common.home-header')
 @endsection()
 
+@section('category-and-menu-section')
+    @include('frontend.common.category-and-menu')
+@endsection()
+
 
 @section('bread-crumb')
 <!-- START SECTION BREADCRUMB -->
@@ -36,20 +40,19 @@
 	<div class="custom-container">
 		<div class="row">
             <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
-                <div class="product-image">
-                    <div style="text-align: center;border:none;" class="product_img_box">
-                        <img style="max-width: 400px;" id="product_img" src="{{asset('')}}{{$Product->productFirstImageNormalSize()}}"  alt="product_img1" />
+                <div style="text-align: center;border:none;" class="product_img_box">
+                    <div style="border:none;" class="product_img_box">
+                        <img id="product_img" src="{{asset('')}}{{$Product->productFirstImageNormalSize($Product->id)}}" data-zoom-image="{{asset('')}}{{$Product->productFirstImageOrginalSize($Product->id)}}" alt="{{$Product->name}}" />
                         <a href="#" class="product_img_zoom" title="Zoom">
                             <span class="linearicons-zoom-in"></span>
                         </a>
                     </div>
-
                     <div id="pr_item_gallery" class="product_gallery_item slick_slider" data-slides-to-show="4" data-slides-to-scroll="1" data-infinite="false">
                         @if($Product->productImages->count() > 0)
                             @foreach($Product->productImages as $Image)
                                 <div class="item">
-                                    <a style="text-align:center;" href="#" class="product_gallery_item" data-image="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[500]}}.{{$Image->extension }}">
-                                        <img style="display: initial!important;"  src="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[150]}}.{{$Image->extension }}" alt="product_small_img1" />
+                                    <a style="text-align:center;" href="#" class="product_gallery_item active" data-image="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[500]}}.{{$Image->extension }}" data-zoom-image="{{asset('')}}{{$Image->urlwithoutextension }}.{{$Image->extension }}">
+                                        <img style="display: initial!important;"  src="{{asset('')}}{{$Image->urlwithoutextension }}{{$ImageSize[150]}}.{{$Image->extension }}" alt="{{$Product->name}}" />
                                     </a>
                                 </div>
                             @endforeach
@@ -62,17 +65,22 @@
                     <div class="product_description">
                         <h1 style="font-weight: 400;font-size:22px;" class="product_title"><a href="#">{{$Product->name}}</a></h1>
                         <div class="product_price">
-                            <span class="price">@if($ProductVariation==1){{number_format($ProductVariationObj->sale_price,2)}}@else{{number_format($Product->sale_price,2)}}@endif</span>
-                            <del>@if($ProductVariation==1){{number_format($ProductVariationObj->price,2)}}@else{{number_format($Product->price,2)}}@endif</del>
+                            <span class="price"><span>@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif</span>@if($ProductVariation==1){{number_format($ProductVariationObj->sale_price,2)}}@else{{number_format($Product->sale_price,2)}}@endif<span>@if(Session::get('Currency')->is_prefix_symbol !=0){{Session::get('Currency')->symbol}}@endif</span></span>
+                            <del><span>@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif</span>@if($ProductVariation==1){{number_format($ProductVariationObj->price,2)}}@else{{number_format($Product->price,2)}}@endif<span>@if(Session::get('Currency')->is_prefix_symbol !=0){{Session::get('Currency')->symbol}}@endif</span></del>
                             <div class="on_sale">
-                                <span>35% Off</span>
+                                <span>
+                                    @if($ProductVariation==1)
+                                        {{number_format((100-($ProductVariationObj->sale_price) / ($ProductVariationObj->price/100)),2)}}%
+                                    @else
+                                        {{number_format((100-($Product->sale_price) / ($Product->price/100)),2)}}%
+                                    @endif off</span>
                             </div>
                         </div>
                         <div class="rating_wrap">
                             <div class="rating">
-                                <div class="product_rate" style="width:80%"></div>
+                                <div class="product_rate" style="width:{{$Product->reviews->average('star')*20}}%"></div>
                             </div>
-                            <span class="rating_num">(21)</span>
+                            <span class="rating_num">({{$Product->reviews->count()}}) </span>
                         </div>
                         <div class="clearfix"></div>
                         <div style="display: block;line-height: 20px;padding-bottom: 10px;font-size:15px;"  class="product_sort_info">
@@ -115,8 +123,16 @@
                     <hr />
                     <ul class="product-meta">
                         <li>SKU: <a href="#">BE45VGRT</a></li>
-                        <li>Category: <a href="#">Clothing</a></li>
-                        <li>Tags: <a href="#" rel="tag">Cloth</a>, <a href="#" rel="tag">printed</a> </li>
+                        <li>Category:
+                            @foreach($Product->tag as $Tag)
+                                <a href="" rel="category">{{$Tag->name}}@if (!$loop->last),@endif</a>
+                            @endforeach()
+                        </li>
+                        <li>Tags: 
+                            @foreach($Product->tag as $Tag)
+                                <a href="" rel="tag">{{$Tag->name}}@if (!$loop->last),@endif</a>
+                            @endforeach()
+                        </li>
                     </ul>
                     
                     <div class="product_share">
@@ -179,7 +195,7 @@
                         	<div class="comments">
                             	<h5 class="product_tab_title">{{$TotalReview}} Review For <span>{{$Product->name}}</span></h5>
                                 <ul class="list_none comment_list mt-4">
-                                    @foreach($ProductReviews as $Review)
+                                    @foreach($Product->reviews->where('status','published') as $Review)
                                         <li>
                                             <div class="comment_img">
                                                 <img src="{{asset('')}}frontend/assets/images/user1.jpg" alt="user1"/>
@@ -477,12 +493,6 @@
 </div>
 <!-- END SECTION SHOP -->
 @endsection()
-
-
-@section('category-and-menu-section')
-    @include('frontend.common.close-category-menu')
-@endsection()
-
 
 
 @section('newsletter')

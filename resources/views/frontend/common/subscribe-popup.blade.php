@@ -10,28 +10,24 @@
                         <div class="popup_content text-left">
                             <div class="popup-text">
                                 <div class="heading_s1">
-                                    <h3>Subscribe Newsletter and Get 25% Discount!</h3>
+                                    <h3>{{$SettingKey['theme_thigo_newsletter_title']}}</h3>
                                 </div>
-                                <p>Subscribe to the newsletter to receive updates about new products.</p>
+                                <p>{{$SettingKey['theme_thigo_newsletter_text']}}</p>
                             </div>
-                            <form method="post">
+                            <form action="{{route('newsletter.subscribe')}}" method="post">
+                                @csrf
                             	<div class="form-group">
                                 	<input name="email" required type="email" class="form-control" placeholder="Enter Your Email">
                                 </div>
+                                @if(Session::has('message')) {{Session::get('message')}} @endif
                                 <div class="form-group">
                                 	<button class="btn btn-fill-out btn-block text-uppercase" title="Subscribe" type="submit">Subscribe</button>
                                 </div>
                             </form>
-                            <div class="chek-form">
-                                <div class="custome-checkbox">
-                                    <input class="form-check-input" type="checkbox" name="checkbox" id="exampleCheckbox3" value="">
-                                    <label class="form-check-label" for="exampleCheckbox3"><span>Don't show this popup again!</span></label>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="col-sm-5">
-                    	<div class="background_bg h-100" data-img-src="frontend/assets/images/popup_img3.jpg"></div>
+                    	<div class="background_bg h-100" data-img-src="{{$SettingKey['theme_thigo_newsletter_image']}}"></div>
                     </div>
                 </div>
             </div>

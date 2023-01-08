@@ -42,6 +42,13 @@ class Products extends Model
         return $this->belongsToMany(MediaFile::class,'product_with_image');
     }
 
+    public static function productFirstImageOrginalSize($id){
+        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
+        if($ImageObject){
+            return $ImageObject->urlwithoutextension.'.'.$ImageObject->extension;
+        }
+    }
+
     public static function productFirstImageNormalSize($id){
         $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
         if($ImageObject){
@@ -58,6 +65,15 @@ class Products extends Model
         }
     }
 
+    public static function productFirstImageMediumSize($id){
+        $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
+        if($ImageObject){
+            return $ImageObject->urlwithoutextension.'-235x261.'.$ImageObject->extension;
+        }else{
+            return "demo-image.png";
+        }
+    }
+
 
     public static function productFirstImageSmallSize($id){
         $ImageObject = DB::table('product_with_image')->select('product_with_image.media_file_id','media_files.urlwithoutextension','media_files.extension')->leftjoin('media_files', 'product_with_image.media_file_id', '=', 'media_files.id')->where('products_id',$id)->first();
@@ -66,6 +82,15 @@ class Products extends Model
         }else{
             return "demo-image.png";
         }
+    }
+
+
+    public function reviews(){
+        return $this->hasMany(Reviews::class,'product_id');
+    }
+
+    public static function averageReview($ProductID){
+        return 1;
     }
     
 
@@ -87,14 +112,18 @@ class Products extends Model
         return $Images;
     }
 
+
     public function productVariation(){
         return $this->hasMany(ProductVariation::class,'products_id');                                            
     }
+
 
     public static function variationByAttribute($variationid){
         return ProductVariation::where('id',$variationid)->get();
         //return $Variation->attribute->pluck('id')->toArray();
     }
+
+
 
 
     public static function productAttributeSetWithUniqueAttribute($ProductID,$AttributeSetID){

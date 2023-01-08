@@ -6,7 +6,7 @@
 
 
 @section('category-and-menu-section')
-    @include('frontend.common.close-category-menu')
+    @include('frontend.common.category-and-menu')
 @endsection()
 
 

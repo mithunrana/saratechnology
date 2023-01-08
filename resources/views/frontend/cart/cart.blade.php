@@ -6,7 +6,7 @@
 
 
 @section('category-and-menu-section')
-    @include('frontend.common.close-category-menu')
+    @include('frontend.common.category-and-menu')
 @endsection()
 
 
@@ -32,10 +32,17 @@
 @section('main-content')
     <div class="section">
 
-        <div class="custom-container">
+        <div class="custom-container pagecart" >
             @if(Cart::count() != null)
                 <div class="row">
                     <div class="col-12">
+                        <div class="small_divider"></div>
+                        <div class="divider center_icon"><i class="ti-shopping-cart-full"></i></div>
+                        <div class="small_divider"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-8">
                         <div class="table-responsive shop_cart_table">
                             <table class="table">
                                 <thead>
@@ -53,7 +60,9 @@
                                         <tr>
                                             <td class="product-thumbnail"><a href="#"><img src="{{asset('')}}{{$Product->options->image}}" alt="product1"></a></td>
                                             <td class="product-name" data-title="Product"><a href="#">{{$Product->name}}</a></td>
-                                            <td class="product-price" data-title="Price">{{$Product->price}}৳</td>
+                                            <td class="product-price" data-title="Price">
+                                                @if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{$Product->price}}@if(Session::get('Currency')->is_prefix_symbol !=0){{Session::get('Currency')->symbol}}@endif
+                                            </td>
                                             <td class="product-quantity" data-title="Quantity">
                                                 <div class="quantity">
                                                     <input type="button" value="-" class="minus qtyDec" id="{{$Product->rowId}}">
@@ -61,8 +70,10 @@
                                                     <input type="button" value="+" class="plus qtyInc" id="{{$Product->rowId}}">
                                                 </div>
                                             </td>
-                                            <td class="product-subtotal" data-title="Total">{{$Product->total}}</td>
-                                            <td class="product-remove" data-title="Remove"><a href="{{asset('')}}cart/delete/{{$Product->rowId}}"><i class="ti-close"></i></a></td>
+                                            <td class="product-subtotal" data-title="Total">
+                                                @if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{$Product->total}}@if(Session::get('Currency')->is_prefix_symbol !=0){{Session::get('Currency')->symbol}}@endif
+                                            </td>
+                                            <td class="product-remove cartdelete"  data-id="{{$Product->rowId}}" data-title="Remove"><a href="javascript:Void(0);"><i class="ti-close"></i></a></td>
                                         </tr>
                                     @endforeach
                                 </tbody>
@@ -70,7 +81,6 @@
                                     <tr>
                                         <td colspan="6" class="px-0">
                                             <div class="row no-gutters align-items-center">
-
                                                 <div class="col-lg-4 col-md-6 mb-3 mb-md-0">
                                                     <div class="coupon field_form input-group">
                                                         <input type="text" value="" class="form-control form-control-sm" placeholder="Enter Coupon Code..">
@@ -89,46 +99,7 @@
                             </table>
                         </div>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="medium_divider"></div>
-                        <div class="divider center_icon"><i class="ti-shopping-cart-full"></i></div>
-                        <div class="medium_divider"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="heading_s1 mb-3">
-                            <h6>Calculate Shipping</h6>
-                        </div>
-                        <form class="field_form shipping_calculator">
-                            <div class="form-row">
-                                <div class="form-group col-lg-12">
-                                    <div class="custom_select">
-                                        <select class="form-control first_null not_chosen">
-                                            <option value="">Choose a option...</option>
-                                            <option value="BD">Bangladesh</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-lg-6">
-                                    <input required="required" placeholder="State / Country" class="form-control" name="name" type="text">
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <input required="required" placeholder="PostCode / ZIP" class="form-control" name="name" type="text">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-lg-12">
-                                    <button class="btn btn-fill-line" type="submit">Update Totals</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="border p-3 p-md-4">
                             <div class="heading_s1 mb-3">
                                 <h6>Cart Totals</h6>
@@ -138,11 +109,11 @@
                                     <tbody>
                                         <tr>
                                             <td class="cart_total_label">Cart Subtotal</td>
-                                            <td class="cart_total_amount">{{Cart::subtotal()}}</td>
+                                            <td class="cart_total_amount">@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{Cart::subtotal()}}@if(Session::get('Currency')->is_prefix_symbol!=0){{Session::get('Currency')->symbol}}@endif</td>
                                         </tr>
                                         <tr>
                                             <td class="cart_total_label">VAT</td>
-                                            <td class="cart_total_amount">{{Cart::tax()}}</td>
+                                            <td class="cart_total_amount">@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{Cart::tax()}}@if(Session::get('Currency')->is_prefix_symbol!=0){{Session::get('Currency')->symbol}}@endif</td>
                                         </tr>
                                         <tr>
                                             <td class="cart_total_label">Shipping</td>
@@ -150,11 +121,11 @@
                                         </tr>
                                         <tr>
                                             <td class="cart_total_label">Discount</td>
-                                            <td class="cart_total_amount">{{Cart::discount()}}</td>
+                                            <td class="cart_total_amount">@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{Cart::discount()}}@if(Session::get('Currency')->is_prefix_symbol!=0){{Session::get('Currency')->symbol}}@endif</td>
                                         </tr>
                                         <tr>
                                             <td class="cart_total_label">Total</td>
-                                            <td class="cart_total_amount"><strong>{{Cart::total()}}</strong></td>
+                                            <td class="cart_total_amount"><strong>@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{Cart::total()}}@if(Session::get('Currency')->is_prefix_symbol!=0){{Session::get('Currency')->symbol}}@endif</strong></td>
                                         </tr>
                                     </tbody>
                                 </table>

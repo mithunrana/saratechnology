@@ -50,7 +50,7 @@
 
                 <div class="form-group">
                   <label>Content</label>
-                  <textarea class="form-control summernote-editor {{$errors->has('content') ? ' is-invalid' : ''}}" id="content" name="content" rows="6"  placeholder="Enter ...">{{old('content')}}</textarea>
+                  <textarea class="form-control {{$errors->has('content') ? ' is-invalid' : ''}}" id="content" name="content" rows="6"  placeholder="Enter ...">{{old('content')}}</textarea>
                 </div>
               </div>
             </div>
@@ -101,9 +101,5 @@
 @endsection()
 
 @section('customjs')
-<script>
-  $(document).ready(function(){
-    $('.summernote-editor').summernote()
-  })
-</script>
+
 @endsection()

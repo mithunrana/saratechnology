@@ -15,6 +15,8 @@ use App\Models\ProductAttributeSet;
 use App\Models\ProductAttribute;
 use App\Models\ProductVariation;
 use App\Models\Currency;
+use App\Models\City;
+use App\Models\Country;
 use App\Models\ShippingRule;
 use App\Models\Widget;
 use App\Models\WidgetBar;
@@ -27,6 +29,7 @@ use App\Models\Setting;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
+use App\Models\OurFeature;
 use Session;
 
 class AppServiceProvider extends ServiceProvider
@@ -49,7 +52,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         
-        $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
+        $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600", "235" => "-235x261");
 
         config()->set('ImageSize',$ImageSize);
         view()->composer('*', function ($view){
@@ -59,19 +62,27 @@ class AppServiceProvider extends ServiceProvider
             $FeaturedPoducts = Products::where('status','published')->where('is_featured',1)->orderBy('id', 'DESC')->skip(0)->take(4)->get();
             $GetAllProductPublishedAttributeSet = ProductAttributeSet::where('status','published')->orderBy('id', 'DESC')->get();
             $GetAllActiveProduct = Products::where('status','published')->get();
+
+            #This Is for frontend CATEGORY BAR PURPOSE
             $PublishDefaultProductCategories = ProductCategory::where('status','published')->whereNull('parent_id')->orderBy('order', 'ASC')->skip(0)->take(10)->get();
             $PublishMoreProductCategories = ProductCategory::where('status','published')->whereNull('parent_id')->orderBy('order', 'ASC')->skip(10)->take(1000)->get();
             $PublishAllProductCategories = ProductCategory::where('status','published')->whereNull('parent_id')->orderBy('order', 'ASC')->get();
 
 
             #Unpublish and publish collection and object
+            $GetAllCountry = Country::orderBy('id', 'DESC')->get();
+            $GetAllCity = City::orderBy('id', 'DESC')->get();
+
+
             $GetAllProductBrand = ProductBrand::orderBy('id', 'DESC')->get();
-            $GetAllProductCategory = ProductCategory::orderBy('id', 'DESC')->get();
+            $ProductPublishCategories = ProductCategory::where('status','published')->orderBy('order', 'ASC')->get();
             $GetAllProductCollection = ProductCollection::orderBy('id', 'DESC')->get();
             $ProductFeatures = ProductCollection::orderBy('order', 'ASC')->skip(0)->take(3)->get();
             $GetAllProductLabel = ProductLabel::orderBy('id', 'DESC')->get();
             $GetAllProductTaxes  = ProductTax::orderBy('id', 'DESC')->get();
             $GetAllTags = ProductTag::orderBy('id', 'DESC')->get();
+            $ProductTags = ProductTag::where('status','published')->orderBy('id', 'DESC')->get();
+            
             $CurrencyList = Currency::orderBy('id', 'DESC')->get();
             $CurrencyObj = Currency::where('is_default',1)->first();
 
@@ -84,6 +95,10 @@ class AppServiceProvider extends ServiceProvider
             $BlogAllCategory = BlogCategory::all();
             $BlogAllTag = BlogTag::all();
             $SettingKey = Setting::get()->pluck('value','key')->toArray();
+
+            $OurFeatures = OurFeature::where('status','published')->where('is_featured','1')->orderBy('order','ASC')->get();
+            $Brands = ProductBrand::where('status','published')->orderBy('order','ASC')->get();
+
             if(!Session::has('Currency')){
                 $CurrencyObj = Currency::where('is_default',1)->first();
                 Session::put('Currency', $CurrencyObj);
@@ -97,10 +112,11 @@ class AppServiceProvider extends ServiceProvider
             $ImageSize = array("150"=>"-150x150", "500"=>"-500x500", "540" => "-540x600");
             
             $view->with('GetAllProductBrand',$GetAllProductBrand);
-            $view->with('GetAllProductCategory',$GetAllProductCategory);
             $view->with('GetAllActiveProduct',$GetAllActiveProduct);
-            $view->with('Categories',$GetAllProductCategory);
-            $view->with('Brands',$GetAllProductBrand);
+            $view->with('ProductPublishCategories',$ProductPublishCategories);
+            $view->with('ProductTags',$ProductTags);
+            $view->with('Brands',$Brands);
+
             $view->with('GetAllProductCollection',$GetAllProductCollection);
             $view->with('GetAllProductLabel',$GetAllProductLabel);
             $view->with('GetAllProductTaxes',$GetAllProductTaxes);
@@ -124,6 +140,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('PublishDefaultProductCategories',$PublishDefaultProductCategories);
             $view->with('PublishMoreProductCategories',$PublishMoreProductCategories);
             $view->with('PublishAllProductCategories',$PublishAllProductCategories);
+            $view->with('OurFeatures',$OurFeatures);
+            $view->with('GetAllCountry',$GetAllCountry);
+            $view->with('GetAllCity',$GetAllCity);
         });
     }
 }

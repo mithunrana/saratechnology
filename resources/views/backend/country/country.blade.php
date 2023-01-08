@@ -14,8 +14,7 @@
             <li class="breadcrumb-item">
               <a href="#"><i class="fa fa-home"></i> DASHBOARD</a>
             </li>
-            <li class="breadcrumb-item ">Country</li>
-            <li class="breadcrumb-item active">Country Add</li>
+            <li class="breadcrumb-item active">COUNTRY</li>
           </ol>
         </div>
         <div class="col-sm-4">
@@ -65,7 +64,9 @@
                                   <td>{{$Country->created_at->diffForHumans()}}</td>
                                   <td>
                                     <a href="{{ route('dashboard.country.edit',$Country->id) }}" class="btn btn-info" data-toggle="tooltip" title="Edit"><i class="fa fa-edit" style="font-size: 17px;"></i></a>
-                                    <a href="" onclick="return ConfirmDelete();" class="btn btn-danger" data-toggle="tooltip" title="Delete"><i aria-hidden="true" class="fa fa-trash"></i></a>
+                                    <button href="{{ route('dashboard.country.delete',$Country->id) }}" type="button" value="{{ $Country->id }}" class="btn btn-danger delete" data-toggle="tooltip" title="Delete">
+                                      <i aria-hidden="true" class="fa fa-trash"></i>
+                                    </button>
                                   </td>
                               </tr>
                             @endforeach
@@ -87,7 +88,26 @@
 <script>
   $(document).ready( function () {
     $('#brandtable').DataTable();
-});
+  });
+
+  $(document).on("click", ".delete", function (e) {
+    e.preventDefault();
+    var link = $(this).attr("href");
+    Swal.fire({
+        title: "Are you sure?",
+        text: "Delete this data!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+        if (result.value) {
+            window.location.href = link;
+            Swal.fire("Deleted!", "Data has been deleted.", "success");
+        }
+    });
+  });
 </script>
 @endsection()
 

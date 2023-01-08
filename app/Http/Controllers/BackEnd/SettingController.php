@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Models\Products;
 use App\Models\TrendingItem;
+use App\Models\OurFeature;
+use App\Models\City;
 class SettingController extends Controller
 {
 public function autoGenerate(){
@@ -22,10 +24,13 @@ public function autoGenerate(){
             "payment_bank_transfer_description"=>"Please send money to our bank account: ACB - 1990 404 19.",
             "plugins_ecommerce_customer_new_order_status"=>"0",
             "plugins_ecommerce_admin_new_order_status"=>"0",
+
             "ecommerce_store_name"=>"thigo",
             "ecommerce_store_phone"=>"23-456-7890",
             "ecommerce_store_address"=>"123 Street, Old Trafford",
-            "ecommerce_store_country"=>"1",
+            "ecommerce_store_state"=>"state is here",
+            "ecommerce_store_city"=>"1",
+
             "theme"=>"thigo",
             "social_login_enable"=>"1",
             "social_login_facebook_enable"=>"1",
@@ -35,8 +40,7 @@ public function autoGenerate(){
             "social_login_github_enable"=>"1",
             "social_login_linkedin_enable"=>"1",
 
-
-            "theme-thigo-newsletter_image"=>"eneral/newsletter.jpg",
+            
             "theme-thigo-seo_og_image"=>"43",
 
 
@@ -56,8 +60,11 @@ public function autoGenerate(){
             "theme_thigo_secondary_color"=>"#1D2224",
             "theme_thigo_enable_newsletter_popup"=>"1",
             "theme_thigo_newsletter_show_after_seconds"=>"10",
+            "theme_thigo_newsletter_image"=>"general/newsletter.jpg",
             "theme_thigo_facebook_comment_enabled_in_product"=>"1",
             "theme_thigo_opening_our_content"=>"",
+            "theme_thigo_newsletter_title"=>"Newsletter Title",
+            "theme_thigo_newsletter_text"=>"Newsletter Text",
 
 
             //Theme Logo information
@@ -147,6 +154,10 @@ public function autoGenerate(){
             //Home Page information
             "home_exclusive_section_title"=>"Exclusive Products",
             "home_exclusive_section_side_banner"=>"demo-image.png",
+            "home_exclusive_section_side_banner_url"=>"#",
+            "home_trending_section_title"=>"Exclusive Products",
+            "home_trending_section_side_banner"=>"demo-image.png",
+            "home_trending_section_side_banner_url"=>"#",
 
 
             //Home Page information
@@ -164,6 +175,9 @@ public function autoGenerate(){
             "home_page_first_banner_title3"=>"Phone",
             "home_page_first_banner_subtitle3"=>"50% OFF",
             "home_page_first_banner_url3"=>"#",
+
+
+            "home_page_top_categories_text"=>"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus blandit massa enim Nullam nunc varius.",
 
 
             //SEO Manager 
@@ -186,6 +200,71 @@ public function autoGenerate(){
         return "Key Generate successfully completed";
     }
 
+
+    #Our Features ======================================
+
+    public function feature(){
+        $Features  =  OurFeature::orderBy('id','DESC')->get();
+        return view('backend.feature.feature',compact('Features'));
+    }
+
+
+
+
+    public function featureAdd(){
+        return view('backend.feature.add');
+    }
+
+
+    public function featureStore(Request $request){
+        $this->validate($request, [
+            'title' => 'required',
+            'icon' => 'required',
+            'status' => 'required',
+            'order' => 'required',
+        ]);
+
+        $OurFeatureObj = new OurFeature();
+        $OurFeatureObj->title = $request->title;
+        $OurFeatureObj->content = $request->content;
+        $OurFeatureObj->icon = $request->icon;
+        $OurFeatureObj->order = $request->order;
+        $OurFeatureObj->is_featured = $request->is_featured ? 1 : 0;
+        $OurFeatureObj->status = $request->status;
+        $OurFeatureObj->save();
+        return redirect()->route('dashboard.our.feature')->with('message','Feature Successfully Added');
+    }
+
+    public function featureEdit(Request $request,$id){
+        $FeatureData = OurFeature::where('id',$id)->first();
+        return view('backend.feature.edit',compact('FeatureData'));
+    }
+
+
+    public function featureUpdate(Request $request,$id){
+        $this->validate($request, [
+            'title' => 'required',
+            'icon' => 'required',
+            'status' => 'required',
+            'order' => 'required',
+        ]);
+
+        $OurFeatureObj = OurFeature::where('id',$id)->first();
+        $OurFeatureObj->title = $request->title;
+        $OurFeatureObj->content = $request->content;
+        $OurFeatureObj->icon = $request->icon;
+        $OurFeatureObj->order = $request->order;
+        $OurFeatureObj->is_featured = $request->is_featured ? 1 : 0;
+        $OurFeatureObj->status = $request->status;
+        $OurFeatureObj->save();
+        return redirect()->route('dashboard.our.feature')->with('message','Feature Successfully Updated');
+    }
+
+    public function featureDelete(){
+        $OurFeatureObj = OurFeature::find($id);
+        $OurFeatureObj->delete();
+        return redirect()->route('admin/service')->with('message','Feature Successfully Deleted');
+    }
 
     public function settingOption(){
         return view('backend.settings.options');
@@ -237,6 +316,9 @@ public function autoGenerate(){
         Setting::where('key','theme_thigo_newsletter_show_after_seconds')->update(['value'=>$request->theme_thigo_newsletter_show_after_seconds]);
         Setting::where('key','theme_thigo_facebook_comment_enabled_in_product')->update(['value'=>$request->theme_thigo_facebook_comment_enabled_in_product]);
         Setting::where('key','theme_thigo_opening_our_content')->update(['value'=>$request->theme_thigo_opening_our_content]);
+        Setting::where('key','theme_thigo_newsletter_image')->update(['value'=>$request->theme_thigo_newsletter_image]);
+        Setting::where('key','theme_thigo_newsletter_title')->update(['value'=>$request->theme_thigo_newsletter_title]);
+        Setting::where('key','theme_thigo_newsletter_text')->update(['value'=>$request->theme_thigo_newsletter_text]);
         return redirect()->back()->with('message','General Information succesfully updated');
     }
 
@@ -332,11 +414,17 @@ public function autoGenerate(){
     }
 
 
-    public function homeExclusiveSectionUpdate(Request $request){
+    public function homeExclusiveAndTrendingSectionUpdate(Request $request){
         Setting::where('key','home_exclusive_section_title')->update(['value'=>$request->home_exclusive_section_title]);
         Setting::where('key','home_exclusive_section_side_banner')->update(['value'=>$request->home_exclusive_section_side_banner]);
-        return redirect()->back()->with('message','Home Exclusive Section Information Update');
+        Setting::where('key','home_exclusive_section_side_banner_url')->update(['value'=>$request->home_exclusive_section_side_banner_url]);
+        Setting::where('key','home_trending_section_title')->update(['value'=>$request->home_trending_section_title]);
+        Setting::where('key','home_trending_section_side_banner')->update(['value'=>$request->home_trending_section_side_banner]);
+        Setting::where('key','home_trending_section_side_banner_url')->update(['value'=>$request->home_trending_section_side_banner_url]);
+        Setting::where('key','home_page_top_categories_text')->update(['value'=>$request->home_page_top_categories_text]);
+        return redirect()->back()->with('message','Section Information Update');
     }
+
 
 
     public function trendingProductAdd(Request $request){
@@ -376,8 +464,26 @@ public function autoGenerate(){
         return redirect()->back()->with('message','Home Page 3 Column First Banner Update');
     }
 
+    public function ecommerce(){
+        return view('backend.settings.ecommerce');
+    }
 
 
+    public function shopInfoUpdate(Request $request){
+        $this->validate($request, [
+            'ecommerce_store_name' => 'required|min:3|max:200',
+            'ecommerce_store_phone' => 'required|min:3|max:20',
+            'ecommerce_store_address' => "required|min:3|max:200",
+            'ecommerce_store_state' => "required|min:3|max:200",
+            'ecommerce_store_city' => 'required|integer|min:1|max:999999999',
+        ]);
 
+        Setting::where('key','ecommerce_store_name')->update(['value'=>$request->ecommerce_store_name]);
+        Setting::where('key','ecommerce_store_phone')->update(['value'=>$request->ecommerce_store_phone]);
+        Setting::where('key','ecommerce_store_address')->update(['value'=>$request->ecommerce_store_address]);
+        Setting::where('key','ecommerce_store_state')->update(['value'=>$request->ecommerce_store_state]);
+        Setting::where('key','ecommerce_store_city')->update(['value'=>$request->ecommerce_store_city]);
+        return redirect()->back()->with('message','Shop Info Successfully Updated');
+    }
 
 }

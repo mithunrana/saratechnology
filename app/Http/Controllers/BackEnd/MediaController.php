@@ -13,7 +13,7 @@ class MediaController extends Controller
     public function fetchMedia($folderid){
         $RefFolder = $folderid;
         $RootFolder = 'uploads/';
-        $RootMediaList = MediaFile::where('folder_id',$folderid)->get();
+        $RootMediaList = MediaFile::where('folder_id',$folderid)->orderBy('id','DESC')->get();
         $RootMediaFolder = MediaFolder::where('parent_id',$folderid)->get();
         $CurrentDirectory = '';
         $BreadCrumb = array();
@@ -52,7 +52,8 @@ class MediaController extends Controller
             // if i first convert to small then convert lerge quality it will be loss.
             $img->resize(540, 600)->save($UploadPath.'/'.$filename.$ImageSize[540].".".$extension,90);
             $img->resize(500, 500)->save($UploadPath.'/'.$filename.$ImageSize[500].".".$extension);
-            $img->resize(100, 100)->save($UploadPath.'/'.$filename.$ImageSize[150].".".$extension);
+            $img->resize(235, 261)->save($UploadPath.'/'.$filename.$ImageSize[235].".".$extension);
+            $img->resize(150, 150)->save($UploadPath.'/'.$filename.$ImageSize[150].".".$extension);
         }else{
             $file->move(public_path($UploadPath),$file_name);
         }

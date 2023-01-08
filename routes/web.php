@@ -61,6 +61,11 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/blog-update/{productid}','BlogController@blogUpdate')->name('dashboard.blog.update');
     Route::get('/admin/blog-delete/{productid}','BlogController@blogDelete')->name('dashboard.blog.delete');
 
+    Route::get('/admin/blog/comments','BlogController@comments')->name('dashboard.blog.comments');
+    Route::get('/admin/blog/comment/edit/{id}','BlogController@commentEdit')->name('dashboard.blog.comment.edit');
+    Route::post('/admin/blog/comment/update/{id}','BlogController@commentUpdate')->name('dashboard.blog.comment.update');
+    Route::get('/admin/blog/comment/delete/{id}','BlogController@commentDelete')->name('dashboard.blog.comment.delete');
+
 
     Route::get('/admin/blog-category','BlogController@blogCategory')->name('dashboard.blog.category');
     Route::get('/admin/blog-category-add','BlogController@blogCategoryAdd')->name('dashboard.blog.category.add');
@@ -134,11 +139,21 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::post('/admin/customer-update/{attributeid}','CustomerController@update')->name('dashboard.customer.update');
 
 
-    Route::get('/admin/country','SetupMasterController@country')->name('dashboard.country');
-    Route::get('/admin/country-add','SetupMasterController@countryAdd')->name('dashboard.country.add');
-    Route::post('/admin/country-store','SetupMasterController@countryStore')->name('dashboard.country.store');
-    Route::get('/admin/country-edit/{attributeid}','SetupMasterController@countryEdit')->name('dashboard.country.edit');
-    Route::post('/admin/country-update/{attributeid}','SetupMasterController@countryUpdate')->name('dashboard.country.update');
+    Route::get('/admin/setup/country','SetupMasterController@country')->name('dashboard.country');
+    Route::get('/admin/setup/country-add','SetupMasterController@countryAdd')->name('dashboard.country.add');
+    Route::post('/admin/setup/country-store','SetupMasterController@countryStore')->name('dashboard.country.store');
+    Route::get('/admin/setup/country-edit/{attributeid}','SetupMasterController@countryEdit')->name('dashboard.country.edit');
+    Route::post('/admin/setup/country-update/{attributeid}','SetupMasterController@countryUpdate')->name('dashboard.country.update');
+    Route::get('/admin/setup/country/delete/{id}','SetupMasterController@countryDelete')->name('dashboard.country.delete');
+
+
+    Route::get('/admin/setup/city','SetupMasterController@city')->name('dashboard.city');
+    Route::get('/admin/setup/city-add','SetupMasterController@cityAdd')->name('dashboard.city.add');
+    Route::post('/admin/setup/city-store','SetupMasterController@cityStore')->name('dashboard.city.store');
+    Route::get('/admin/setup/city-edit/{attributeid}','SetupMasterController@cityEdit')->name('dashboard.city.edit');
+    Route::post('/admin/setup/city-update/{attributeid}','SetupMasterController@cityUpdate')->name('dashboard.city.update');
+    Route::get('/admin/setup/city/delete/{id}','SetupMasterController@cityDelete')->name('dashboard.city.delete');
+
 
     Route::get('/admin/currency','SetupMasterController@currency')->name('dashboard.currency');
     Route::get('/admin/currency-add','SetupMasterController@currencyAdd')->name('dashboard.currency.add');
@@ -216,12 +231,20 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
     Route::get('/admin/widgetset-delete/{id}','WidgetCotroller@widgetSetDelete')->name('dashboard.widget.set.delete');
 
 
+    Route::get('/admin/feature','SettingController@feature')->name('dashboard.our.feature');
+    Route::get('/admin/feature-add','SettingController@featureAdd')->name('dashboard.our.feature.add');
+    Route::post('/admin/feature-store','SettingController@featureStore')->name('dashboard.our.feature.store');
+    Route::get('/admin/feature-edit/{id}','SettingController@featureEdit')->name('dashboard.our.feature.edit');
+    Route::post('/admin/feature-update/{id}','SettingController@featureUpdate')->name('dashboard.our.feature.update');
+    Route::get('/admin/feature-delete/{id}','SettingController@featureDelete')->name('dashboard.our.feature.delete');
+
+
     Route::get('/admin/autogenerate','SettingController@autoGenerate')->name('dashboard.autogenerate');
     Route::get('/admin/setting/options','SettingController@settingOption')->name('dashboard.setting.option');
 
     Route::get('/admin/setting/home/options','SettingController@homePageSetting')->name('dashboard.setting.home.option');
     
-    Route::post('/admin/setting/home/exclusivesectionupdate','SettingController@homeExclusiveSectionUpdate')->name('dashboard.setting.home.exclusive.update');
+    Route::post('/admin/setting/home/exclusivesectionupdate','SettingController@homeExclusiveAndTrendingSectionUpdate')->name('dashboard.setting.home.exclusive.update');
     Route::post('/admin/setting/home/3columnfirstbannerupdate','SettingController@home3ColumnFirstBannerUpdate')->name('dashboard.setting.home.threecolumnfirstbanner.update');
 
     Route::post('/admin/setting/socialupdate','SettingController@socialInformationUpdate')->name('dashboard.setting.social.update');
@@ -249,6 +272,10 @@ Route::group(['namespace'=>'App\Http\Controllers\BackEnd'], function(){
 
     Route::post('/admin/setting/metamanagerupdate','SettingController@metaManagerUpdate')->name('dashboard.setting.metamanager.update');
 
+    Route::get('/admin/setting/ecommerce','SettingController@ecommerce')->name('dashboard.setting.ecommerce');
+    Route::post('/admin/setting/shopinfoupdate','SettingController@shopInfoUpdate')->name('dashboard.setting.shopinfo.update');
+
+
 
     
     //Route::get('/admin/media','MediaController@getMedia')->name('get.media');
@@ -273,7 +300,9 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('/cart/store/{id}', 'CartController@store');
     Route::get('/qty/inc/{rowId}', 'CartController@qtyInc');
     Route::get('/qty/dec/{rowId}', 'CartController@qtyDec');
-    Route::get('cart/delete/{id}','CartController@cartdelete');
+    Route::get('cart/delete/{id}','CartController@cartdelete')->name('cart.item.remove');
+    Route::get('/page/cart', 'CartController@pageCart')->name('page.cart');
+    Route::get('/header/cart', 'CartController@headerCart')->name('header.cart');
 
     Route::post('/confirm-order', 'OrderController@order')->name('order.confirm');
     Route::get('/sucess','OrderController@sucessOrder');
@@ -300,12 +329,16 @@ Route::group(['namespace'=>'App\Http\Controllers\FrontEnd'], function(){
     Route::get('/tag/{url}','BlogController@tagWiseBlogs')->name('tag.blog');
     Route::get('blog/{url}','BlogController@singleBlog')->name('single.blog');
 
+    Route::post('/blog/comment/store','BlogController@blogCommentStore')->name('blog.comment.store');
+
+
+
     Route::get('/products','ProductController@index')->name('products');
+    Route::get('/product/quick-view/{id}','ProductController@productQuickView')->name('product.shortview');
     Route::get('/products/{url}','ProductController@categoryWiseProducts')->name('category.products');
+    Route::get('/products/tag/{url}','ProductController@tagWiseProducts')->name('tag.products');
+    Route::get('/products/brand/{url}','ProductController@brandWiseProducts')->name('brand.products');
     Route::get('/{url}','ProductController@productView')->name('productview');
-
-
-
 });
 
 

@@ -18,7 +18,7 @@
                             </div>
                             <div class="author_wrap">
                                 <div class="author_img">
-                                    <img src="{{asset('')}}{{$Testimonial->content}}" alt="{{$Testimonial->name}}" />
+                                    <img src="{{asset('')}}{{$Testimonial->image}}" alt="{{$Testimonial->name}}" />
                                 </div>
                                 <div class="author_name">
                                     <h6>{{$Testimonial->name}}</h6>

@@ -767,7 +767,7 @@
 
                             <div style="padding: 15px;max-height:350px;overflow:scroll;" class="card-body">
                                 <ul class="list-group">
-                                    @foreach ($GetAllProductCategory as $Category)
+                                    @foreach ($ProductAllParentCategories as $Category)
                                         <li style="padding: 2px;border: none;" class="list-group-item">
                                             <label style="margin-bottom: 0px;font-weight: 500;">
                                                 <input type="checkbox" value="{{ $Category->id }}" name="categories[]"
@@ -887,7 +887,7 @@
                                     <select class="form-control {{ $errors->has('tags') ? ' is-invalid' : '' }}"
                                         name="tags[]" id="tags" multiple>
                                         @foreach ($GetAllTags as $Tag)
-                                            <option value="{{ $Tag->id }}"{{ in_array($Tag->id, $ProductTags) ? 'selected' : '' }}>{{ $Tag->name }}</option>
+                                            <option value="{{ $Tag->id }}"{{ in_array($Tag->id, $ProductTagsArray) ? 'selected' : '' }}>{{ $Tag->name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('tags'))

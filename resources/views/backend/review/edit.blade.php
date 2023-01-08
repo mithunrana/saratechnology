@@ -76,9 +76,9 @@
               <div class="card-body">
                 <div class="form-group">
                     <select class="form-control" name="status" id="status">
-                      <option value="Published" @if($ReviewDetails->status == "Published") selected @endif>Published</option>
-                      <option value="Draft" @if($ReviewDetails->status == "Draft") selected @endif>Draft</option>
-                      <option value="Pending" @if($ReviewDetails->status == "Pending") selected @endif>Pending</option>
+                      <option value="published" @if($ReviewDetails->status == "published") selected @endif>Published</option>
+                      <option value="draft" @if($ReviewDetails->status == "draft") selected @endif>Draft</option>
+                      <option value="pending" @if($ReviewDetails->status == "pending") selected @endif>Pending</option>
                     </select>
                 </div>
               </div>

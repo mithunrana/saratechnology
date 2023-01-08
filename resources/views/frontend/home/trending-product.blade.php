@@ -3,8 +3,8 @@
     	<div class="row">
         	<div class="col-xl-3 d-none d-xl-block">
             	<div class="sale-banner">
-                	<a class="hover_effect1" href="#">
-                		<img src="frontend/assets/images/shop_banner_img10.jpg" alt="shop_banner_img10">
+                	<a class="hover_effect1" href="{{$SettingKey['home_trending_section_side_banner_url']}}">
+                		<img src="{{$SettingKey['home_trending_section_side_banner']}}" alt="shop_banner_img10">
                     </a>
                 </div>
             </div>
@@ -13,10 +13,10 @@
                     <div class="col-12">
                         <div class="heading_tab_header">
                             <div class="heading_s2">
-                                <h4>Latest products</h4>
+                                <h4>{{$SettingKey['home_trending_section_title']}}</h4>
                             </div>
                             <div class="view_all">
-                            	<a href="#" class="text_default"><i class="linearicons-power"></i> <span>View All</span></a>
+                            	<a href="{{route('products')}}" class="text_default"><i class="linearicons-power"></i> <span>View All</span></a>
                             </div>
                         </div>
                     </div>
@@ -29,31 +29,33 @@
                                     <div class="product_wrap">
                                         <div class="product_img">
                                             <a href="shop-product-detail.html">
-                                                <img src="{{$Product->product->productFirstImageLongHeightSize($Product->product->id)}}" alt="el_img2">
+                                                <img src="{{$Product->product->productFirstImageLongHeightSize($Product->product->id)}}" alt="{{$Product->name}}">
                                             </a>
                                             <div class="product_action_box">
                                                 <ul class="list_none pr_action_btn">
-                                                    <li class="add-to-cart"><a href="#"><i class="icon-basket-loaded"></i> Add To Cart</a></li>
                                                     <li><a href="shop-compare.html" class="popup-ajax"><i class="icon-shuffle"></i></a></li>
-                                                    <li><a href="shop-quick-view.html" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
+                                                    <li><a href="{{route('product.shortview',$Product->product->id)}}" class="popup-ajax"><i class="icon-magnifier-add"></i></a></li>
                                                     <li><a href="#"><i class="icon-heart"></i></a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <div class="product_info">
-                                            <h6 class="product_title"><a href="shop-product-detail.html">{{$Product->product->name}}</a></h6>
+                                            <h6 class="product_title"><a href="{{route('productview',$Product->product->permalink)}}">{{$Product->product->name}}</a></h6>
                                             <div class="product_price">
-                                                <span class="price">{{$Product->product->sale_price}}</span>
-                                                <del>{{$Product->product->price}}</del>
+                                                <span class="price">@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{$Product->product->sale_price}}@if(Session::get('Currency')->is_prefix_symbol!=0){{Session::get('Currency')->symbol}}@endif</span>
+                                                <del>@if(Session::get('Currency')->is_prefix_symbol==0){{Session::get('Currency')->symbol}}@endif{{$Product->product->price}}@if(Session::get('Currency')->is_prefix_symbol!=0){{Session::get('Currency')->symbol}}@endif</del>
                                                 <div class="on_sale">
-                                                    <span>25% Off</span>
+                                                    <span>{{number_format((100-($Product->product->sale_price) / ($Product->product->price/100)),2)}}% Off</span>
                                                 </div>
                                             </div>
                                             <div class="rating_wrap">
                                                 <div class="rating">
-                                                    <div class="product_rate" style="width:68%"></div>
+                                                    <div class="product_rate" style="width:{{$Product->product->reviews->average('star')*20}}%"></div>
                                                 </div>
-                                                <span class="rating_num">(15)</span>
+                                                <span class="rating_num">({{($Product->product->reviews->where('status','published')->count())}})</span>
+                                            </div>
+                                            <div style="text-align: center;" class="add-to-cart">
+                                                <button style="padding: 5px 10px;" href="#" class="btn btn-border-fill btn-radius btn-addtocart"  data-id="{{$Product->product->id}}"><i class="icon-basket-loaded"></i> Add To Cart</button>
                                             </div>
                                         </div>
                                     </div>

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\BlogCategory;
 use App\Models\BlogPost;
 use App\Models\BlogTag;
+use App\Models\BlogComment;
+use Auth;
 class BlogController extends Controller
 {
     public function blogManage(){
@@ -228,5 +230,55 @@ class BlogController extends Controller
     }
 
 
+    //Blog Comments 
+    public function comments(){
+        $Comments = BlogComment::where('blog_comment_id',NULL)->orderBy('id','DESC')->get(); 
+        return view('backend.blog.comments',compact('Comments'));
+    }
+
+
+    public function commentEdit(Request $request,$id){
+        $CommentData = BlogComment::where('id',$id)->first();
+        return view('backend.blog.comment-edit',compact('CommentData'));
+    }
+
+    public function commentUpdate(Request $request,$id){
+        $CommentObj = BlogComment::where('id',$id)->first();
+
+        $customer = 0;
+        if($CommentObj->customer_id !=''){
+            $customer = 1;
+        }
+       
+        if($customer==0){
+            $this->validate($request, [
+                'name' => 'required',
+                'email' => "required",
+                'comment' => 'required|min:10|max:1000',
+            ]);    
+        }else{
+            $this->validate($request, [
+                'comment' => 'required|min:10|max:1000',
+            ]);
+        }
+
+        if($customer==0){
+            $CommentObj->name = $request->name;
+            $CommentObj->email = $request->email;
+        }
+
+        $CommentObj->website = $request->website;
+        $CommentObj->comment = $request->comment;
+        $CommentObj->status = $request->status;
+        $CommentObj->save();
+        return redirect()->route('dashboard.blog.comments')->with('message',"Comment Successfully Updated");
+    }
+
+
+    public function commentDelete(Request $request,$id){
+        $CommentObj = BlogComment::where('id',$id)->first();
+        $CommentObj->delete();
+        return redirect()->route('dashboard.blog.comments')->with('message','Comment Successfully Deleted');
+    }
 
 }

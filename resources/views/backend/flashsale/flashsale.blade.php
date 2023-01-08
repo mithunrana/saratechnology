@@ -65,7 +65,6 @@
                                             <button href="{{ route('dashboard.flash.sale.delete',$FlashSale->id) }}" type="button" value="{{ $FlashSale->id }}" class="btn btn-danger delete" data-toggle="tooltip" title="Delete">
                                             <i aria-hidden="true" class="fa fa-trash"></i>
                                             </button>
-                                            
                                         </td>
                                     </tr>
                                 @endforeach
@@ -107,7 +106,6 @@
                 }
             });
         });
-
     </script>
 @endsection()
 

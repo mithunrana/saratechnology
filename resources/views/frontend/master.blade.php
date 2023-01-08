@@ -48,6 +48,8 @@
 <link rel="stylesheet" href="{{asset('')}}frontend/assets/owlcarousel/css/owl.theme.default.min.css">
 <!-- Magnific Popup CSS -->
 <link rel="stylesheet" href="{{asset('')}}frontend/assets/css/magnific-popup.css">
+<!-- jquery-ui CSS -->
+<link rel="stylesheet" href="{{asset('')}}frontend/assets/css/jquery-ui.css">
 <!-- Slick CSS -->
 <link rel="stylesheet" href="{{asset('')}}frontend/assets/css/slick.css">
 <link rel="stylesheet" href="{{asset('')}}frontend/assets/css/slick-theme.css">
@@ -76,10 +78,10 @@
 
 
 <!-- START HEADER -->
-<header class="header_wrap">
-    @yield('home-header')
-    @yield('category-and-menu-section')
-</header>
+    <header class="header_wrap fixed-top header_with_topbar">
+        @yield('home-header')
+        @yield('category-and-menu-section')
+    </header>
 <!-- END HEADER -->
 
 
@@ -172,6 +174,8 @@
 
 <!-- Latest jQuery --> 
 <script src="{{asset('')}}frontend/assets/js/jquery-1.12.4.min.js"></script> 
+<!-- jquery-ui --> 
+<script src="{{asset('')}}frontend/assets/js/jquery-ui.js"></script>
 <!-- popper min js -->
 <script src="{{asset('')}}frontend/assets/js/popper.min.js"></script>
 <!-- Latest compiled and minified Bootstrap --> 
@@ -202,6 +206,8 @@
 <!-- Toastr -->
 <script src="{{ asset('defaults/toastr/toastr.min.js') }}"></script>
 
+    @yield('customjs')
+
 <script>
     @if (Session::has('message'))
         var type = "{{ Session::get('alert-type', 'info') }}"
@@ -224,46 +230,22 @@
 
 
 <script>
-    /*
-       //Header Cart Item
-        function headerCartItem() {
-            $.ajax({
-                url: "{{ url('/drop/cart') }}",
-                success: function(data) {
-                    $('.dropCart').html(data);
-                }
-            })
-        }*/
+    //header cart
+    function headerCart() {
+        $.ajax({
+            url: "{{ route('header.cart') }}",
+            success: function(data) {
+                $('.headercart').html(data);
+            }
+        })
+    }
 
     //page Cart
     function pageCart() {
         $.ajax({
-            url: "{{ url('/page/cart') }}",
+            url: "{{ route('page.cart') }}",
             success: function(data) {
-                $('.pageCart').html(data);
-            }
-        })
-    }
-    //pageCart();
-
-
-    //Cart Count
-    function cartCount() {
-        $.ajax({
-            url: "{{ url('/cart/count') }}",
-            success: function(data) {
-                $('.cartQty').html(data);
-            }
-        })
-    }
-    //cartCount();
-
-    //Cart total
-    function cartTotal() {
-        $.ajax({
-            url: "{{ url('/cart/total') }}",
-            success: function(data) {
-                $('.cartTotal').html(data);
+                $('.pagecart').html(data);
             }
         })
     }
@@ -284,8 +266,8 @@
                 $(".ajaxloading").fadeIn();
             },
             success: function(data) {
-                //cartCount();
-                //cartTotal();
+                headerCart();
+                pageCart();
                 if ($.isEmptyObject(data.error)) {
                     toastr.success(data.success, 'Success', {
                         timeOut: 3000
@@ -319,6 +301,8 @@
                 $(".ajaxloading").fadeIn();
             },
             success: function(data) {
+                headerCart();
+                pageCart();
                 toastr.success('পণ্যের পরিমাণ আপডেট হয়েছে!', 'Updated', {
                     timeOut: 3000
                 });
@@ -350,6 +334,8 @@
                     $(".ajaxloading").fadeIn();
                 },
                 success: function(data) {
+                    headerCart();
+                    pageCart();
                     toastr.success('পণ্যের পরিমাণ আপডেট হয়েছে!', 'Updated', {
                         timeOut: 3000
                     });
@@ -367,14 +353,16 @@
 <script>
     $(document).on('click', '.cartdelete', function(e) {
         e.preventDefault();
-        var id = $(this).attr('id');
+        var id = $(this).attr('data-id');
         $.ajax({
             url: "{{ url('cart/delete') }}/" + id,
             method: "GET",
             dataType: "JSON",
             type: "DELETE",
             success: function(data) {
-                toastr.success('পণ্যটি কার্ট থেকে মুছে ফেলা হয়েছে !', 'Removed', {
+                headerCart();
+                pageCart();
+                toastr.success(data.message, 'Removed', {
                     timeOut: 3000
                 });
             },
@@ -384,13 +372,38 @@
 
 
 
-<script>
 
+
+<script>
     $(document).ready(function(){
         $('.ratingid').click(function(){
             $('#starvalue').val($(this).attr('data-value'));
         });
+
+        $(".currency_change").change(function(){
+            var id = $(this).val();
+            $.ajax({
+                url: "{{ url('switch-currency') }}/" + id,
+                method: "GET",
+                dataType: "text",
+                type: "DELETE",
+                success: function(data) {
+                    location.reload();
+                },
+            });
+        });
     });
+
+
+    @if($SettingKey['theme_thigo_enable_newsletter_popup']=='1')
+        $(window).on('load',function(){
+            setTimeout(function() {
+                $("#onload-popup").modal('show', {}, 500);
+            }, {{$SettingKey['theme_thigo_newsletter_show_after_seconds']}});
+	    });
+    @endif
+    
+
 
     function switchShipping(){
         $.ajax({

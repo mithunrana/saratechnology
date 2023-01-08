@@ -26,6 +26,7 @@ use App\Models\BlogPost;
 use App\Models\FlashSale;
 use App\Models\FlashSaleItem;
 use App\Models\TrendingItem;
+use App\Models\OurFeature;
 use DateTime;
 use Session;
 
@@ -47,11 +48,11 @@ class HomeController extends Controller
 
         $data['ProductCollections'] = ProductCollection::where('status','published')->where('is_featured',1)->get();
 
-        $data['TopCategories'] = ProductCategory::where('status','published')->where('is_featured',1)->get();
-
         $data['Testimonials'] = Testimonial::where('status','published')->get();
 
         $data['BlogPost'] = BlogPost::where('status','published')->orderBy('order','DESC')->skip(0)->take(3)->get();
+
+        
 
         $SlideObj = Slider::where('key','home-slider')->first();
         $data['SlideItems'] =  SliderItem::where('slider_id',$SlideObj->id)->orderBy('order','DESC')->get();

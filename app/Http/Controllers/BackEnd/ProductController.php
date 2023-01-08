@@ -36,7 +36,8 @@ class ProductController extends Controller
         $Brands  = ProductBrand::get();
         $GetAllProductTaxes = ProductTax::get();
         $GetAllProductAttributeSet = ProductAttributeSet::get();
-        return view('backend.product.add', compact('GetAllTags', 'Categories', 'GetAllProductCollection', 'GetAllProductLabel', 'Brands', 'GetAllProductTaxes', 'GetAllActiveProduct', 'GetAllProductAttributeSet'));
+        $ProductAllCategories = ProductCategory::orderBy('id','DESC')->get();
+        return view('backend.product.add', compact('ProductAllCategories','GetAllTags', 'Categories', 'GetAllProductCollection', 'GetAllProductLabel', 'Brands', 'GetAllProductTaxes', 'GetAllActiveProduct', 'GetAllProductAttributeSet'));
     }
 
 
@@ -296,7 +297,8 @@ class ProductController extends Controller
         $data['RelatedProducts'] = $Product->relatedProduct->pluck('id')->toArray();
         $data['CrossSellingProducts'] = $Product->crossSellingProduct->pluck('id')->toArray();
         $data['CurrentAttributeSet'] = $Product->attributeset->pluck('id')->toArray();
-        $data['ProductTags'] = $Product->tag->pluck('id')->toArray();
+        $data['ProductTagsArray'] = $Product->tag->pluck('id')->toArray();
+        $data['ProductAllParentCategories'] = ProductCategory::where('parent_id',NULL)->orderBy('id','DESC')->get();
         return view('backend.product.product-edit', $data);
     }
 
@@ -532,8 +534,8 @@ class ProductController extends Controller
     }
 
     public function productsCategoryAdd()
-    {
-        return view('backend.category.add');
+    {   $ProductAllCategories = ProductCategory::orderBy('id','DESC')->get();
+        return view('backend.category.add',compact('ProductAllCategories'));
     }
 
 
@@ -573,8 +575,9 @@ class ProductController extends Controller
 
     public function productsCategoryEdit($id)
     {
+        $ProductAllCategories = ProductCategory::orderBy('id','DESC')->get();
         $GetCategoryData = ProductCategory::where('id', $id)->first();
-        return view('backend.category.edit', compact('GetCategoryData'));
+        return view('backend.category.edit', compact('GetCategoryData','ProductAllCategories'));
     }
 
 

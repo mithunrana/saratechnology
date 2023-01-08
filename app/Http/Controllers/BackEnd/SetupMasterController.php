@@ -9,6 +9,7 @@ use App\Models\Currency;
 use App\Models\ShippingRule;
 use App\Models\Slider;
 use App\Models\SliderItem;
+use App\Models\City;
 class SetupMasterController extends Controller
 {
     function country(){
@@ -56,6 +57,77 @@ class SetupMasterController extends Controller
         $CountryObj->save();
 
         return redirect('admin/country')->with('message', 'Country Name Successfully Updated');
+    }
+
+
+    public function countryDelete(Request $request,$id){
+        $CountryObj = Country::where('id',$id)->first();
+        $CountryObj->delete();
+        return redirect()->route('dashboard.country')->with('message', 'Country Successfully Deleted!');
+    }
+
+
+
+
+    #City Manager====================================================================================
+
+
+    function city(){
+        $CityList = City::get();
+        return view('backend.city.city',compact('CityList'));
+    }
+
+    function cityAdd(){
+        $CountryList = Country::orderBy('id','DESC')->get();
+        return view('backend.city.add',compact('CountryList'));
+    }
+
+    public function cityStore(Request $request){
+        $this->validate($request, [
+            'name' => 'required|min:3|max:200',
+            'country' => "required|integer",
+            'zipcode' => 'required|min:2|max:200',
+            'order' => 'required|integer|min:1|max:999999999',
+        ]);
+
+        $CityObj = new City();
+        $CityObj->name = $request->name;
+        $CityObj->country_id = $request->country;
+        $CityObj->zipcode = $request->zipcode;
+        $CityObj->order = $request->order;
+        $CityObj->save();
+
+        return redirect()->route('dashboard.city')->with('message', 'City Successfully Added');
+    }
+
+    function cityEdit(Request $request,$id){
+        $CountryList = Country::orderBy('id','DESC')->get();
+        $CityObj = City::where('id',$id)->first();
+        return view('backend.city.edit',compact('CityObj','CountryList'));
+    }
+
+
+    function cityUpdate(Request $request,$id){
+        $this->validate($request, [
+            "name" => "required|unique:countries,name,$id",
+            "country" => "required",
+            "zipcode" => 'required',
+        ]);
+
+        $CityObj = City::where('id',$id)->first();
+        $CityObj->name = $request->name;
+        $CityObj->country_id = $request->country;
+        $CityObj->zipcode = $request->zipcode;
+        $CityObj->save();
+
+        return redirect()->route('dashboard.city')->with('message', 'Country Successfully Updated');
+    }
+
+
+    public function cityDelete(Request $request,$id){
+        $CityObj = City::where('id',$id)->first();
+        $CityObj->delete();
+        return redirect()->route('dashboard.city')->with('message', 'City Successfully Deleted!');
     }
 
 

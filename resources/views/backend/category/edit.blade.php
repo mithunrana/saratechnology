@@ -108,7 +108,7 @@
                 <div class="form-group">
                     <select class="form-control {{$errors->has('parent_id') ? ' is-invalid' : ''}}" name="parent_id" id="parent_id">
                       <option value="">No Category</option>
-                      @foreach($GetAllProductCategory as $Category)
+                      @foreach($ProductAllCategories as $Category)
                         <option value="{{$Category->id}}" {{$Category->id == $GetCategoryData->parent_id ? 'selected="selected"' : ''}} >{{$Category->name}}</option>
                       @endforeach
                     </select>
@@ -124,9 +124,9 @@
               <div class="card-body">
                 <div class="form-group">
                     <select class="form-control" name="status" id="status">
-                      <option value="Published" @if($GetCategoryData->status == "Published") selected @endif>Published</option>
-                      <option value="Draft" @if($GetCategoryData->status == "Draft") selected @endif>Draft</option>
-                      <option value="Pending" @if($GetCategoryData->status == "Pending") selected @endif>Pending</option>
+                      <option value="published" @if($GetCategoryData->status == "published") selected @endif>Published</option>
+                      <option value="draft" @if($GetCategoryData->status == "draft") selected @endif>Draft</option>
+                      <option value="pending" @if($GetCategoryData->status == "pending") selected @endif>Pending</option>
                     </select>
                 </div>
               </div>

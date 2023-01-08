@@ -16,5 +16,4 @@ class WidgetBar extends Model
     }
 
     
-
 }

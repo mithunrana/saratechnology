@@ -21,11 +21,13 @@ class ReviewController extends Controller
         $this->validate($request, [
             'star' => 'required',
             'comment' => "required",
+            'status' => "required",
         ]);
 
         $ReviewObj = Reviews::findOrFail($id);
         $ReviewObj->star = $request->star;
         $ReviewObj->comment = $request->comment;
+        $ReviewObj->status = $request->status;
         $ReviewObj->save();
         return redirect('admin/reviews')->with('message', 'Review Successfully Updated');
     }
